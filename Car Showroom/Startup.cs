@@ -30,7 +30,13 @@ namespace Car_Showroom
                 services.AddDbContext<CarDealershipsContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-                services.AddIdentity<ApplicationUser, IdentityRole>()
+                services.AddIdentity<ApplicationUser, IdentityRole>(options => {
+                    options.Password.RequireDigit = true;
+                    options.Password.RequiredLength = 6;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = true;
+                    options.Password.RequireLowercase = true;
+                })
                     .AddEntityFrameworkStores<CarDealershipsContext>()
                     .AddDefaultTokenProviders();
             

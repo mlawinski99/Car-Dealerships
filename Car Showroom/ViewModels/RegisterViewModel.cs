@@ -14,8 +14,13 @@ namespace Car_Showroom.ViewModels
         [Required(AllowEmptyStrings = false, ErrorMessage = "Login is required!")]
         [MinLength(5, ErrorMessage = "Login can not be shorter than 5!")]
         public string Login { get; set; }
-
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{8,}$", ErrorMessage = "Password must have a letter, a number, a special symbol and at least 8 characters!")]
+        /*
+         (?=.*[a-z])  -  at least one lowercase
+         (?=.*[A-Z])  -  at least one uppercase
+         (?=.*\d)     -  at least one digit
+        .{6,}         -  at least 6 chars
+         */
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$", ErrorMessage = "Password must contain an uppercase letter, a lowercase letter, a number and at least 6 characters!")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Password is required!")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
