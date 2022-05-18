@@ -19,6 +19,7 @@ namespace Car_Showroom.Models
 
         public int Id { get; set; }
         public string Name { get; set; }
+        public string ImagePath { get; set; }
         public CarType Type { get; set; }
 
         public virtual ICollection<Car> Car { get; set; }

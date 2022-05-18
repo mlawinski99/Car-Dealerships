@@ -46,7 +46,6 @@ namespace Car_Showroom.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    photo = table.Column<byte[]>(type: "image", nullable: true),
                     production_year = table.Column<DateTime>(type: "date", nullable: true),
                     weight = table.Column<int>(nullable: true),
                     used = table.Column<bool>(nullable: true),
@@ -83,6 +82,7 @@ namespace Car_Showroom.Migrations
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     name = table.Column<string>(unicode: false, maxLength: 100, nullable: true),
+                    ImagePath = table.Column<string>(nullable: true),
                     type = table.Column<int>(unicode: false, maxLength: 100, nullable: false)
                 },
                 constraints: table =>

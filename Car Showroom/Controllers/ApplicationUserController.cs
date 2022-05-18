@@ -53,31 +53,12 @@ namespace Car_Showroom.Controllers
         {
             if (ModelState.IsValid)
             {
-                var address = new Address
-                {
-                    /*
-                    Country = model.Country,
-                    CountryCode = model.CountryCode,
-                    District = model.District,
-                    Street = model.Street,
-                    ApartmentNumber = model.ApartmentNumber,
-                    PostalCode = model.PostalCode,
-                    City = model.City
-                    */
-                };
-                var addressResult = addressRepository.Add(address);
                 var user = new ApplicationUser
                 {
                     Email = model.Email,
                     UserName = model.Login,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
-                    /*
-                    Pesel = model.Pesel,
-                    PhoneNumber = model.PhoneNumber,
-                    BirthDate = model.BirthDate,
-                    */
-                    AddressId = addressResult.Id
                 };
                 var result = await userManager.CreateAsync(user, model.Password);         
                 if (result.Succeeded)

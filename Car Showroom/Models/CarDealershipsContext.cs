@@ -229,10 +229,7 @@ namespace Car_Showroom.Models
 
                 entity.Property(e => e.Crashed).HasColumnName("crashed");
 
-                entity.Property(e => e.Photo)
-                    .HasColumnName("photo")
-                    .HasColumnType("image");
-
+              
                 entity.Property(e => e.ProductionYear)
                     .HasColumnName("production_year")
                     .HasColumnType("date");

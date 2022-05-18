@@ -15,7 +15,6 @@ namespace Car_Showroom.Models
         }
 
         public int Id { get; set; }
-        public byte[] Photo { get; set; }
         public DateTime? ProductionYear { get; set; }
         public int? Weight { get; set; }
         public bool? Used { get; set; }

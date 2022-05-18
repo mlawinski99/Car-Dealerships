@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Car_Showroom.Migrations
 {
     [DbContext(typeof(CarDealershipsContext))]
-    [Migration("20220507164906_Initial")]
+    [Migration("20220518151712_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -287,10 +287,6 @@ namespace Car_Showroom.Migrations
                         .HasColumnName("crashed")
                         .HasColumnType("bit");
 
-                    b.Property<byte[]>("Photo")
-                        .HasColumnName("photo")
-                        .HasColumnType("image");
-
                     b.Property<DateTime?>("ProductionYear")
                         .HasColumnName("production_year")
                         .HasColumnType("date");
@@ -411,6 +407,9 @@ namespace Car_Showroom.Migrations
                         .HasColumnName("ID")
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnName("name")

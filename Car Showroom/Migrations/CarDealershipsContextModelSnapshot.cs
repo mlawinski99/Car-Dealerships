@@ -285,10 +285,6 @@ namespace Car_Showroom.Migrations
                         .HasColumnName("crashed")
                         .HasColumnType("bit");
 
-                    b.Property<byte[]>("Photo")
-                        .HasColumnName("photo")
-                        .HasColumnType("image");
-
                     b.Property<DateTime?>("ProductionYear")
                         .HasColumnName("production_year")
                         .HasColumnType("date");
@@ -409,6 +405,9 @@ namespace Car_Showroom.Migrations
                         .HasColumnName("ID")
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnName("name")
