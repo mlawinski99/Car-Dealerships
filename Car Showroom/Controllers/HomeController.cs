@@ -18,7 +18,7 @@ namespace Car_Showroom.Controllers
         public HomeController(ILogger<HomeController> logger, ICarRepository carRepository)
         {
             _logger = logger;
-            carRepository = carRepository;
+            this.carRepository = carRepository;
         }
 
         public IActionResult Index()

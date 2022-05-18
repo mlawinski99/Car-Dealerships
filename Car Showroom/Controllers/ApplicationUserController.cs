@@ -55,6 +55,7 @@ namespace Car_Showroom.Controllers
             {
                 var address = new Address
                 {
+                    /*
                     Country = model.Country,
                     CountryCode = model.CountryCode,
                     District = model.District,
@@ -62,17 +63,20 @@ namespace Car_Showroom.Controllers
                     ApartmentNumber = model.ApartmentNumber,
                     PostalCode = model.PostalCode,
                     City = model.City
+                    */
                 };
                 var addressResult = addressRepository.Add(address);
                 var user = new ApplicationUser
                 {
-                    UserName = model.Login,
                     Email = model.Email,
-                    Pesel = model.Pesel,
-                    PhoneNumber = model.PhoneNumber,
+                    UserName = model.Login,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
+                    /*
+                    Pesel = model.Pesel,
+                    PhoneNumber = model.PhoneNumber,
                     BirthDate = model.BirthDate,
+                    */
                     AddressId = addressResult.Id
                 };
                 var result = await userManager.CreateAsync(user, model.Password);         

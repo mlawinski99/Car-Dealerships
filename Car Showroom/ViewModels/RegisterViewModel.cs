@@ -14,8 +14,6 @@ namespace Car_Showroom.ViewModels
         [Required(AllowEmptyStrings = false, ErrorMessage = "Login is required!")]
         [MinLength(5, ErrorMessage = "Login can not be shorter than 5!")]
         public string Login { get; set; }
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Phone number is required!")]
-        public string PhoneNumber { get; set; }
 
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{8,}$", ErrorMessage = "Password must have a letter, a number, a special symbol and at least 8 characters!")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Password is required!")]
@@ -28,6 +26,10 @@ namespace Car_Showroom.ViewModels
         [Required(AllowEmptyStrings = false, ErrorMessage = "Last Name is required!")]
         [MinLength(3, ErrorMessage = "Last Name can not be shorter than 3!")]
         public string LastName { get; set; }
+
+        /*
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Phone number is required!")]
+        public string PhoneNumber { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "PESEL is required!")]
         [MinLength(9, ErrorMessage = "PESEL must have 9 chars!")]
@@ -52,6 +54,6 @@ namespace Car_Showroom.ViewModels
         public string District { get; set; }
         public string Country { get; set; }
         public string CountryCode { get; set; }
-
+        */
     }
 }
