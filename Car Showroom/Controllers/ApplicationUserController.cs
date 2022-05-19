@@ -53,12 +53,15 @@ namespace Car_Showroom.Controllers
         {
             if (ModelState.IsValid)
             {
+                var address = new Address();
+                addressRepository.Add(address);
                 var user = new ApplicationUser
                 {
                     Email = model.Email,
                     UserName = model.Login,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
+                    AddressId = address.Id
                 };
                 var result = await userManager.CreateAsync(user, model.Password);         
                 if (result.Succeeded)
