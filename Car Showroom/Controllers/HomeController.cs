@@ -31,7 +31,7 @@ namespace Car_Showroom.Controllers
             Car car = await carRepository.GetCar(modelId);
             return View(car);
         }
-        public IActionResult Privacy()
+        public IActionResult Privacy(int modelId)
         {
             return View();
         }

@@ -25,6 +25,7 @@ namespace Car_Showroom.DataAccess
 
         public List<Model> GetModels()
         {
+            
             List<Model> modelList = dbContext.Model.ToList();
             return modelList;
         }
