@@ -33,6 +33,12 @@ namespace Car_Showroom.DataAccess
             return employee;
         }
 
+        public List<Employee> GetEmployeeList()
+        {
+            var employeeList = dbContext.Employee.ToList();
+            return employeeList;
+        }
+
         public Employee Update(Employee employeeUpdate)
         {
             var employee = dbContext.Employee.Attach(employeeUpdate);

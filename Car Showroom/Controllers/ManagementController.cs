@@ -18,13 +18,21 @@ namespace Car_Showroom.Controllers
 
         public ManagementController(UserManager<ApplicationUser> userManager,
             IAddressRepository addressRepository,
-             ICustomerRepository customerRepository
+             IEmployeeRepository employeeRepository
             )
         {
             this.userManager = userManager;
             this.addressRepository = addressRepository;
             this.employeeRepository = employeeRepository;
         }
+
+        [HttpGet]
+        public IActionResult EmployeeList()
+        {
+            var employeeList = employeeRepository.GetEmployeeList();
+            return View(employeeList);
+        }
+
         [HttpGet]
         public IActionResult CreateEmployee()
         {
@@ -71,7 +79,9 @@ namespace Car_Showroom.Controllers
                         //ManagerId = id tworzacego konto
                         //DealerId = ??
                     };
+                    employeeRepository.Add(employee);
                     return View(model);
+                    //@todo
                     //redirect lista workerow
                 }
                 return View(model);

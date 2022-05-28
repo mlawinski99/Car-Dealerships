@@ -94,5 +94,64 @@ namespace Car_Showroom.Controllers
             await signInManager.SignOutAsync();
             return RedirectToAction("index", "home");
         }
+
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid && model.Password != model.NewPassword)
+            {
+                var user = await userManager.GetUserAsync(HttpContext.User);
+                var passwordValidator = new PasswordValidator<ApplicationUser>();
+                var result = await passwordValidator.ValidateAsync(userManager, user, model.Password);
+                if (!result.Succeeded)
+                    return View();
+
+                await userManager.ChangePasswordAsync(user, model.Password, model.NewPassword);
+                await signInManager.RefreshSignInAsync(user);
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+        [HttpGet]
+        public IActionResult ChangeEmail()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangeEmail(ChangeEmailViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.GetUserAsync(HttpContext.User);
+
+                var passwordValidator = new PasswordValidator<ApplicationUser>();
+                var result = await passwordValidator.ValidateAsync(userManager, user, model.Password);
+                if (!result.Succeeded)
+                    return View();
+                //@todo
+                var token = await userManager.GenerateChangeEmailTokenAsync(user, model.Email);
+                var s = await userManager.ChangeEmailAsync(user, model.Email, token);
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ChangeData()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangeData(ApplicationUser model)
+        {
+            //@todo
+            return View();
+        }
+
     }
 }

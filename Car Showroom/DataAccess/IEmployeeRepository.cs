@@ -11,5 +11,6 @@ namespace Car_Showroom.DataAccess
         Employee Add(Employee employee);
         Employee Update(Employee employeeUpdate);
         Employee Delete(int id);
+        List<Employee> GetEmployeeList();
     }
 }
