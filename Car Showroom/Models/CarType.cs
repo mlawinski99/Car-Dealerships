@@ -9,7 +9,7 @@ namespace Car_Showroom.Models
     {
         Hatchback, 
         Limuzyna, 
-        Kombi, 
+        Kombi,
         SUV, 
         Coupe, 
         Kabriolet, 

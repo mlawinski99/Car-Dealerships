@@ -7,7 +7,9 @@ namespace Car_Showroom.Models
 {
     public enum EngineType
     {
-        Electric,
-        Hybrid
+        Hybrydowy,
+        Benzyna,
+        Elektryczny,
+        Diesel
     }
 }
