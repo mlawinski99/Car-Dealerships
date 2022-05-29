@@ -15,15 +15,18 @@ namespace Car_Showroom.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IAddressRepository addressRepository;
         private readonly IEmployeeRepository employeeRepository;
+        private readonly IDealerRepository dealerRepository;
 
         public ManagementController(UserManager<ApplicationUser> userManager,
             IAddressRepository addressRepository,
-             IEmployeeRepository employeeRepository
+             IEmployeeRepository employeeRepository,
+             IDealerRepository dealerRepository
             )
         {
             this.userManager = userManager;
             this.addressRepository = addressRepository;
             this.employeeRepository = employeeRepository;
+            this.dealerRepository = dealerRepository;
         }
 
         [HttpGet]
@@ -63,7 +66,10 @@ namespace Car_Showroom.Controllers
                     UserName = model.Login,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
-                    AddressId = address.Id
+                    AddressId = address.Id,
+                    PhoneNumber = model.PhoneNumber,
+                    Pesel = model.Pesel,
+                    BirthDate = model.BirthDate
                 };
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -75,9 +81,10 @@ namespace Car_Showroom.Controllers
                         JobPosition = model.JobPosition,
                         Salary = model.Salary,
                         ApplicationUserId = user.Id
+                        
                         //@todo
                         //ManagerId = id tworzacego konto
-                        //DealerId = ??
+                        // DealerId = model.
                     };
                     employeeRepository.Add(employee);
                     return View(model);
@@ -88,6 +95,38 @@ namespace Car_Showroom.Controllers
             }
             return View();
         }
+
+        [HttpGet]
+        public IActionResult CreateDealer()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CreateDealer(CreateDealerViewModel model)
+        {
+            var address = new Address
+            {
+                Country = model.Country,
+                CountryCode = model.CountryCode,
+                District = model.District,
+                Street = model.Street,
+                ApartmentNumber = model.ApartmentNumber,
+                PostalCode = model.PostalCode,
+                City = model.City
+            };
+
+            addressRepository.Add(address);
+
+            var dealer = new Dealer
+            {
+                AddressId = address.Id,
+                Name = model.Name,
+                MaxCarsNumber = model.MaxCarsNumber
+            };
+            dealerRepository.Add(dealer);
+            return View();
+        }
+
     }
 }
 

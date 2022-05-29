@@ -61,7 +61,7 @@ namespace Car_Showroom.ViewModels
         public string Country { get; set; }
         public string CountryCode { get; set; }
 
-        //WORKER FIELDS
+        //EMPLOYEE FIELDS
         public ContractType ContractType { get; set; }
         public DateTime? EmploymentDate { get; set; }
         public JobPosition JobPosition { get; set; }
