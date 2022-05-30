@@ -3,27 +3,31 @@
 }
 @model List<Car_Showroom.Models.Model>;
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <div>
-        
-
-
-        @foreach(var item in Model)
-        {
-            <div style="width:100%">
-            @item.Name @item.Type
-            @item.ModelsEngines
-            @item.ModelsTrims
-
+<div class="container">
+    <div class="row">
+        <main class="col-md-9">
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-4 ">
+                        <figure class="card card-product-grid d-flex align-items-start flex-column" style="height: 100%;">
+                            <div class="img-wrap mb-auto p-2">
+                                image here
+                            </div>
+                        <figcaption class="info-wrap">
+                                <div class="fix-height mb-2 p-2">
+                                    <div class="text-lg-left">@item.Name</div>
+                                </div>
+                                <form method="get" class="p-2">
+                                    <button type="submit" asp-action="Details" asp-route-id="@item.Id" asp-controller="Home" class="btn btn-block btn-primary">
+                                        View Product
+                                    </button>
+                                </form>
+                            </figcaption>
+                        </figure>
+                    </div>
+                }
             </div>
-            
-        }
-        
-
-
-
-
+        </main>
     </div>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
