@@ -28,8 +28,9 @@ namespace Car_Showroom.Controllers
         }
         public async Task<IActionResult> Details(int modelId)
         {
-            Car car = await carRepository.GetCar(modelId);
-            return View(car);
+            Model model = await carRepository.GetModel(modelId);
+            Option option = await 
+            return View(model);
         }
         public IActionResult Privacy(int modelId)
         {

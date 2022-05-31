@@ -10,6 +10,11 @@ namespace Car_Showroom.DataAccess
     {
         public List<Model> GetModels();
         public Task<Car> GetCar(int modelId);
-       
+        public Task<Model> GetModel(int modelId);
+        public Task<Trim> GetTrim(int modelId);
+        public Task<Engine> GetEngines(int modelId);
+        public Task<Option> GetOptions(int modelId);
+
+
     }
 }
