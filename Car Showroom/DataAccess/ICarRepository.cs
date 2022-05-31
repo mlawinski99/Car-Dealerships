@@ -8,13 +8,24 @@ namespace Car_Showroom.DataAccess
 {
     public interface ICarRepository
     {
-        public List<Model> GetModels();
+        //CAR
         public Task<Car> GetCar(int modelId);
-        public Task<Model> GetModel(int modelId);
-        public Task<Trim> GetTrim(int modelId);
-        public Task<Engine> GetEngines(int modelId);
-        public Task<Option> GetOptions(int modelId);
 
+        //MODELS
+        public List<Model> GetModels();
+        public Task<Model> GetModel(int modelId);
+
+        //ENGINES
+        public Task<List<Engine>> GetEngineList(List<ModelsEngines> modelsEnginesList);
+        public List<ModelsEngines> GetModelsEngines(int modelId);
+
+        //TRIMS
+        public List<ModelsTrims> GetModelsTrims(int modelId);
+        public Task<List<Trim>> GetTrimList(List<ModelsTrims> modelsTrimsList);
+        public Task<List<TrimsOptions>> GetTrimsOptionsList(int trimId);
+
+        //OPTIONS
+        public Task<List<Option>> GetOptionsList(List<TrimsOptions> trimsOptionsList);
 
     }
 }

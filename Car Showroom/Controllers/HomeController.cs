@@ -29,9 +29,30 @@ namespace Car_Showroom.Controllers
         public async Task<IActionResult> Details(int modelId)
         {
             Model model = await carRepository.GetModel(modelId);
-            Option option = await 
-            return View(model);
+            List<ModelsEngines> modelsEngines = carRepository.GetModelsEngines(modelId);
+            List<Engine> enginesList = await carRepository.GetEngineList(modelsEngines);
+
+            List<ModelsTrims> modelsTrims = carRepository.GetModelsTrims(modelId);
+            List<Trim> trimsList = await carRepository.GetTrimList(modelsTrims);
+
+            List<List<Option>> optionsList = null;
+
+            foreach (var element in trimsList)
+            {
+                var trimOption = await carRepository.GetTrimsOptionsList(element.Id);
+                var  option = await carRepository.GetOptionsList(trimOption);
+                optionsList.Add(option);
+            }
+            
+
+            return View(model, enginesList, trimsList, optionsList);
         }
+
+        private IActionResult View(Model model, List<Engine> enginesList, List<Trim> trimsList, List<List<Option>> optionsList)
+        {
+            return View(model, enginesList, trimsList, optionsList);
+        }
+
         public IActionResult Privacy(int modelId)
         {
             return View();
