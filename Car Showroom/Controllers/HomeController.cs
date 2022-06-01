@@ -26,32 +26,31 @@ namespace Car_Showroom.Controllers
             List<Model> modelList =  carRepository.GetModels();
             return View(modelList);
         }
-        public async Task<IActionResult> Details(int modelId)
+        public async Task<IActionResult> Details(int Id)
         {
-            Model model = await carRepository.GetModel(modelId);
-            List<ModelsEngines> modelsEngines = carRepository.GetModelsEngines(modelId);
+            Model model = await carRepository.GetModel(Id);
+            List<ModelsEngines> modelsEngines = carRepository.GetModelsEngines(Id);
             List<Engine> enginesList = await carRepository.GetEngineList(modelsEngines);
 
-            List<ModelsTrims> modelsTrims = carRepository.GetModelsTrims(modelId);
+            List<ModelsTrims> modelsTrims = carRepository.GetModelsTrims(Id);
             List<Trim> trimsList = await carRepository.GetTrimList(modelsTrims);
 
-            List<List<Option>> optionsList = null;
-
+            List<List<Option>> optionsList = new List<List<Option>>();
             foreach (var element in trimsList)
             {
                 var trimOption = await carRepository.GetTrimsOptionsList(element.Id);
                 var  option = await carRepository.GetOptionsList(trimOption);
                 optionsList.Add(option);
             }
-            
 
-            return View(model, enginesList, trimsList, optionsList);
+            ViewData["model"] = model;
+            ViewData["enginesList"] = enginesList;
+            ViewData["trimsList"] = trimsList;
+            ViewData["optionsList"] = optionsList;
+
+            return View();
         }
 
-        private IActionResult View(Model model, List<Engine> enginesList, List<Trim> trimsList, List<List<Option>> optionsList)
-        {
-            return View(model, enginesList, trimsList, optionsList);
-        }
 
         public IActionResult Privacy(int modelId)
         {

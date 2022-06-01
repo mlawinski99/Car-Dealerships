@@ -31,7 +31,7 @@ namespace Car_Showroom.DataAccess
         public async Task<List<Engine>> GetEngineList(List<ModelsEngines> modelsEnginesList)
         {
             //var modelsEnginesList = GetModelsEngines(modelId);
-            List<Engine> engineList = null;
+            List<Engine> engineList = new List<Engine>();
             foreach(var element in modelsEnginesList)
             {
                 var engine = await dbContext.Engine.FindAsync(element.EngineId);
@@ -50,7 +50,7 @@ namespace Car_Showroom.DataAccess
         public async Task<List<Trim>> GetTrimList(List<ModelsTrims> modelsTrimsList)
         {
             //var modelsTrimsList = GetModelsTrims(modelId);
-            List<Trim> trimList = null;
+            List<Trim> trimList = new List<Trim>();
             foreach (var element in modelsTrimsList)
             {
                 var trim = await dbContext.Trim.FindAsync(element.TrimId);
@@ -81,7 +81,7 @@ namespace Car_Showroom.DataAccess
         }
         public async Task<List<Option>> GetOptionsList(List<TrimsOptions> trimsOptionsList)
         {
-            List<Option> optionsList = null;
+            List<Option> optionsList = new List<Option>();
             foreach (var element in trimsOptionsList)
             {
                 var option = await dbContext.Option.FindAsync(element.OptionId);
