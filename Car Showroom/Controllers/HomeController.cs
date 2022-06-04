@@ -31,25 +31,24 @@ namespace Car_Showroom.Controllers
             Model model = await carRepository.GetModel(Id);
             List<ModelsEngines> modelsEngines = carRepository.GetModelsEngines(Id);
             List<Engine> enginesList = await carRepository.GetEngineList(modelsEngines);
-
             List<ModelsTrims> modelsTrims = carRepository.GetModelsTrims(Id);
             List<Trim> trimsList = await carRepository.GetTrimList(modelsTrims);
+            //List<List<Option>> optionsList = new List<List<Option>>();
+            var tupleTrimOptionList = new List<(Trim, List<Option>)>();
 
-            List<List<Option>> optionsList = new List<List<Option>>();
-
-            
             foreach (var element in trimsList)
             {
                 var trimOption = await carRepository.GetTrimsOptionsList(element.Id);
-                var  option = await carRepository.GetOptionsList(trimOption);
-                optionsList.Add(option);
+                var  optionList = await carRepository.GetOptionsList(trimOption);
+                tupleTrimOptionList.Add((element, optionList));
+              //  optionsList.Add(option);
             }
 
             ViewData["model"] = model;
             ViewData["enginesList"] = enginesList;
-            ViewData["trimsList"] = trimsList;
-            ViewData["optionsList"] = optionsList;
-
+            // ViewData["trimsList"] = trimsList;
+            // ViewData["optionsList"] = optionsList;
+            ViewData["tupleTrimOptionList"] = tupleTrimOptionList;
             return View();
         }
 
