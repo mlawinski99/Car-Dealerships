@@ -66,6 +66,8 @@ namespace Car_Showroom.ViewModels
         public DateTime? EmploymentDate { get; set; }
         public JobPosition JobPosition { get; set; }
         public double? Salary { get; set; }
+        public int DealerId { get; set; }
+
 
     }
 }

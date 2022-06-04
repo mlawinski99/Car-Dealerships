@@ -11,5 +11,6 @@ namespace Car_Showroom.DataAccess
         Dealer Add(Dealer dealer);
         Dealer Update(Dealer dealer);
         Dealer Delete(int id);
+        List<Dealer> GetDealerList();
     }
 }

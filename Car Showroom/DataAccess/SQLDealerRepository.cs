@@ -39,5 +39,11 @@ namespace Car_Showroom.DataAccess
             dbContext.SaveChanges();
             return dealerUpdate;
         }
+
+        public List<Dealer> GetDealerList()
+        {
+            var dealerList = dbContext.Dealer.ToList();
+            return dealerList;
+        }
     }
 }

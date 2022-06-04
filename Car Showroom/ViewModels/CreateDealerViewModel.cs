@@ -21,14 +21,10 @@ namespace Car_Showroom.ViewModels
         [Required(AllowEmptyStrings = false, ErrorMessage = "City is required!")]
         [MinLength(3, ErrorMessage = "City can not be shorter than 3!")]
         public string City { get; set; }
-
         public string District { get; set; }
         public string Country { get; set; }
         public string CountryCode { get; set; }
-
         public string Name { get; set; }
         public int? MaxCarsNumber { get; set; }
-
-
     }
 }

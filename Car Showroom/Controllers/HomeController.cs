@@ -36,6 +36,8 @@ namespace Car_Showroom.Controllers
             List<Trim> trimsList = await carRepository.GetTrimList(modelsTrims);
 
             List<List<Option>> optionsList = new List<List<Option>>();
+
+            
             foreach (var element in trimsList)
             {
                 var trimOption = await carRepository.GetTrimsOptionsList(element.Id);

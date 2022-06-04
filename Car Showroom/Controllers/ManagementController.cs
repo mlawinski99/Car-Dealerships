@@ -80,11 +80,11 @@ namespace Car_Showroom.Controllers
                         EmploymentDate = model.EmploymentDate,
                         JobPosition = model.JobPosition,
                         Salary = model.Salary,
-                        ApplicationUserId = user.Id
-                        
+                        ApplicationUserId = user.Id,
+
                         //@todo
-                        //ManagerId = id tworzacego konto
-                        // DealerId = model.
+                       // ManagerId = 1,
+                        DealerId = model.DealerId
                     };
                     employeeRepository.Add(employee);
                     return View(model);
@@ -99,7 +99,8 @@ namespace Car_Showroom.Controllers
         [HttpGet]
         public IActionResult CreateDealer()
         {
-            return View();
+            var dealerList = dealerRepository.GetDealerList();
+            return View(dealerList);
         }
         [HttpPost]
         public IActionResult CreateDealer(CreateDealerViewModel model)
