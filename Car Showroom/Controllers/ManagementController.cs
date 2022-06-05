@@ -16,17 +16,20 @@ namespace Car_Showroom.Controllers
         private readonly IAddressRepository addressRepository;
         private readonly IEmployeeRepository employeeRepository;
         private readonly IDealerRepository dealerRepository;
+        private readonly ICarRepository carRepository;
 
         public ManagementController(UserManager<ApplicationUser> userManager,
             IAddressRepository addressRepository,
              IEmployeeRepository employeeRepository,
-             IDealerRepository dealerRepository
+             IDealerRepository dealerRepository,
+             ICarRepository carRepository
             )
         {
             this.userManager = userManager;
             this.addressRepository = addressRepository;
             this.employeeRepository = employeeRepository;
             this.dealerRepository = dealerRepository;
+            this.carRepository = carRepository;
         }
 
         [HttpGet]
@@ -128,6 +131,45 @@ namespace Car_Showroom.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult CreateCar()
+        {
+            var modelList = carRepository.GetModelList();
+            var engineList = carRepository.GetEngineList();
+            var trimList = carRepository.GetTrimList();
+            ViewData["modelList"] = modelList;
+            ViewData["engineList"] = engineList;
+            ViewData["trimList"] = trimList;
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateCar(CreateCarViewModel model)
+        {
+            var details = new Details
+            {
+                ProductionYear = model.ProductionYear,
+                Weight = model.Weight,
+                Used = model.Used,
+                Crashed = model.Crashed
+            };
+            //add to details table
+
+            var Car = new Car
+            {
+                DetailsId = details.Id,
+                DealerId = model.DealerId,
+                OrderId = null,
+                ModelId = model.ModelId,
+                TrimId = model.TrimId,
+                EngineId = model.EngineId
+            };
+            // add Car
+
+            return View();
+        }
+        
     }
 }
 

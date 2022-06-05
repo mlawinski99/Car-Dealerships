@@ -67,7 +67,7 @@ namespace Car_Showroom.DataAccess
         }
 
 
-        public List<Model> GetModels()
+        public List<Model> GetModelList()
         {
             
             List<Model> modelList = dbContext.Model.ToList();
@@ -90,5 +90,16 @@ namespace Car_Showroom.DataAccess
             return optionsList;
         }
 
+        public async Task<List<Engine>> GetEngineList()
+        {
+            var engineList = dbContext.Engine.ToList();
+            return engineList;
+        }
+
+        public async Task<List<Trim>> GetTrimList()
+        {
+            var trimList = dbContext.Trim.ToList();
+            return trimList;
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace Car_Showroom.Controllers
 
         public IActionResult Index()
         {
-            List<Model> modelList =  carRepository.GetModels();
+            List<Model> modelList =  carRepository.GetModelList();
             return View(modelList);
         }
         public async Task<IActionResult> Details(int Id)
