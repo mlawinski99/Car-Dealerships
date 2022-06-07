@@ -14,7 +14,12 @@ namespace Car_Showroom.DataAccess
         {
             this.dbContext = dbContext;
         }
-
+        public Car Add(Car car)
+        {
+            dbContext.Car.Add(car);
+            dbContext.SaveChanges();
+            return car;
+        }
         public async Task<Car> GetCar(int modelId)
         {
             var car = (Car)dbContext.Car.Where(c => c.ModelId == modelId);

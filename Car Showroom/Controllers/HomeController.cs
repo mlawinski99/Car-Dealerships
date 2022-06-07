@@ -52,9 +52,23 @@ namespace Car_Showroom.Controllers
             return View();
         }
 
-
-        public IActionResult Privacy(int modelId)
+        [HttpPost]
+        public IActionResult CreateOrder(int Id, double price, double discount, PaymentType paymentType, ShipmentType shipmentType)
         {
+          //  var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+          //get user id -> get customer FK -> sign to CustomerId -> delete Car
+            var order = new Order
+            {
+                CustomerId = null,
+                Status = 0,
+                Price = price,
+                Discount = discount,
+                PaymentType = paymentType,
+                SubmissionDate = DateTime.Now,
+                FinalizationDate = DateTime.Now.AddDays(7),
+                ShipmentType = shipmentType
+
+            };
             return View();
         }
 

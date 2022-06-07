@@ -17,12 +17,14 @@ namespace Car_Showroom.Controllers
         private readonly IEmployeeRepository employeeRepository;
         private readonly IDealerRepository dealerRepository;
         private readonly ICarRepository carRepository;
+        private readonly IDetailsRepository detailsRepository;
 
         public ManagementController(UserManager<ApplicationUser> userManager,
             IAddressRepository addressRepository,
              IEmployeeRepository employeeRepository,
              IDealerRepository dealerRepository,
-             ICarRepository carRepository
+             ICarRepository carRepository,
+            IDetailsRepository detailsRepository
             )
         {
             this.userManager = userManager;
@@ -30,6 +32,7 @@ namespace Car_Showroom.Controllers
             this.employeeRepository = employeeRepository;
             this.dealerRepository = dealerRepository;
             this.carRepository = carRepository;
+            this.detailsRepository = detailsRepository;
         }
 
         [HttpGet]
@@ -154,7 +157,7 @@ namespace Car_Showroom.Controllers
                 Used = model.Used,
                 Crashed = model.Crashed
             };
-            //add to details table
+            detailsRepository.Add(details);
 
             var Car = new Car
             {
@@ -165,7 +168,7 @@ namespace Car_Showroom.Controllers
                 TrimId = model.TrimId,
                 EngineId = model.EngineId
             };
-            // add Car
+            carRepository.Add(Car);
 
             return View();
         }

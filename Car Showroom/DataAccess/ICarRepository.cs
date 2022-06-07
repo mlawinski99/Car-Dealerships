@@ -10,6 +10,7 @@ namespace Car_Showroom.DataAccess
     {
         //CAR
         public Task<Car> GetCar(int modelId);
+        public Car Add(Car car);
 
         //MODELS
         public List<Model> GetModelList();
