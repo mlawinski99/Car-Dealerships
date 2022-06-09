@@ -13,6 +13,6 @@ namespace Car_Showroom.DataAccess
         Employee Delete(int id);
         List<Employee> GetEmployeeList();
 
-        public int GetEmployeeId(string appUserId)
+        public int GetEmployeeId(string appUserId);
     }
 }

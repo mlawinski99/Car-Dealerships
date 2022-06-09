@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Car_Showroom.DataAccess;
@@ -7,6 +8,8 @@ using Car_Showroom.Models;
 using Car_Showroom.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Car_Showroom.Controllers
 {
@@ -18,13 +21,14 @@ namespace Car_Showroom.Controllers
         private readonly IDealerRepository dealerRepository;
         private readonly ICarRepository carRepository;
         private readonly IDetailsRepository detailsRepository;
-
+        private readonly IHostingEnvironment hostingEnvironment;
         public ManagementController(UserManager<ApplicationUser> userManager,
             IAddressRepository addressRepository,
              IEmployeeRepository employeeRepository,
              IDealerRepository dealerRepository,
              ICarRepository carRepository,
-            IDetailsRepository detailsRepository
+            IDetailsRepository detailsRepository,
+            IHostingEnvironment hostingEnvironment
             )
         {
             this.userManager = userManager;
@@ -33,6 +37,7 @@ namespace Car_Showroom.Controllers
             this.dealerRepository = dealerRepository;
             this.carRepository = carRepository;
             this.detailsRepository = detailsRepository;
+            this.hostingEnvironment = hostingEnvironment;
         }
 
         [HttpGet]
@@ -172,7 +177,58 @@ namespace Car_Showroom.Controllers
 
             return View();
         }
-        
+
+        [HttpGet]
+        public IActionResult CreateModel()
+        {
+      
+            var engineList = carRepository.GetEngineList();
+            var trimList = carRepository.GetTrimList();
+            ViewData["engineList"] = engineList;
+            ViewData["trimList"] = trimList;
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateModel(CreateModelViewModel mod)
+        {
+
+            string fileName = null;
+            if (mod.Image != null)
+            {
+                string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
+                fileName = Guid.NewGuid().ToString() + "_" + mod.Image.FileName;
+                string filePath = Path.Combine(uploadsFolder, fileName);
+                mod.Image.CopyTo(new FileStream(filePath, FileMode.Create));
+            }
+
+            var model = new Model
+            {
+                ImagePath = fileName,
+                Name = mod.Name,
+                Type = mod.Type,
+            };
+            //@todo
+            //add model
+
+            var modelTrim = new ModelsTrims
+            {
+                ModelId = model.Id,
+                TrimId = mod.TrimId
+            };
+            //add to db
+
+            var modelEngine = new ModelsEngines
+            {
+                ModelId = model.Id,
+                EngineId = mod.EngineId
+            };
+            //add to db
+
+            return View();
+        }
+
     }
 }
 
