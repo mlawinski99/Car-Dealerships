@@ -32,6 +32,13 @@ namespace Car_Showroom.DataAccess
             return customer;
         }
 
+        public int GetCustomerId(string appUserId)
+        {
+            var result = (Customer)dbContext.Customer.Where(c => c.ApplicationUserId == appUserId);
+            int id = result.Id;
+            return id;
+        }
+
         public Customer Update(Customer customerUpdate)
         {
             var customer = dbContext.Customer.Attach(customerUpdate);

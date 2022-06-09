@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Car_Showroom.Models;
 using Car_Showroom.DataAccess;
+using Microsoft.AspNetCore.Identity;
 
 namespace Car_Showroom.Controllers
 {
@@ -14,11 +15,20 @@ namespace Car_Showroom.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ICarRepository carRepository;
-
-        public HomeController(ILogger<HomeController> logger, ICarRepository carRepository)
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly ICustomerRepository customerRepository;
+        private readonly IOrderRepository orderRepository;
+        public HomeController(ILogger<HomeController> logger, 
+            ICarRepository carRepository, 
+            UserManager<ApplicationUser> userManager,
+            ICustomerRepository customerRepository,
+            IOrderRepository orderRepository)
         {
             _logger = logger;
             this.carRepository = carRepository;
+            this.userManager = userManager;
+            this.customerRepository = customerRepository;
+            this.orderRepository = orderRepository;
         }
 
         public IActionResult Index()
@@ -53,13 +63,17 @@ namespace Car_Showroom.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateOrder(int Id, double price, double discount, PaymentType paymentType, ShipmentType shipmentType)
+        public async Task<IActionResult> CreateOrderAsync(int Id, double price, double discount, PaymentType paymentType, ShipmentType shipmentType)
         {
-          //  var user = await _userManager.FindByEmailAsync(User.Identity.Name);
-          //get user id -> get customer FK -> sign to CustomerId -> delete Car
+            //  var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+            //get user id -> get customer FK -> sign to CustomerId -> delete Car
+
+            ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
+            int customerId = customerRepository.GetCustomerId(applicationUser.Id);
+
             var order = new Order
             {
-                CustomerId = null,
+                CustomerId = customerId,
                 Status = 0,
                 Price = price,
                 Discount = discount,
@@ -67,8 +81,8 @@ namespace Car_Showroom.Controllers
                 SubmissionDate = DateTime.Now,
                 FinalizationDate = DateTime.Now.AddDays(7),
                 ShipmentType = shipmentType
-
             };
+            orderRepository.Add(order);
             return View();
         }
 

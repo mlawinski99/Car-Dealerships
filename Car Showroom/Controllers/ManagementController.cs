@@ -80,6 +80,8 @@ namespace Car_Showroom.Controllers
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
+                    int managerId = employeeRepository.GetEmployeeId(applicationUser.Id);
                     var employee = new Employee
                     {
                         ContractType = model.ContractType,
@@ -87,9 +89,7 @@ namespace Car_Showroom.Controllers
                         JobPosition = model.JobPosition,
                         Salary = model.Salary,
                         ApplicationUserId = user.Id,
-
-                        //@todo
-                       // ManagerId = 1,
+                        ManagerId = managerId,
                         DealerId = model.DealerId
                     };
                     employeeRepository.Add(employee);

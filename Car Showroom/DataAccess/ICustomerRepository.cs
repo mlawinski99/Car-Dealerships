@@ -11,5 +11,6 @@ namespace Car_Showroom.DataAccess
         Customer Add(Customer customer);
         Customer Update(Customer customer);
         Customer Delete(int id);
+        int GetCustomerId(string appUserId);
     }
 }
