@@ -63,7 +63,7 @@ namespace Car_Showroom.Controllers
                     LastName = model.LastName,
                     AddressId = address.Id
                 };
-                var result = await userManager.CreateAsync(user, model.Password);         
+                var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     var customer = new Customer

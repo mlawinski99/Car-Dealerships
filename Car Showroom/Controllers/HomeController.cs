@@ -65,8 +65,8 @@ namespace Car_Showroom.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOrderAsync(int Id, double price, double discount, PaymentType paymentType, ShipmentType shipmentType)
         {
-            //  var user = await _userManager.FindByEmailAsync(User.Identity.Name);
-            //get user id -> get customer FK -> sign to CustomerId -> delete Car
+          
+            //delete Car?
 
             ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
             int customerId = customerRepository.GetCustomerId(applicationUser.Id);

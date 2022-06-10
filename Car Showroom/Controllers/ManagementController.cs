@@ -229,6 +229,49 @@ namespace Car_Showroom.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult CreateTrim()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateTrim(Trim model)
+        {
+            var trim = new Trim
+            {
+                Name = model.Name
+            };
+        //add to db
+        return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddOptionToTrim()
+        {
+            var trimList = await carRepository.GetTrimList();
+
+            return View(trimList);
+        }
+
+        [HttpPost]
+        public IActionResult AddOptionToTrim(Trim trim, Option model)
+        {
+            var option = new Option
+            {
+                Description = model.Description,
+                Name = model.Name
+            };
+            //add to db
+            var modelTrim = new TrimsOptions
+            {
+                TrimId = trim.Id,
+                OptionId = option.Id
+            };
+            //add to db trimOption
+            return View();
+        }
+
     }
 }
 
