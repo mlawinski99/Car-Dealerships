@@ -29,8 +29,6 @@ namespace Car_Showroom.Controllers
         private readonly IEngineRepository engineRepository;
         private readonly IOptionRepository optionRepository;
         private readonly ITrimsOptions trimsOptionsRepository;
-
-
         public ManagementController(UserManager<ApplicationUser> userManager,
             IAddressRepository addressRepository,
              IEmployeeRepository employeeRepository,
@@ -147,9 +145,7 @@ namespace Car_Showroom.Controllers
                 PostalCode = model.PostalCode,
                 City = model.City
             };
-
             addressRepository.Add(address);
-
             var dealer = new Dealer
             {
                 AddressId = address.Id,
@@ -169,7 +165,6 @@ namespace Car_Showroom.Controllers
             ViewData["modelList"] = modelList;
             ViewData["engineList"] = engineList;
             ViewData["trimList"] = trimList;
-
             return View();
         }
 
@@ -184,7 +179,6 @@ namespace Car_Showroom.Controllers
                 Crashed = model.Crashed
             };
             detailsRepository.Add(details);
-
             var Car = new Car
             {
                 DetailsId = details.Id,
@@ -195,26 +189,22 @@ namespace Car_Showroom.Controllers
                 EngineId = model.EngineId
             };
             carRepository.Add(Car);
-
             return View();
         }
 
         [HttpGet]
         public IActionResult CreateModel()
         {
-      
             var engineList = carRepository.GetEngineList();
             var trimList = carRepository.GetTrimList();
             ViewData["engineList"] = engineList;
             ViewData["trimList"] = trimList;
-
             return View();
         }
 
         [HttpPost]
         public IActionResult CreateModel(CreateModelViewModel mod)
         {
-
             string fileName = null;
             if (mod.Image != null)
             {
@@ -223,29 +213,24 @@ namespace Car_Showroom.Controllers
                 string filePath = Path.Combine(uploadsFolder, fileName);
                 mod.Image.CopyTo(new FileStream(filePath, FileMode.Create));
             }
-
             var model = new Model
             {
                 ImagePath = fileName,
                 Name = mod.Name,
                 Type = mod.Type,
             };
-
             modelRepository.Add(model);
-
             var modelTrim = new ModelsTrims
             {
                 ModelId = model.Id,
                 TrimId = mod.TrimId
             };
             modelsTrimsRepository.Add(modelTrim);
-
             var modelEngine = new ModelsEngines
             {
                 ModelId = model.Id,
                 EngineId = mod.EngineId
             };
-
             modelsEnginesRepository.Add(modelEngine);
             return View();
         }
@@ -264,7 +249,7 @@ namespace Car_Showroom.Controllers
                 Name = model.Name
             };
             trimRepository.Add(trim);
-        return View();
+            return View();
         }
 
         [HttpGet]
@@ -294,7 +279,6 @@ namespace Car_Showroom.Controllers
         public async Task<IActionResult> AddOptionToTrim()
         {
             var trimList = await carRepository.GetTrimList();
-
             return View(trimList);
         }
 
@@ -307,7 +291,6 @@ namespace Car_Showroom.Controllers
                 Name = model.Name
             };
             optionRepository.Add(option);
-
             var trimsOptions = new TrimsOptions
             {
                 TrimId = trim.Id,
@@ -316,7 +299,6 @@ namespace Car_Showroom.Controllers
             trimsOptionsRepository.Add(trimsOptions);
             return View();
         }
-
     }
 }
 
