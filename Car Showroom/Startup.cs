@@ -48,6 +48,10 @@ namespace Car_Showroom
             services.AddScoped<IModelRepository, SQLModelRepository>();
             services.AddScoped<IModelsTrimsRepository, SQLModelsTrimsRepository>();
             services.AddScoped<IModelsEnginesRepository, SQLModelsEnginesRepository>();
+            services.AddScoped<IEngineRepository, SQLEngineRepository>();
+            services.AddScoped<IOptionRepository, SQLOptionRepository>();
+            services.AddScoped<ITrimRepository, SQLTrimRepository>();
+            services.AddScoped<ITrimsOptions, SQLTrimsOptionsRepository>();
 
             services.AddControllersWithViews();
         }

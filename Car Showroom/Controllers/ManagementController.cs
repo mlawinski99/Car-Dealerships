@@ -25,6 +25,10 @@ namespace Car_Showroom.Controllers
         private readonly IModelRepository modelRepository;
         private readonly IModelsTrimsRepository modelsTrimsRepository;
         private readonly IModelsEnginesRepository modelsEnginesRepository;
+        private readonly ITrimRepository trimRepository;
+        private readonly IEngineRepository engineRepository;
+        private readonly IOptionRepository optionRepository;
+        private readonly ITrimsOptions trimsOptionsRepository;
 
 
         public ManagementController(UserManager<ApplicationUser> userManager,
@@ -36,7 +40,11 @@ namespace Car_Showroom.Controllers
             IHostingEnvironment hostingEnvironment,
             IModelRepository modelRepository,
             IModelsTrimsRepository modelsTrimsRepository,
-            IModelsEnginesRepository modelsEnginesRepository
+            IModelsEnginesRepository modelsEnginesRepository,
+            ITrimRepository trimRepository,
+            IEngineRepository engineRepository,
+            IOptionRepository optionRepository,
+            ITrimsOptions trimsOptionsRepository
             )
         {
             this.userManager = userManager;
@@ -49,6 +57,10 @@ namespace Car_Showroom.Controllers
             this.modelRepository = modelRepository;
             this.modelsTrimsRepository = modelsTrimsRepository;
             this.modelsEnginesRepository = modelsEnginesRepository;
+            this.trimRepository = trimRepository;
+            this.engineRepository = engineRepository;
+            this.optionRepository = optionRepository;
+            this.trimsOptionsRepository = trimsOptionsRepository;
         }
 
         [HttpGet]
@@ -110,8 +122,6 @@ namespace Car_Showroom.Controllers
                     };
                     employeeRepository.Add(employee);
                     return View(model);
-                    //@todo
-                    //redirect lista workerow
                 }
                 return View(model);
             }
@@ -253,7 +263,7 @@ namespace Car_Showroom.Controllers
             {
                 Name = model.Name
             };
-        //add to db
+            trimRepository.Add(trim);
         return View();
         }
 
@@ -276,7 +286,7 @@ namespace Car_Showroom.Controllers
                 FuelConsumption = model.FuelConsumption,
                 EnergyConsumption = model.EnergyConsumption
             };
-            //add to db
+            engineRepository.Add(engine);
             return View();
         }
 
@@ -296,13 +306,14 @@ namespace Car_Showroom.Controllers
                 Description = model.Description,
                 Name = model.Name
             };
-            //add to db
-            var modelTrim = new TrimsOptions
+            optionRepository.Add(option);
+
+            var trimsOptions = new TrimsOptions
             {
                 TrimId = trim.Id,
                 OptionId = option.Id
             };
-            //add to db trimOption
+            trimsOptionsRepository.Add(trimsOptions);
             return View();
         }
 
