@@ -247,6 +247,29 @@ namespace Car_Showroom.Controllers
         }
 
         [HttpGet]
+        public IActionResult CreateEngine()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateEngine(Engine model)
+        {
+            var engine = new Engine
+            {
+                Type = model.Type,
+                Name = model.Name,
+                Size = model.Size,
+                Power = model.Power,
+                Price = model.Price,
+                FuelConsumption = model.FuelConsumption,
+                EnergyConsumption = model.EnergyConsumption
+            };
+            //add to db
+            return View();
+        }
+
+        [HttpGet]
         public async Task<IActionResult> AddOptionToTrim()
         {
             var trimList = await carRepository.GetTrimList();
