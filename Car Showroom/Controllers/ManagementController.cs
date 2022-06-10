@@ -22,13 +22,21 @@ namespace Car_Showroom.Controllers
         private readonly ICarRepository carRepository;
         private readonly IDetailsRepository detailsRepository;
         private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IModelRepository modelRepository;
+        private readonly IModelsTrimsRepository modelsTrimsRepository;
+        private readonly IModelsEnginesRepository modelsEnginesRepository;
+
+
         public ManagementController(UserManager<ApplicationUser> userManager,
             IAddressRepository addressRepository,
              IEmployeeRepository employeeRepository,
              IDealerRepository dealerRepository,
              ICarRepository carRepository,
             IDetailsRepository detailsRepository,
-            IHostingEnvironment hostingEnvironment
+            IHostingEnvironment hostingEnvironment,
+            IModelRepository modelRepository,
+            IModelsTrimsRepository modelsTrimsRepository,
+            IModelsEnginesRepository modelsEnginesRepository
             )
         {
             this.userManager = userManager;
@@ -38,6 +46,9 @@ namespace Car_Showroom.Controllers
             this.carRepository = carRepository;
             this.detailsRepository = detailsRepository;
             this.hostingEnvironment = hostingEnvironment;
+            this.modelRepository = modelRepository;
+            this.modelsTrimsRepository = modelsTrimsRepository;
+            this.modelsEnginesRepository = modelsEnginesRepository;
         }
 
         [HttpGet]
@@ -209,23 +220,23 @@ namespace Car_Showroom.Controllers
                 Name = mod.Name,
                 Type = mod.Type,
             };
-            //@todo
-            //add model
+
+            modelRepository.Add(model);
 
             var modelTrim = new ModelsTrims
             {
                 ModelId = model.Id,
                 TrimId = mod.TrimId
             };
-            //add to db
+            modelsTrimsRepository.Add(modelTrim);
 
             var modelEngine = new ModelsEngines
             {
                 ModelId = model.Id,
                 EngineId = mod.EngineId
             };
-            //add to db
 
+            modelsEnginesRepository.Add(modelEngine);
             return View();
         }
 
