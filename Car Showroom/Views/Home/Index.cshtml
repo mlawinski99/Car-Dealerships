@@ -29,12 +29,14 @@
                         {
                             @if (carModel.Type == carType)
                             {
-                                <div class="card border-0 mx-2" style="width: 30% !important;">
-                                    <h5 class="card-header text-center border-0 bg-white">
-                                        @carModel.Name
-                                    </h5>
-                                    <img class="card-img" src="@Url.Content("/images/Klasa A.png")">
-                                </div>
+                                <form method="post" asp-action="Details" asp-controller="Home" asp-route-id="@carModel.Id"  class="card border-0 mx-2" style="width: 30% !important;cursor:pointer;">
+                                    <div onclick="this.parentNode.submit()">
+                                        <h5 class="card-header text-center border-0 bg-white">
+                                            @carModel.Name
+                                        </h5>
+                                        <img class="card-img" src="@Url.Content("/images/"+@carModel.Name+".png")">
+                                    </div>
+                                </form>
                             }
                         }
                     </div>

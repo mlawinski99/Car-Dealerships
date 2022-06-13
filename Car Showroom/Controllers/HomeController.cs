@@ -36,12 +36,12 @@ namespace Car_Showroom.Controllers
             List<Model> modelList =  carRepository.GetModelList();
             return View(modelList);
         }
-        public async Task<IActionResult> Details(int Id)
+        public async Task<IActionResult> Details(int id)
         {
-            Model model = await carRepository.GetModel(Id);
-            List<ModelsEngines> modelsEngines = carRepository.GetModelsEngines(Id);
+            Model model = await carRepository.GetModel(id);
+            List<ModelsEngines> modelsEngines = carRepository.GetModelsEngines(id);
             List<Engine> enginesList = await carRepository.GetEngineList(modelsEngines);
-            List<ModelsTrims> modelsTrims = carRepository.GetModelsTrims(Id);
+            List<ModelsTrims> modelsTrims = carRepository.GetModelsTrims(id);
             List<Trim> trimsList = await carRepository.GetTrimList(modelsTrims);
             //List<List<Option>> optionsList = new List<List<Option>>();
             var tupleTrimOptionList = new List<(Trim, List<Option>)>();
@@ -59,7 +59,7 @@ namespace Car_Showroom.Controllers
             // ViewData["trimsList"] = trimsList;
             // ViewData["optionsList"] = optionsList;
             ViewData["tupleTrimOptionList"] = tupleTrimOptionList;
-            return View();
+            return View(model);
         }
 
         [HttpPost]
