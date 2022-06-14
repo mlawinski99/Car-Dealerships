@@ -43,7 +43,6 @@ namespace Car_Showroom.Controllers
             List<Engine> enginesList = await carRepository.GetEngineList(modelsEngines);
             List<ModelsTrims> modelsTrims = carRepository.GetModelsTrims(id);
             List<Trim> trimsList = await carRepository.GetTrimList(modelsTrims);
-            //List<List<Option>> optionsList = new List<List<Option>>();
             var tupleTrimOptionList = new List<(Trim, List<Option>)>();
 
             foreach (var element in trimsList)
@@ -51,15 +50,13 @@ namespace Car_Showroom.Controllers
                 var trimOption = await carRepository.GetTrimsOptionsList(element.Id);
                 var  optionList = await carRepository.GetOptionsList(trimOption);
                 tupleTrimOptionList.Add((element, optionList));
-              //  optionsList.Add(option);
             }
 
             ViewData["model"] = model;
             ViewData["enginesList"] = enginesList;
-            // ViewData["trimsList"] = trimsList;
-            // ViewData["optionsList"] = optionsList;
+             //ViewData["trimsList"] = trimsList;
             ViewData["tupleTrimOptionList"] = tupleTrimOptionList;
-            return View(model);
+            return View();
         }
 
         [HttpPost]
