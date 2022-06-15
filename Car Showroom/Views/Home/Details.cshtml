@@ -1,7 +1,23 @@
-﻿@{
+﻿@using System.Collections
+@{
 	ViewData["Title"] = "Details";
 }
 
-@model Car_Showroom.Models.Model;
 
-<div>@Model.Id</div>
+@{
+	Model m = @ViewData["model"] as Model;
+	<div>@m.Name</div>
+}
+@foreach (var engine in ViewData["engines"] as IList<Engine>){
+	<div class="ml-2">@engine.Name</div>
+}
+@foreach (var trimOptionTuple in ViewData["trimOptionTupleList"] as List<Tuple<Trim, List<Option>>>){
+	Trim trim = trimOptionTuple.Item1 as Trim;
+	IList options = trimOptionTuple.Item2 as List<Option>;
+
+	<div>@trim.Name</div>
+	foreach(Option option in options)
+	{
+		<div class="ml-2">@option.Name</div>
+	}
+}

@@ -39,23 +39,23 @@ namespace Car_Showroom.Controllers
         public async Task<IActionResult> Details(int id)
         {
             Model model = await carRepository.GetModel(id);
-            List<ModelsEngines> modelsEngines = carRepository.GetModelsEngines(id);
-            List<Engine> enginesList = await carRepository.GetEngineList(modelsEngines);
-            List<ModelsTrims> modelsTrims = carRepository.GetModelsTrims(id);
-            List<Trim> trimsList = await carRepository.GetTrimList(modelsTrims);
-            var tupleTrimOptionList = new List<(Trim, List<Option>)>();
+            List<ModelsEngines> modelsEnginesList = carRepository.GetModelsEngines(id);
+            List<Engine> engineList = await carRepository.GetEngineList(modelsEnginesList);
+            List<ModelsTrims> modelsTrimsList = carRepository.GetModelsTrims(id);
+            List<Trim> trimList = await carRepository.GetTrimList(modelsTrimsList);
+            var trimOptionTupleList = new List<Tuple<Trim, List<Option>>>();
 
-            foreach (var element in trimsList)
+            foreach (var element in trimList)
             {
-                var trimOption = await carRepository.GetTrimsOptionsList(element.Id);
-                var  optionList = await carRepository.GetOptionsList(trimOption);
-                tupleTrimOptionList.Add((element, optionList));
+                var trimsOptionsList = await carRepository.GetTrimsOptionsList(element.Id);
+                var  optionList = await carRepository.GetOptionsList(trimsOptionsList);
+                trimOptionTupleList.Add(new Tuple<Trim, List<Option>>(element, optionList));
             }
 
             ViewData["model"] = model;
-            ViewData["enginesList"] = enginesList;
-             //ViewData["trimsList"] = trimsList;
-            ViewData["tupleTrimOptionList"] = tupleTrimOptionList;
+            ViewData["engines"] = engineList;
+            ViewData["trims"] = trimList;
+            ViewData["trimOptionTupleList"] = trimOptionTupleList;
             return View();
         }
 
