@@ -31,5 +31,11 @@ namespace Car_Showroom.DataAccess
             }
             return order;
         }
+
+        public List<Order> GetOrderList()
+        {
+            List<Order> orderList = dbContext.Order.ToList();
+            return orderList;
+        }
     }
 }

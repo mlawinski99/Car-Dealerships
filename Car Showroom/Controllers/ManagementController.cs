@@ -29,6 +29,9 @@ namespace Car_Showroom.Controllers
         private readonly IEngineRepository engineRepository;
         private readonly IOptionRepository optionRepository;
         private readonly ITrimsOptions trimsOptionsRepository;
+        private readonly ICustomerRepository customerRepository;
+        private readonly IOrderRepository orderRepository;
+
         public ManagementController(UserManager<ApplicationUser> userManager,
             IAddressRepository addressRepository,
              IEmployeeRepository employeeRepository,
@@ -42,7 +45,9 @@ namespace Car_Showroom.Controllers
             ITrimRepository trimRepository,
             IEngineRepository engineRepository,
             IOptionRepository optionRepository,
-            ITrimsOptions trimsOptionsRepository
+            ITrimsOptions trimsOptionsRepository,
+            ICustomerRepository customerRepository,
+            IOrderRepository orderRepository
             )
         {
             this.userManager = userManager;
@@ -59,6 +64,8 @@ namespace Car_Showroom.Controllers
             this.engineRepository = engineRepository;
             this.optionRepository = optionRepository;
             this.trimsOptionsRepository = trimsOptionsRepository;
+            this.customerRepository = customerRepository;
+            this.orderRepository = orderRepository;
         }
 
         [HttpGet]
@@ -299,6 +306,106 @@ namespace Car_Showroom.Controllers
             trimsOptionsRepository.Add(trimsOptions);
             return View();
         }
+        [HttpGet]
+        public IActionResult CustomerList()
+        {
+            var customerList = customerRepository.GetCustomerList();
+          /*  List<Tuple<Customer, Address>> customerAddressList = new List<Tuple < Customer, Address>>();
+            
+            foreach(var customer in customerList)
+            {
+                customer.
+                var customerAddress = customer.ApplicationUser.Address;
+                customerAddressList.Add(new Tuple<Customer, Address>(customer, customerAddress));
+            }*/
+            return View(customerList);
+        }
+
+        [HttpGet]
+        public IActionResult DealerList()
+        {
+            
+            List<Tuple<Dealer, List<Employee>>> dealerManagersList = new List<Tuple<Dealer, List<Employee>>>();
+            var employeeList = employeeRepository.GetEmployeeList();
+            var dealerList = dealerRepository.GetDealerList();
+            
+            foreach(var dealer in dealerList)
+            {
+                List<Employee> managerList = new List<Employee>();
+                foreach(var employee in employeeList)
+                {
+                    if (employee.JobPosition == JobPosition.Menedżer && employee.DealerId == dealer.Id)
+                        managerList.Add(employee);
+                }
+                dealerManagersList.Add(new Tuple<Dealer, List<Employee>>(dealer, managerList));
+            }
+            return View(dealerManagersList);
+        }
+        [HttpGet]
+        public IActionResult OrderList()
+        {
+            var orderList = orderRepository.GetOrderList();
+            return View(orderList);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ManagerEmployeeList()
+        {
+            var user = await userManager.GetUserAsync(HttpContext.User);
+            var manager = employeeRepository.GetEmployeeById(user.Id);
+            var employeeList = employeeRepository.GetEmployeeList();
+            List<Employee> managerEmployees = new List<Employee>();
+            foreach(var employee in employeeList)
+            {
+                if (manager.DealerId == employee.DealerId)
+                    managerEmployees.Add(employee);
+            }
+            return View(managerEmployees);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ManagerOrderList()
+        {
+            var user = await userManager.GetUserAsync(HttpContext.User);
+            var manager = employeeRepository.GetEmployeeById(user.Id);
+            var orderList = orderRepository.GetOrderList();
+            List<Order> managerOrderList = new List<Order>();
+            foreach (var order in orderList)
+            {
+                if (manager.DealerId == order.DealerEmployee.DealerId)
+                    managerOrderList.Add(order);
+            }
+            return View(managerOrderList);
+        }
+        [HttpGet]
+        public async Task<IActionResult> EmployeeOrderList()
+        {
+            var user = await userManager.GetUserAsync(HttpContext.User);
+            var employee = employeeRepository.GetEmployeeById(user.Id);
+            var orderList = orderRepository.GetOrderList();
+            List<Order> employeeOrderList = new List<Order>();
+            foreach (var order in orderList)
+            {
+                if (employee.Id == order.DealerEmployeeId)
+                    employeeOrderList.Add(order);
+            }
+            return View(employeeOrderList);
+        }
+        [HttpGet]
+        public async Task<IActionResult> ServiceOrderList()
+        {
+            var user = await userManager.GetUserAsync(HttpContext.User);
+            var employee = employeeRepository.GetEmployeeById(user.Id);
+            var orderList = orderRepository.GetOrderList();
+            List<Order> employeeOrderList = new List<Order>();
+            foreach (var order in orderList)
+            {
+                if (employee.Id == order.ServiceEmployeeId)
+                    employeeOrderList.Add(order);
+            }
+            return View(employeeOrderList);
+        }
+
     }
 }
 

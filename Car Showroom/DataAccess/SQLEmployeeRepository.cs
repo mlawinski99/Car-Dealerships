@@ -33,6 +33,12 @@ namespace Car_Showroom.DataAccess
             return employee;
         }
 
+        public Employee GetEmployeeById(string appUserId)
+        {
+            var employee = (Employee)dbContext.Employee.Where(c => c.ApplicationUserId == appUserId);
+            return employee;
+        }
+
         public int GetEmployeeId(string appUserId)
         {
             var result = (Employee)dbContext.Employee.Where(c => c.ApplicationUserId == appUserId);

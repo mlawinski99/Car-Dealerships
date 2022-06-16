@@ -39,6 +39,12 @@ namespace Car_Showroom.DataAccess
             return id;
         }
 
+        public List<Customer> GetCustomerList()
+        {
+            var customerList = dbContext.Customer.ToList();
+            return customerList;
+        }
+
         public Customer Update(Customer customerUpdate)
         {
             var customer = dbContext.Customer.Attach(customerUpdate);
