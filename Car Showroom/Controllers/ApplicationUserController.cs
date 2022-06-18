@@ -73,11 +73,9 @@ namespace Car_Showroom.Controllers
                     };
                     customerRepository.Add(customer);
                     await signInManager.SignInAsync(user, isPersistent: false);
+                    await userManager.AddToRoleAsync(user, "Customer");
                     return RedirectToAction("index", "home");
                 }
-
-                RoleSetter.setRole(user, "Customer");
-
             }
             return View(model);
         }

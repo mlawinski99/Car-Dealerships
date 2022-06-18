@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
-using Car_Showroom.Services;
 
 namespace Car_Showroom.Controllers
 {
@@ -127,7 +126,7 @@ namespace Car_Showroom.Controllers
                         DealerId = model.DealerId
                     };
                     employeeRepository.Add(employee);
-                    RoleSetter.setRole(user, employee.JobPosition.ToString());
+                    await userManager.AddToRoleAsync(user, employee.JobPosition.ToString());
                     return View(model);
                 }
                 return View(model);
