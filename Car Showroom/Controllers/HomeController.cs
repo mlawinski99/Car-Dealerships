@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Car_Showroom.Models;
 using Car_Showroom.DataAccess;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Car_Showroom.Controllers
 {
@@ -60,7 +61,8 @@ namespace Car_Showroom.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrderAsync(int Id, double price, double discount, PaymentType paymentType, ShipmentType shipmentType)
+        [Authorize]
+        public async Task<IActionResult> CreateOrder(int Id, double price, double discount, PaymentType paymentType, ShipmentType shipmentType)
         {
           
             //delete Car?

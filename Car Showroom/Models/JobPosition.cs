@@ -7,7 +7,9 @@ namespace Car_Showroom.Models
 {
     public enum JobPosition
     {
-        Pracownik,
-        Menedżer
+        Admin,
+        Employee,
+        Manager,
+        Serwisant
     }
 }
