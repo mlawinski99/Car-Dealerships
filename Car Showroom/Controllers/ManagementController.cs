@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
+using Car_Showroom.Services;
 
 namespace Car_Showroom.Controllers
 {
@@ -126,6 +127,7 @@ namespace Car_Showroom.Controllers
                         DealerId = model.DealerId
                     };
                     employeeRepository.Add(employee);
+                    RoleSetter.setRole(user, employee.JobPosition.ToString());
                     return View(model);
                 }
                 return View(model);
@@ -334,7 +336,7 @@ namespace Car_Showroom.Controllers
                 List<Employee> managerList = new List<Employee>();
                 foreach(var employee in employeeList)
                 {
-                    if (employee.JobPosition == JobPosition.Menedżer && employee.DealerId == dealer.Id)
+                    if (employee.JobPosition == JobPosition.Manager && employee.DealerId == dealer.Id)
                         managerList.Add(employee);
                 }
                 dealerManagersList.Add(new Tuple<Dealer, List<Employee>>(dealer, managerList));

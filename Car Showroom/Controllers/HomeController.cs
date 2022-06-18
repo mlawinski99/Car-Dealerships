@@ -64,9 +64,6 @@ namespace Car_Showroom.Controllers
         [Authorize]
         public async Task<IActionResult> CreateOrder(int Id, double price, double discount, PaymentType paymentType, ShipmentType shipmentType)
         {
-          
-            //delete Car?
-
             ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
             int customerId = customerRepository.GetCustomerId(applicationUser.Id);
 

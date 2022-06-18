@@ -11,9 +11,11 @@ namespace Car_Showroom.Controllers
     public class RoleController : Controller
     {
         private readonly RoleManager<IdentityRole> roleManager;
-        public RoleController(RoleManager<IdentityRole> roleManager)
+        private readonly UserManager<ApplicationUser> userManager;
+        public RoleController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
         {
             this.roleManager = roleManager;
+            this.userManager = userManager;
         }
 
         [HttpGet]
@@ -46,5 +48,7 @@ namespace Car_Showroom.Controllers
             var rolesList = roleManager.Roles;
             return View(rolesList);
         }
+
+        
     }
 }

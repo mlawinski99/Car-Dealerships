@@ -76,8 +76,7 @@ namespace Car_Showroom.Controllers
                     return RedirectToAction("index", "home");
                 }
 
-                //@todo
-                //errors
+                RoleSetter.setRole(user, "Customer");
 
             }
             return View(model);
