@@ -115,7 +115,7 @@ namespace Car_Showroom.Controllers
                 if (result.Succeeded)
                 {
                     ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
-                    //int managerId = employeeRepository.GetEmployeeId(applicationUser.Id);
+                    int managerId = employeeRepository.GetEmployeeId(applicationUser.Id);
                     var employee = new Employee
                     {
                         ContractType = model.ContractType,
