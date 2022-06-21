@@ -14,16 +14,18 @@ namespace Car_Showroom.Controllers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly RoleManager<IdentityRole> roleManager;
         private readonly IAddressRepository addressRepository;
         private readonly ICustomerRepository customerRepository;
         public ApplicationUserController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager, IAddressRepository addressRepository,
-            ICustomerRepository customerRepository)
+            ICustomerRepository customerRepository, RoleManager<IdentityRole> roleManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.addressRepository = addressRepository;
             this.customerRepository = customerRepository;
+            this.roleManager = roleManager;
         }
         [HttpGet]
         public IActionResult Login()
@@ -73,6 +75,18 @@ namespace Car_Showroom.Controllers
                     };
                     customerRepository.Add(customer);
                     await signInManager.SignInAsync(user, isPersistent: false);
+
+                    var roleExists = await roleManager.RoleExistsAsync("Customer");
+
+                    if (!roleExists)
+                    {
+                        IdentityRole identityRole = new IdentityRole
+                        {
+                            Name = "Customer"
+                        };
+                        await roleManager.CreateAsync(identityRole);
+                    }
+
                     await userManager.AddToRoleAsync(user, "Customer");
                     return RedirectToAction("index", "home");
                 }

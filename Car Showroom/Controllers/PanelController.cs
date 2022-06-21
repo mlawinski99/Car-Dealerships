@@ -18,11 +18,11 @@ namespace Car_Showroom.Controllers
             return View();
         }
 
-        public IActionResult EmployeePanel()
+        public IActionResult DealershipEmployeePanel()
         {
             return View();
         }
-        public IActionResult ServisantPanel()
+        public IActionResult ServiceEmployeePanel()
         {
             return View();
         }
