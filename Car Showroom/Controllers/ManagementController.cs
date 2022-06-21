@@ -270,6 +270,7 @@ namespace Car_Showroom.Controllers
         [HttpGet]
         public IActionResult CreateTrim()
         {
+            ViewBag.ShowMessage = false;
             return View();
         }
 
@@ -281,6 +282,8 @@ namespace Car_Showroom.Controllers
                 Name = model.Name
             };
             trimRepository.Add(trim);
+            ViewBag.ShowMessage = true;
+            ViewBag.Message = "Trim created successfully";
             return View();
         }
 
