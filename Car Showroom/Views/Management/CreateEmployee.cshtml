@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Sign up here!";
+    ViewData["Title"] = "Add New Employee";
 }
 @model Car_Showroom.ViewModels.CreateEmployeeViewModel
 
@@ -106,8 +106,8 @@
                         <div class="form-group">
                             <label asp-for="JobPosition">Position</label>
                             <select asp-for="JobPosition" class="form-control">
-                                <option>Pracownik Salonu</option>
-                                <option>Serwisant</option>
+                                <option value="@JobPosition.Employee">Pracownik Salonu</option>
+                                <option value="@JobPosition.Serwisant">Serwisant</option>
                             </select>
                             <span asp-validation-for="JobPosition" class="text-danger"></span>
                         </div>

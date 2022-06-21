@@ -20,9 +20,9 @@ namespace Car_Showroom.ViewModels
          (?=.*[A-Z])  -  at least one uppercase
          (?=.*\d)     -  at least one digit
         .{6,}         -  at least 6 chars
-         */
+         
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$", ErrorMessage = "Password must contain an uppercase letter, a lowercase letter, a number and at least 6 characters!")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Password is required!")]
+        */[Required(AllowEmptyStrings = false, ErrorMessage = "Password is required!")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
