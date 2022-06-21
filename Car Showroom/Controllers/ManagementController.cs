@@ -137,8 +137,7 @@ namespace Car_Showroom.Controllers
         [HttpGet]
         public IActionResult CreateDealer()
         {
-            var dealerList = dealerRepository.GetDealerList();
-            return View(dealerList);
+            return View();
         }
         [HttpPost]
         public IActionResult CreateDealer(CreateDealerViewModel model)
@@ -201,17 +200,17 @@ namespace Car_Showroom.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateModel()
+        public async Task<IActionResult> CreateModel()
         {
-            var engineList = carRepository.GetEngineList();
-            var trimList = carRepository.GetTrimList();
+            List<Engine> engineList = await carRepository.GetEngineList();
+            List<Trim> trimList = await carRepository.GetTrimList();
             ViewData["engineList"] = engineList;
             ViewData["trimList"] = trimList;
             return View();
         }
 
         [HttpPost]
-        public IActionResult CreateModel(CreateModelViewModel mod)
+        public async Task<IActionResult> CreateModel(CreateModelViewModel mod)
         {
             string fileName = null;
             if (mod.Image != null)
@@ -240,6 +239,12 @@ namespace Car_Showroom.Controllers
                 EngineId = mod.EngineId
             };
             modelsEnginesRepository.Add(modelEngine);
+
+            List<Engine> engineList = await carRepository.GetEngineList();
+            List<Trim> trimList = await carRepository.GetTrimList();
+            ViewData["engineList"] = engineList;
+            ViewData["trimList"] = trimList;
+
             return View();
         }
 
@@ -291,20 +296,33 @@ namespace Car_Showroom.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddOptionToTrim(Trim trim, Option model)
+        public async Task<IActionResult> AddOptionToTrimAsync(string trimName, string optionName, string optionDescription)
         {
             var option = new Option
             {
-                Description = model.Description,
-                Name = model.Name
+                Description = optionDescription,
+                Name = optionName
             };
             optionRepository.Add(option);
+
+            var trimList = await carRepository.GetTrimList();
+            var trim = trimList.FirstOrDefault();
+            foreach(var t in trimList)
+            {
+                if (t.Name == trimName)
+                {
+                    trim = t;
+                    break;
+                }
+            }
+
             var trimsOptions = new TrimsOptions
             {
                 TrimId = trim.Id,
                 OptionId = option.Id
             };
             trimsOptionsRepository.Add(trimsOptions);
+
             return View();
         }
         [HttpGet]

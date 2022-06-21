@@ -38,8 +38,8 @@ namespace Car_Showroom.ViewModels
         public string PhoneNumber { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "PESEL is required!")]
-        [MinLength(9, ErrorMessage = "PESEL must have 9 chars!")]
-        [MaxLength(9, ErrorMessage = "PESEL must have 9 chars!")]
+        [MinLength(11, ErrorMessage = "PESEL must have 11 chars!")]
+        [MaxLength(11, ErrorMessage = "PESEL must have 11 chars!")]
         public string Pesel { get; set; }
         public DateTime BirthDate { get; set; }
 
