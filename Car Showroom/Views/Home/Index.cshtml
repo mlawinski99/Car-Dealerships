@@ -6,7 +6,7 @@
 <div class="row justify-content-center mt-3">
     <div class="col-3">
         <div class="mt-5 p-2 d-flex flex-column border btn" style="border-radius:15px;">
-            <h5 class="text-center"><b>Car Types</b></h5>
+            <h5 class="text-center"><b>Typy Nadwozia</b></h5>
             @foreach (var item in Enum.GetValues(typeof(CarType)))
             {
                 <button class="d-flex flex-row mt-1 btn bg-white car-type-button" id="@item" onclick="showThisHideOthers(this.id)">
@@ -14,12 +14,12 @@
                     <div class="w-auto pl-2">@item</div>
                 </button>
             }
-            <button class="font-weight-bold text-center mt-1 btn car-type-button" id="all" onclick="showThisHideOthers(this.id)">Show All</button>
+            <button class="font-weight-bold text-center mt-1 btn car-type-button" id="all" onclick="showThisHideOthers(this.id)">Pokaż Wszystko</button>
         </div>
     </div>
     <div class="col-9">
         <div class="d-flex flex-column">
-            <h2 class="text-center mb-3">Our Models</h2>
+            <h2 class="text-center mb-3">Modele Samochodów</h2>
             @foreach (var carType in (CarType[])Enum.GetValues(typeof(CarType)))
             {
                 <div class="d-flex flex-column px-2 car-type-section" id="@carType-section">
