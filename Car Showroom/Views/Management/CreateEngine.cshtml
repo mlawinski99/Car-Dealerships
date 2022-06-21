@@ -6,13 +6,13 @@
 <div class="row justify-content-center mt-3">
     <div class="col-md-5">
         <div class="jumbotron shadow-lg p-3 mb-5 bg-white rounded">
-            <h1 class="text-center">Add new Engine</h1><br />
+            <h1 class="text-center">Dodaj Nowy Silnik</h1><br />
             <form method="post" class="form-group" asp-controller="Management" asp-action="CreateEngine">
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
                             <div class="input-group-prepend">
-                                <input asp-for="Name" class="form-control" placeholder="Name" />
+                                <input asp-for="Name" class="form-control" placeholder="Nazwa" />
                             </div>
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
@@ -29,38 +29,38 @@
                         </div>
                         <div class="form-group">
                             <div class="input-group-prepend" >
-                                <input type="number" step="100" asp-for="Size" class="form-control" placeholder="Displacement [cm3]" />
+                                <input type="number" step="100" asp-for="Size" class="form-control" placeholder="Pojemność [cm3]" />
                             </div>
                             <span asp-validation-for="Size" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <div class="input-group-prepend" >
-                                <input type="number" step="25" asp-for="Power" class="form-control" placeholder="Power [kW]" />
+                                <input type="number" step="25" asp-for="Power" class="form-control" placeholder="Moc [kW]" />
                             </div>
                             <span asp-validation-for="Power" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <div class="input-group-prepend" >
-                                <input type="number" step="25000" asp-for="Price" class="form-control" placeholder="Price [zł]" />
+                                <input type="number" step="25000" asp-for="Price" class="form-control" placeholder="Cena [zł]" />
                             </div>
                             <span asp-validation-for="Price" class="text-danger"></span>
                         </div>
                         <div class="form-group" id="fuelConsumptionInput">
                             <div class="input-group-prepend" >
-                                <input type="number" step="0.5" asp-for="FuelConsumption" class="form-control" placeholder="Fuel Consumption [l / 100km]" />
+                                <input type="number" step="0.5" asp-for="FuelConsumption" class="form-control" placeholder="Zużycie Paliwa [l / 100km]" />
                             </div>
                             <span asp-validation-for="FuelConsumption" class="text-danger"></span>
                         </div>
                         <div class="form-group" id="energyConsumptionInput">
                             <div class="input-group-prepend" >
-                                <input type="number" step="0.5" asp-for="EnergyConsumption" class="form-control" placeholder="Energy Consumption [kWh / 100km]" />
+                                <input type="number" step="0.5" asp-for="EnergyConsumption" class="form-control" placeholder="Zużycie Prądu [kWh / 100km]" />
                             </div>
                             <span asp-validation-for="EnergyConsumption" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row align-content-center justify-content-center">
-                    <button type="submit" class="btn btn-primary">Add Engine</button>
+                    <button type="submit" class="btn btn-primary">Dodaj Silnik</button>
                 </div>
             </form>
         </div>
