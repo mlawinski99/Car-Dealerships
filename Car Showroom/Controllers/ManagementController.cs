@@ -193,7 +193,7 @@ namespace Car_Showroom.Controllers
             ViewData["trimList"] = trimList;
             return View();
         }
-
+        /*
         [HttpPost]
         public IActionResult CreateCar(CreateCarViewModel model)
         {
@@ -216,7 +216,7 @@ namespace Car_Showroom.Controllers
             };
             carRepository.Add(Car);
             return View();
-        }
+        }*/
 
         [HttpGet]
         public async Task<IActionResult> CreateModel()

@@ -9,6 +9,7 @@ using Car_Showroom.Models;
 using Car_Showroom.DataAccess;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Car_Showroom.ViewModels;
 
 namespace Car_Showroom.Controllers
 {
@@ -19,17 +20,20 @@ namespace Car_Showroom.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ICustomerRepository customerRepository;
         private readonly IOrderRepository orderRepository;
+        private readonly IDetailsRepository detailsRepository;
         public HomeController(ILogger<HomeController> logger, 
             ICarRepository carRepository, 
             UserManager<ApplicationUser> userManager,
             ICustomerRepository customerRepository,
-            IOrderRepository orderRepository)
+            IOrderRepository orderRepository,
+            IDetailsRepository detailsRepository)
         {
             _logger = logger;
             this.carRepository = carRepository;
             this.userManager = userManager;
             this.customerRepository = customerRepository;
             this.orderRepository = orderRepository;
+            this.detailsRepository = detailsRepository;
         }
 
         public IActionResult Index()
@@ -62,22 +66,39 @@ namespace Car_Showroom.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> CreateOrder(int Id, double price, double discount, PaymentType paymentType, ShipmentType shipmentType)
+        public async Task<IActionResult> CreateOrder(CreateCarViewModel model)
         {
             ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
             int customerId = customerRepository.GetCustomerId(applicationUser.Id);
 
+            var details = new Details 
+            { 
+                ProductionYear = model.ProductionYear,
+                Weight = model.Weight
+            };
+            detailsRepository.Add(details);
             var order = new Order
             {
                 CustomerId = customerId,
                 Status = 0,
-                Price = price,
-                Discount = discount,
-                PaymentType = paymentType,
+                Price = model.Price,
+                Discount = model.Discount,
+                PaymentType = model.PaymentType,
                 SubmissionDate = DateTime.Now,
-                FinalizationDate = DateTime.Now.AddDays(7),
-                ShipmentType = shipmentType
+                FinalizationDate = DateTime.Now.AddDays(365),
+                ShipmentType = model.ShipmentType
             };
+            var car = new Car
+            {
+                ModelId = model.ModelId,
+                DealerId = model.DealerId,
+                OrderId = order.Id,
+                DetailsId = details.Id,
+                TrimId = model.TrimId,
+                EngineId = model.EngineId
+            };
+            detailsRepository.Add(details);
+            carRepository.Add(car);
             orderRepository.Add(order);
             return View();
         }
