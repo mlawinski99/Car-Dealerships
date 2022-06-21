@@ -31,7 +31,7 @@ namespace Car_Showroom.Controllers
         private readonly ITrimsOptions trimsOptionsRepository;
         private readonly ICustomerRepository customerRepository;
         private readonly IOrderRepository orderRepository;
-
+        private readonly RoleManager<IdentityRole> roleManager;
         public ManagementController(UserManager<ApplicationUser> userManager,
             IAddressRepository addressRepository,
              IEmployeeRepository employeeRepository,
@@ -47,7 +47,8 @@ namespace Car_Showroom.Controllers
             IOptionRepository optionRepository,
             ITrimsOptions trimsOptionsRepository,
             ICustomerRepository customerRepository,
-            IOrderRepository orderRepository
+            IOrderRepository orderRepository,
+            RoleManager<IdentityRole> roleManager
             )
         {
             this.userManager = userManager;
@@ -66,6 +67,7 @@ namespace Car_Showroom.Controllers
             this.trimsOptionsRepository = trimsOptionsRepository;
             this.customerRepository = customerRepository;
             this.orderRepository = orderRepository;
+            this.roleManager = roleManager;
         }
 
         [HttpGet]
@@ -133,6 +135,16 @@ namespace Car_Showroom.Controllers
                         DealerId = dealerId
                     };
                     employeeRepository.Add(employee);
+                    var roleExists = await roleManager.RoleExistsAsync(model.JobPosition.ToString());
+
+                    if (!roleExists)
+                    {
+                        IdentityRole identityRole = new IdentityRole
+                        {
+                            Name = model.JobPosition.ToString()
+                        };
+                        await roleManager.CreateAsync(identityRole);
+                    }
                     await userManager.AddToRoleAsync(user, employee.JobPosition.ToString());
                     return View(model);
                 }
