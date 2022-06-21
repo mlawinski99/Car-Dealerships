@@ -78,8 +78,7 @@ namespace Car_Showroom.Controllers
         [HttpGet]
         public IActionResult CreateEmployee()
         {
-            var dealerList = dealerRepository.GetDealerList();
-            return View(dealerList);
+            return View();
         }
 
         [HttpPost]
@@ -115,7 +114,14 @@ namespace Car_Showroom.Controllers
                 if (result.Succeeded)
                 {
                     ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
-                    int managerId = employeeRepository.GetEmployeeId(applicationUser.Id);
+                    var manager = employeeRepository.GetEmployeeById(applicationUser.Id);
+                    int managerId = 0;
+                    int dealerId = 1;
+                    if (manager != null) {
+                        managerId = manager.Id;
+                        dealerId = manager.DealerId;
+                    }
+
                     var employee = new Employee
                     {
                         ContractType = model.ContractType,
@@ -123,8 +129,8 @@ namespace Car_Showroom.Controllers
                         JobPosition = model.JobPosition,
                         Salary = model.Salary,
                         ApplicationUserId = user.Id,
-                        ManagerId = 0,//managerId,
-                        DealerId = model.DealerId
+                        ManagerId = managerId,//managerId,
+                        DealerId = dealerId
                     };
                     employeeRepository.Add(employee);
                     await userManager.AddToRoleAsync(user, employee.JobPosition.ToString());

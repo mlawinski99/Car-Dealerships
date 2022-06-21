@@ -35,14 +35,14 @@ namespace Car_Showroom.DataAccess
 
         public Employee GetEmployeeById(string appUserId)
         {
-            var employee = (Employee)dbContext.Employee.Where(c => c.ApplicationUserId == appUserId);
-            return employee;
+            var employee = dbContext.Employee.Where(c => c.ApplicationUserId == appUserId).ToList();
+            return employee.FirstOrDefault();
         }
 
         public int GetEmployeeId(string appUserId)
         {
-            var result = dbContext.Employee.Where(c => c.ApplicationUserId == appUserId).FirstOrDefault<Employee>();
-            int id = result.Id;
+            var result = dbContext.Employee.Where(c => c.ApplicationUserId == appUserId).ToList();
+            int id = result.FirstOrDefault().Id;
             return id;
         }
 
