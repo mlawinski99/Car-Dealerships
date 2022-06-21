@@ -37,9 +37,9 @@
                         @if (User.IsInRole("Manager"))
                         {
                             <li class="nav-item mx-1">
-                                <form method="post" asp-controller="Panel" asp-action="AdminPanel">
+                                <form method="post" asp-controller="Panel" asp-action="ManagerPanel">
                                     <button type="submit" class="nav-link text-dark btn btn-light" style="border:none;">
-                                        Admin Panel
+                                       Manager Panel
                                     </button>
                                 </form>
                             </li>
@@ -47,9 +47,9 @@
                         @if (User.IsInRole("DealershipEmployee"))
                         {
                             <li class="nav-item mx-1">
-                                <form method="post" asp-controller="Panel" asp-action="AdminPanel">
+                                <form method="post" asp-controller="Panel" asp-action="DealershipEmployeePanel">
                                     <button type="submit" class="nav-link text-dark btn btn-light" style="border:none;">
-                                        Admin Panel
+                                        DealershipEmployee Panel
                                     </button>
                                 </form>
                             </li>
@@ -57,9 +57,9 @@
                         @if (User.IsInRole("ServiceEmployee"))
                         {
                             <li class="nav-item mx-1">
-                                <form method="post" asp-controller="Panel" asp-action="AdminPanel">
+                                <form method="post" asp-controller="Panel" asp-action="ServiceEmployeePanel">
                                     <button type="submit" class="nav-link text-dark btn btn-light" style="border:none;">
-                                        Admin Panel
+                                        ServiceEmployee Panel
                                     </button>
                                 </form>
                             </li>
@@ -67,9 +67,9 @@
                         @if (User.IsInRole("Customer"))
                         {
                             <li class="nav-item mx-1">
-                                <form method="post" asp-controller="Panel" asp-action="AdminPanel">
+                                <form method="post" asp-controller="Panel" asp-action="CustomerPanel">
                                     <button type="submit" class="nav-link text-dark btn btn-light" style="border:none;">
-                                        Admin Panel
+                                        Customer Panel
                                     </button>
                                 </form>
                             </li>

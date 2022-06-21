@@ -6,13 +6,13 @@
 <div class="row justify-content-center mt-3">
     <div class="col-md-5">
         <div class="jumbotron shadow-lg p-3 mb-5 bg-white rounded">
-            <h1 class="text-center">Add new Model</h1><br />
+            <h1 class="text-center">Dodaj Nowy Model</h1><br />
             <form method="post" class="form-group" asp-controller="Management" asp-action="CreateModel">
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
                             <div class="input-group-prepend">
-                                <input asp-for="Name" class="form-control" placeholder="Model Name" />
+                                <input asp-for="Name" class="form-control" placeholder="Nazwa Modelu" />
                             </div>
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <div class="row align-content-center justify-content-center">
-                    <button type="submit" class="btn btn-primary">Add Model</button>
+                    <button type="submit" class="btn btn-primary">Dodaj Model</button>
                 </div>
             </form>
         </div>
