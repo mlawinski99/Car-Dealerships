@@ -12,18 +12,18 @@ namespace Car_Showroom.Controllers
     {
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly UserManager<ApplicationUser> userManager;
-        public RoleController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+        public RoleController(
+            RoleManager<IdentityRole> roleManager,
+            UserManager<ApplicationUser> userManager)
         {
             this.roleManager = roleManager;
             this.userManager = userManager;
         }
-
         [HttpGet]
         public IActionResult CreateRole()
         {
             return View();
         }
-
         [HttpPost]
         public async Task<IActionResult> CreateRole(string roleName)
         {
@@ -49,6 +49,5 @@ namespace Car_Showroom.Controllers
             return View(rolesList);
         }
 
-        
     }
 }

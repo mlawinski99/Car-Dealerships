@@ -27,33 +27,35 @@ namespace Car_Showroom
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-                services.AddDbContext<CarDealershipsContext>(options =>
-               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<CarDealershipsContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-                services.AddIdentity<ApplicationUser, IdentityRole>(options => {
-                    options.Password.RequireDigit = true;
-                    options.Password.RequiredLength = 6;
-                    options.Password.RequireNonAlphanumeric = false;
-                    options.Password.RequireUppercase = true;
-                    options.Password.RequireLowercase = true;
-                })
-                    .AddEntityFrameworkStores<CarDealershipsContext>()
-                    .AddDefaultTokenProviders();
-            
-            services.AddScoped<ICustomerRepository, SQLCustomerRepository>();
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+            })
+                .AddEntityFrameworkStores<CarDealershipsContext>()
+                .AddDefaultTokenProviders();
+
             services.AddScoped<IAddressRepository, SQLAddressRepository>();
             services.AddScoped<ICarRepository, SQLCarRepository>();
-            services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
+            services.AddScoped<ICustomerRepository, SQLCustomerRepository>();
             services.AddScoped<IDealerRepository, SQLDealerRepository>();
             services.AddScoped<IDetailsRepository, SQLDetailsRepository>();
-            services.AddScoped<IModelRepository, SQLModelRepository>();
-            services.AddScoped<IModelsTrimsRepository, SQLModelsTrimsRepository>();
-            services.AddScoped<IModelsEnginesRepository, SQLModelsEnginesRepository>();
+            services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
             services.AddScoped<IEngineRepository, SQLEngineRepository>();
+            services.AddScoped<IModelRepository, SQLModelRepository>();
+            services.AddScoped<IModelsEnginesRepository, SQLModelsEnginesRepository>();
+            services.AddScoped<IModelsTrimsRepository, SQLModelsTrimsRepository>();
             services.AddScoped<IOptionRepository, SQLOptionRepository>();
-            services.AddScoped<ITrimRepository, SQLTrimRepository>();
-            services.AddScoped<ITrimsOptions, SQLTrimsOptionsRepository>();
             services.AddScoped<IOrderRepository, SQLOrderRepository>();
+            services.AddScoped<IOrdersOptionsRepository, SQLOrdersOptionsRepository>();
+            services.AddScoped<ITrimRepository, SQLTrimRepository>();
+            services.AddScoped<ITrimsOptionsRepository, SQLTrimsOptionsRepository>();
 
             services.AddControllersWithViews();
         }

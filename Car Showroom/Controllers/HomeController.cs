@@ -15,46 +15,33 @@ namespace Car_Showroom.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly ICarRepository carRepository;
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly ICustomerRepository customerRepository;
-        private readonly IOrderRepository orderRepository;
-        private readonly IDetailsRepository detailsRepository;
-        public HomeController(ILogger<HomeController> logger, 
-            ICarRepository carRepository, 
-            UserManager<ApplicationUser> userManager,
-            ICustomerRepository customerRepository,
-            IOrderRepository orderRepository,
-            IDetailsRepository detailsRepository)
+        private readonly IModelRepository modelRepository;
+        private readonly ITrimRepository trimRepository;
+        public HomeController(
+            IModelRepository modelRepository,
+            ITrimRepository trimRepository
+            )
         {
-            _logger = logger;
-            this.carRepository = carRepository;
-            this.userManager = userManager;
-            this.customerRepository = customerRepository;
-            this.orderRepository = orderRepository;
-            this.detailsRepository = detailsRepository;
+            this.modelRepository = modelRepository;
+            this.trimRepository = trimRepository;
         }
 
         public IActionResult Index()
         {
-            List<Model> modelList =  carRepository.GetModelList();
+            List<Model> modelList = modelRepository.GetModelList();
             return View(modelList);
         }
-        public async Task<IActionResult> Details(int id)
+        public IActionResult Details(int id)
         {
-            Model model = await carRepository.GetModel(id);
-            List<ModelsEngines> modelsEnginesList = carRepository.GetModelsEngines(id);
-            List<Engine> engineList = await carRepository.GetEngineList(modelsEnginesList);
-            List<ModelsTrims> modelsTrimsList = carRepository.GetModelsTrims(id);
-            List<Trim> trimList = await carRepository.GetTrimList(modelsTrimsList);
-            var trimOptionTupleList = new List<Tuple<Trim, List<Option>>>();
+            Model model = modelRepository.Get(id);
+            List<Engine> engineList = modelRepository.GetEnginesAvailableForModel(model);
+            List<Trim> trimList = modelRepository.GetTrimsAvailableForModel(model);
 
-            foreach (var element in trimList)
+            var trimOptionTupleList = new List<Tuple<Trim, List<Option>>>();
+            foreach (var trim in trimList)
             {
-                var trimsOptionsList = await carRepository.GetTrimsOptionsList(element.Id);
-                var  optionList = await carRepository.GetOptionsList(trimsOptionsList);
-                trimOptionTupleList.Add(new Tuple<Trim, List<Option>>(element, optionList));
+                var optionsInTrim = trimRepository.GetOptionsInTrim(trim);
+                trimOptionTupleList.Add(new Tuple<Trim, List<Option>>(trim, optionsInTrim));
             }
 
             ViewData["model"] = model;
@@ -63,13 +50,13 @@ namespace Car_Showroom.Controllers
             ViewData["trimOptionTupleList"] = trimOptionTupleList;
             return View();
         }
-
+        /*
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> CreateOrder(CreateCarViewModel model)
         {
             ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
-            int customerId = customerRepository.GetCustomerId(applicationUser.Id);
+            int customerId = customerRepository.GetCustomerAppUserId(applicationUser.Id);
 
             var details = new Details 
             { 
@@ -102,7 +89,7 @@ namespace Car_Showroom.Controllers
             orderRepository.Add(order);
             return View();
         }
-
+        */
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

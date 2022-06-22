@@ -17,15 +17,18 @@ namespace Car_Showroom.Controllers
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IAddressRepository addressRepository;
         private readonly ICustomerRepository customerRepository;
-        public ApplicationUserController(UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager, IAddressRepository addressRepository,
-            ICustomerRepository customerRepository, RoleManager<IdentityRole> roleManager)
+        public ApplicationUserController(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole> roleManager,
+            IAddressRepository addressRepository,
+            ICustomerRepository customerRepository)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.roleManager = roleManager;
             this.addressRepository = addressRepository;
             this.customerRepository = customerRepository;
-            this.roleManager = roleManager;
         }
         [HttpGet]
         public IActionResult Login()
@@ -47,9 +50,14 @@ namespace Car_Showroom.Controllers
 
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
             }
-            return View(model);
+            return View();
         }
 
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
@@ -57,6 +65,7 @@ namespace Car_Showroom.Controllers
             {
                 var address = new Address();
                 addressRepository.Add(address);
+
                 var user = new ApplicationUser
                 {
                     Email = model.Email,
@@ -65,7 +74,9 @@ namespace Car_Showroom.Controllers
                     LastName = model.LastName,
                     AddressId = address.Id
                 };
+
                 var result = await userManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
                     var customer = new Customer
@@ -74,16 +85,13 @@ namespace Car_Showroom.Controllers
                         ApplicationUserId = user.Id
                     };
                     customerRepository.Add(customer);
+
                     await signInManager.SignInAsync(user, isPersistent: false);
 
                     var roleExists = await roleManager.RoleExistsAsync("Customer");
-
                     if (!roleExists)
                     {
-                        IdentityRole identityRole = new IdentityRole
-                        {
-                            Name = "Customer"
-                        };
+                        IdentityRole identityRole = new IdentityRole { Name = "Customer" };
                         await roleManager.CreateAsync(identityRole);
                     }
 
@@ -92,11 +100,6 @@ namespace Car_Showroom.Controllers
                 }
             }
             return View(model);
-        }
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
         }
 
         [HttpPost]
@@ -128,6 +131,7 @@ namespace Car_Showroom.Controllers
             }
             return View();
         }
+
         [HttpGet]
         public IActionResult ChangeEmail()
         {
@@ -160,9 +164,8 @@ namespace Car_Showroom.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangeData(ApplicationUser model)
         {
-            //@todo
             return View();
         }
-        
+
     }
 }

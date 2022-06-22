@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Add Option To Trim";
+}
+@model Car_Showroom.ViewModels.AddOptionToTrimViewModel;
+<div class="row justify-content-center mt-3">
+    <div class="col-md-5">
+        <div class="jumbotron shadow-lg p-3 mb-5 bg-white rounded">
+            <h1 class="text-center">Dodaj opcje do Wersji wyposażeniowej</h1><br />
+            <form method="post" class="form-group" asp-controller="Management" asp-action="AddOptionToTrim">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <div class="input-group-prepend">
+                                <select class="form-control" id="trimNameSelect" asp-for="TrimName">
+                                    @foreach(var trim in ViewBag.trimList)
+                                    {
+                                        <option value="@trim.Name">@trim.Name</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group-prepend">
+                                <input class="form-control" type="text" placeholder="Nazwa opcji" id="optionName" asp-for="OptionName"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group-prepend">
+                                <input class="form-control" type="text" placeholder="Opis opcji" id="optionDescription" asp-for="OptionDescription"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-content-center justify-content-center">
+                    <button type="submit" class="btn btn-primary">Dodaj opcję do wersji wyposażeniowej</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

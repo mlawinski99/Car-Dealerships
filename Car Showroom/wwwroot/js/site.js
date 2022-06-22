@@ -54,23 +54,17 @@ function engineTypeOptionChanged(option) {
     }
 }
 
-function generateLogin() {
+function generateLoginAndPassword() {
     var firstName = document.getElementById("firstName");
     var lastName = document.getElementById("lastName");
     var login = document.getElementById("login");
+    var password = document.getElementById("password");
     if (firstName.value && lastName.value)
         if (firstName.value.length >= 3 && lastName.value.length >= 3) {
             var randomNumber = Math.floor(Math.random() * (899)) + 100;
             login.value = firstName.value.substring(0, 3).toLowerCase() + lastName.value.substring(0, 3).toLowerCase() + randomNumber;
+            password.value = firstName.value.substring(0, 3) + lastName.value.substring(0, 3) + randomNumber;
     }
-}
-function generatePass() {
-    var pesel = document.getElementById("pesel").value;
-    var password = document.getElementById("password");
-    if (pesel.length == 11) {
-                password.value = pesel;
-    }
-    var x =""
 }
 
 function docReady(fn) {
