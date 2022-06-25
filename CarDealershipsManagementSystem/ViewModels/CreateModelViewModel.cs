@@ -1,5 +1,4 @@
-﻿using Car_Showroom.Models;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.DotNet.Scaffolding.Shared.Project;
 using System;
 using System.Collections.Generic;

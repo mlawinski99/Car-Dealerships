@@ -23,7 +23,7 @@ namespace CarDealershipsManagementSystem.Data
         public virtual DbSet<Equipment> Equipments { get; set; } = null!;
         public virtual DbSet<Model> Models { get; set; } = null!;
         public virtual DbSet<Option> Options { get; set; } = null!;
-        public virtual DbSet<Option> Orders { get; set; } = null!;
+        public virtual DbSet<Order> Orders { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

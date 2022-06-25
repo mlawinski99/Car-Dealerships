@@ -1,4 +1,4 @@
-﻿using Car_Showroom.Models;
+﻿using CarDealershipsManagementSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -62,9 +62,9 @@ namespace Car_Showroom.ViewModels
         public string CountryCode { get; set; }
 
         //EMPLOYEE FIELDS
-        public ContractType ContractType { get; set; }
+        public EmployeeContractTypes ContractType { get; set; }
         public DateTime? EmploymentDate { get; set; }
-        public JobPosition JobPosition { get; set; }
+        public EmployeeJobPositions JobPosition { get; set; }
         public double? Salary { get; set; }
         public int DealerId { get; set; }
 
