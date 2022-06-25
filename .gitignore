@@ -74,8 +74,3 @@ _[Ss]cripts
 *.nupkg
 *.ncrunchsolution
 *.dot[Cc]over
-######################
-# Custom #
-######################
-*.v2
-/.vs/Car Dealerships/v17/.futdcache.v1
