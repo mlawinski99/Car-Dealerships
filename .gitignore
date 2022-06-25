@@ -7,7 +7,6 @@
 *.config
 *.cache
 *.suo
-*.json
 *.props
 *.targets
 # Include dlls if they’re in the NuGet packages directory
