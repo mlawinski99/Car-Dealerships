@@ -1,3 +1,4 @@
+using Car_Showroom.DataAccess;
 using CarDealershipsManagementSystem.Data;
 using CarDealershipsManagementSystem.Models;
 using Microsoft.AspNetCore.Identity;
@@ -20,6 +21,16 @@ builder.Services.AddIdentity<ApplicationUser,IdentityRole>(options => options.Si
 
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddScoped<IAddressRepository, SQLAddressRepository>();
+builder.Services.AddScoped<ICarRepository, SQLCarRepository>();
+builder.Services.AddScoped<ICustomerRepository, SQLCustomerRepository>();
+builder.Services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
+builder.Services.AddScoped<IDealershipRepository, SQLDealershipRepository>();
+builder.Services.AddScoped<IEquipmentRepository, SQLEquipmentRepository>();
+builder.Services.AddScoped<IModelRepository, SQLModelRepository>();
+builder.Services.AddScoped<IEngineRepository, SQLEngineRepository>();
+builder.Services.AddScoped<IOptionRepository, SQLOptionRepository>();
+builder.Services.AddScoped<IOrderRepository, SQLOrderRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

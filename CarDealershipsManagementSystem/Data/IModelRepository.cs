@@ -11,7 +11,7 @@ namespace Car_Showroom.DataAccess
         Model Add(Model model);
         Model Update(Model modelUpdate);
         Model Delete(int id);
-        Task<Model> GetModel(int modelId);
+        Model GetModel(int modelId);
         List<Model> GetModelList();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CarDealershipsManagementSystem.Data;
 using CarDealershipsManagementSystem.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,9 +42,14 @@ namespace Car_Showroom.DataAccess
             return modelUpdate;
         }
 
-        public async Task<Model> GetModel(int modelId)
+        public Model GetModel(int modelId)
         {
-            var model = await dbContext.Models.FindAsync(modelId);
+            var model = dbContext.Models
+                .Where(m => m.ModelId == modelId)
+                .Include(m => m.Engines)
+                .Include(m => m.Equipments)
+                .ThenInclude(e => e.Options)
+                .FirstOrDefault();
             return model;
         }
         

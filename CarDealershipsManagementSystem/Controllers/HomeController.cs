@@ -4,43 +4,46 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Car_Showroom.DataAccess;
+
 namespace CarDealershipsManagementSystem.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly Data.ApplicationDbContext _context;
+        private readonly IModelRepository modelRepository;
 
         public HomeController(
             ILogger<HomeController> logger,
-            Data.ApplicationDbContext context
+            IModelRepository modelRepository
             )
         {
             _logger = logger;
-            _context = context;
+            this.modelRepository = modelRepository;
         }
 
         public IActionResult Index()
         {
-            ViewBag.modelList = _context.Models.ToList();
+            ViewBag.modelList = modelRepository.GetModelList();
             return View();
         }
 
         public IActionResult Details(int id)
         {
-            
-            Model? model = _context.Models
+
+            Model? model = modelRepository.GetModel(id);
+                /*_context.Models
                 .Where(m => m.ModelId == id)
                 .Include(m => m.Engines)
                 .Include(m => m.Equipments)
                 .ThenInclude(e => e.Options)
-                .FirstOrDefault();
+                .FirstOrDefault();*/
 
             List<Engine> engines = model.Engines.ToList();
 
             List<Equipment> equipments = model.Equipments.ToList();
 
-            
+        /*    
             List<Tuple<Equipment, List<Option>>> equipmentOptionTupleList = new List<Tuple<Equipment, List<Option>>>();
 
             foreach (var eq in equipments)
@@ -53,11 +56,13 @@ namespace CarDealershipsManagementSystem.Controllers
                 var optionList = equipment.Options.ToList();
                 equipmentOptionTupleList.Add(new Tuple<Equipment, List<Option>>(eq, optionList));
             }
-
+        */
             ViewBag.chosenModel = model;
             ViewBag.engineList = engines;
-            ViewBag.equipmentOptionTupleList = equipmentOptionTupleList;
-            
+            ViewBag.equipmentList = equipments;
+
+            //  ViewBag.equipmentOptionTupleList = equipmentOptionTupleList;
+
             return View();
         }
 
