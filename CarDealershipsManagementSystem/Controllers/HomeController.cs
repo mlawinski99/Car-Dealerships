@@ -33,12 +33,14 @@ namespace CarDealershipsManagementSystem.Controllers
                 .Where(m => m.ModelId == id)
                 .Include(m => m.Engines)
                 .Include(m => m.Equipments)
+                .ThenInclude(e => e.Options)
                 .FirstOrDefault();
 
             List<Engine> engines = model.Engines.ToList();
 
             List<Equipment> equipments = model.Equipments.ToList();
 
+            
             List<Tuple<Equipment, List<Option>>> equipmentOptionTupleList = new List<Tuple<Equipment, List<Option>>>();
 
             foreach (var eq in equipments)

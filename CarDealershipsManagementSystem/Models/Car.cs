@@ -24,6 +24,7 @@ namespace CarDealershipsManagementSystem.Models
         #region Fields
         public int CarId { get; set; }
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:0:yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? CarProductionYear { get; set; }
         public int? CarWeight { get; set; }
         public bool? CarUsed { get; set; }
