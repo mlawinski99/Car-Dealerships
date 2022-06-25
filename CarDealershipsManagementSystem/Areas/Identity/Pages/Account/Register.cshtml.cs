@@ -30,13 +30,15 @@ namespace CarDealershipsManagementSystem.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +46,7 @@ namespace CarDealershipsManagementSystem.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _roleManager = roleManager;
         }
 
         /// <summary>
@@ -121,6 +124,18 @@ namespace CarDealershipsManagementSystem.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    var customerRole = _roleManager.FindByNameAsync("Customer").Result;
+                    if(customerRole == null)
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole()
+                        {
+                            Name = "Customer"
+                        }) ;
+                        customerRole = _roleManager.FindByNameAsync("Customer").Result;
+                    }
+                    await _userManager.AddToRoleAsync(user, customerRole.Name);
+
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);

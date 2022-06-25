@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CarDealershipsManagementSystem.Models
 {
-    public partial class ApplicationUser : IdentityUser<int>
+    public partial class ApplicationUser : IdentityUser
     {
         #region Constructors
         public ApplicationUser()
@@ -19,12 +19,11 @@ namespace CarDealershipsManagementSystem.Models
         #endregion
 
         #region Fields
-        public int ApplicationUserId { get; set; }
-        public string? ApplicationUserFirstName { get; set; }
-        public string? ApplicationUserLastName { get; set; }
-        public string? ApplicationUserPesel { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? Pesel { get; set; }
         [DataType(DataType.Date)]
-        public DateTime? ApplicationUserBirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
         #endregion
 
         #region OneToOneRelationships
