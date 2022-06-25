@@ -1,0 +1,22 @@
+﻿@page
+@model PersonalDataModel2
+@{
+    ViewData["Title"] = "Dane Osobowe";
+    ViewData["ActivePage"] = ManageNavPages2.PersonalData;
+}
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-8">
+        <p>
+            <strong>Usunięcie danych osobowych usunie twoje konto.</strong>
+        </p>
+        <p>
+            <a id="delete" asp-page="DeletePersonalData" class="btn btn-danger">Usuń dane</a>
+        </p>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
