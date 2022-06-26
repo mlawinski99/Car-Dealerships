@@ -1,35 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Panel Administratora";
+    Layout = "~/Views/Admin/Dealerships/_Layout.cshtml";
 }
-
-<h1>Panel Administratora</h1>
-<hr />
-<div>
-    <div class="row">
-        <div class="col-md-2">
-            <ul class="nav nav-pills flex-column">
-                <li class="nav-item"><a class="nav-link" id="Models" href="/Admin/ModelList">Models</a></li>
-                <li class="nav-item"><a class="nav-link" id="Employees" href="/Admin/EmployeeList">Employees</a></li>
-                <li class="nav-item"><a class="nav-link active" id="Dealerships" href="/Admin/DealershipList">Dealerships</a></li>
-            </ul>
-        </div>
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-3">
-                    <ul class="nav nav-pills flex-column">
-                        <li class="nav-item"><a class="nav-link active" id="DealershipList" href="/Admin/DealershipList">Dealership List</a></li>
-                        <li class="nav-item"><a class="nav-link" id="AddNewDealership" href="/Admin/AddNewDealership">Add New Dealership</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-md-9">
-                    <form id="profile-form" method="post">
-                        Dealership List
-                    </form>
-                </div>
-                <div class="col-md-3"></div>
-            </div>
-        </div>
-        <div class="col-md-2"></div>
-    </div>
-</div>
+<form>
+    Dealership List
+</form>

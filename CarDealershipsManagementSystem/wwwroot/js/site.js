@@ -97,3 +97,16 @@ function selectEquipment(elementId) {
     var s = document.getElementById(elementId).style.backgroundColor = "green";
 
 }
+function setLinkActive(linkId) {
+    var listOfLinks = Array.from(document.getElementById(linkId).parentElement.parentElement.children) //list of links is {<li><a></a></li>,<li><a></a></li>,...}
+    listOfLinks.forEach(child => fun(child,linkId))
+}
+
+function fun(child,linkId) {
+    var link = child.children[0] //child is <li><a></a></li>, link is <a></a>
+    if (link.id == linkId) {
+        link.classList.add("active");
+    } else {
+        link.classList.remove("active");
+    }
+}

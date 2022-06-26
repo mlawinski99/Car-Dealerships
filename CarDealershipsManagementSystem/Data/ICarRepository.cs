@@ -8,7 +8,7 @@ namespace Car_Showroom.DataAccess
 {
     public interface ICarRepository
     {
-        public Task<Car> GetCar(int modelId);
+        public Car GetCar(int modelId);
         public Car Add(Car car);
     }
 }

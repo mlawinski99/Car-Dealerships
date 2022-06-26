@@ -21,7 +21,7 @@ namespace Car_Showroom.DataAccess
             dbContext.SaveChanges();
             return car;
         }
-        public async Task<Car> GetCar(int modelId)
+        public Car GetCar(int modelId)
         {
             var car = dbContext.Cars.Where(c => c.Model.ModelId == modelId).FirstOrDefault();
             return car;

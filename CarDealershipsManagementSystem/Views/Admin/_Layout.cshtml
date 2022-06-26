@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Panel Administratora";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+<h1>Panel Administratora</h1>
+<hr />
+<div>
+    <div class="row">
+        <div class="col-md-2">
+            <partial name="_AdminNav" />
+        </div>
+        <div class="col-md-8">
+            @RenderBody()
+        </div>
+        <div class="col-md-2">
+
+        </div>
+    </div>
+</div>

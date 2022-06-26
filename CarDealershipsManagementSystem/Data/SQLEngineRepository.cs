@@ -40,7 +40,7 @@ namespace Car_Showroom.DataAccess
             dbContext.SaveChanges();
             return engineUpdate;
         }
-        public async Task<List<Engine>> GetEngineList()
+        public List<Engine> GetEngineList()
         {
             var engineList = dbContext.Engines.ToList();
             return engineList;

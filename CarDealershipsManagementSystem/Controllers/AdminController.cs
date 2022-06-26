@@ -49,6 +49,7 @@ namespace CarDealershipsManagementSystem.Controllers
         {
             return View("Models/AddNewEquipment");
         }
+
         public IActionResult EmployeeList()
         {
             return View("Employees/EmployeeList");
@@ -57,6 +58,7 @@ namespace CarDealershipsManagementSystem.Controllers
         {
             return View("Employees/AddNewEmployee");
         }
+        
         public IActionResult DealershipList()
         {
             return View("Dealerships/DealershipList");

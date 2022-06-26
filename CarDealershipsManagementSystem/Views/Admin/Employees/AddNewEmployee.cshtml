@@ -1,35 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Panel Administratora";
+    Layout = "~/Views/Admin/Employees/_Layout.cshtml";
 }
-
-<h1>Panel Administratora</h1>
-<hr />
-<div>
-    <div class="row">
-        <div class="col-md-2">
-            <ul class="nav nav-pills flex-column">
-                <li class="nav-item"><a class="nav-link" id="Models" href="/Admin/ModelList">Models</a></li>
-                <li class="nav-item"><a class="nav-link active" id="Employees" href="/Admin/EmployeeList">Employees</a></li>
-                <li class="nav-item"><a class="nav-link" id="Dealerships" href="/Admin/DealershipList">Dealerships</a></li>
-            </ul>
-        </div>
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-3">
-                    <ul class="nav nav-pills flex-column">
-                        <li class="nav-item"><a class="nav-link" id="EmployeeList" href="/Admin/EmployeeList">EmployeeList</a></li>
-                        <li class="nav-item"><a class="nav-link active" id="AddNewEmployee" href="/Admin/AddNewEmployee">Add New Employee</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-md-9">
-                    <form id="profile-form" method="post">
-                        Add New Employee Form
-                    </form>
-                </div>
-                <div class="col-md-3"></div>
-            </div>
-        </div>
-        <div class="col-md-2"></div>
-    </div>
-</div>
+<form id="profile-form" method="post">
+    Add New Employee Form
+</form>
