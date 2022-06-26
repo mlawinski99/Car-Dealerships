@@ -113,7 +113,6 @@ namespace CarDealershipsManagementSystem.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
@@ -124,16 +123,11 @@ namespace CarDealershipsManagementSystem.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    var customerRole = _roleManager.FindByNameAsync("Customer").Result;
-                    if(customerRole == null)
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole()
-                        {
-                            Name = "Customer"
-                        }) ;
-                        customerRole = _roleManager.FindByNameAsync("Customer").Result;
-                    }
-                    await _userManager.AddToRoleAsync(user, customerRole.Name);
+                    CreateRoles();
+                    if(user.NormalizedEmail == "ADMIN@ADMIN.PL")
+                        await _userManager.AddToRoleAsync(user, "Administrator");
+                    else
+                        await _userManager.AddToRoleAsync(user, "Customer");
 
 
                     _logger.LogInformation("User created a new account with password.");
@@ -168,6 +162,22 @@ namespace CarDealershipsManagementSystem.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+
+        private async void CreateRoles()
+        {
+            String[] roleStrings = { "Administrator", "Manager", "Employee", "Customer" };
+            foreach(var roleString in roleStrings)
+            {
+                var role = _roleManager.FindByNameAsync(roleString).Result;
+                if (role == null)
+                {
+                    await _roleManager.CreateAsync(new IdentityRole()
+                    {
+                        Name = roleString
+                    });
+                }
+            }
         }
 
         private ApplicationUser CreateUser()

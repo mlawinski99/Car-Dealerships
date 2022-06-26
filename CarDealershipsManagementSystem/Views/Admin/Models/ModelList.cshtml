@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Panel Administratora";
+}
+
+<h1>Panel Administratora</h1>
+<hr />
+<div>
+    <div class="row">
+        <div class="col-md-2">
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item"><a class="nav-link active" id="Models" href="/Admin/ModelList">Models</a></li>
+                <li class="nav-item"><a class="nav-link" id="Employees" href="/Admin/EmployeeList">Employees</a></li>
+                <li class="nav-item"><a class="nav-link" id="Dealerships" href="/Admin/DealershipList">Dealerships</a></li>
+            </ul>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-3">
+                    <ul class="nav nav-pills flex-column">
+                        <li class="nav-item"><a class="nav-link active" id="ModelList" href="/Admin/ModelList">Model List</a></li>
+                        <li class="nav-item"><a class="nav-link" id="AddNewModel" href="/Admin/AddNewModel">Add New Model</a></li>
+                        <li class="nav-item"><a class="nav-link" id="AddNewEngine" href="/Admin/AddNewEngine">Add New Engine</a></li>
+                        <li class="nav-item"><a class="nav-link" id="AddNewEquipment" href="/Admin/AddNewEquipment">Add New Equipment</a></li>
+                        <li class="nav-item"><a class="nav-link" id="AddNewOption" href="/Admin/AddNewOption">Add New Option</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-9">
+                    <form id="profile-form" method="post">
+                        Model List
+                    </form>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
