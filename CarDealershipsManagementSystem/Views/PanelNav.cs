@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace CarDealershipsManagementSystem.Views.Admin
+namespace CarDealershipsManagementSystem.Views
 {
-    public static class AdminNav
+    public static class PanelNav
     {
         public static string? IsActive(ViewContext viewContext, string linkId)
         {

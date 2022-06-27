@@ -67,5 +67,13 @@ namespace CarDealershipsManagementSystem.Controllers
         {
             return View("Dealerships/AddNewDealership");
         }
+        public IActionResult CustomerList()
+        {
+            return View("Customers/CustomerList");
+        }
+        public IActionResult OrderList()
+        {
+            return View("Orders/OrderList");
+        }
     }
 }

@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Panel Pracownika";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+<h1>Panel Pracownika</h1>
+<hr />
+<div>
+    <div class="row">
+        <div class="col-md-2">
+            <partial name="_EmployeeNav" />
+        </div>
+        <div class="col-md-8">
+            @RenderBody()
+        </div>
+        <div class="col-md-2">
+
+        </div>
+    </div>
+</div>

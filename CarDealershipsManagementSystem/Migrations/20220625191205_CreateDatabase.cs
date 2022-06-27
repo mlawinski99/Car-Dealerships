@@ -620,6 +620,8 @@ namespace CarDealershipsManagementSystem.Migrations
                 name: "IX_OrderOption_OptionId",
                 table: "OrderOption",
                 column: "OptionId");
+
+            migrationBuilder.Sql(File.ReadAllText("FillDatabase.sql"));
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

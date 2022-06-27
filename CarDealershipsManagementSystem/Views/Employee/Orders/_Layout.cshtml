@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Panel Pracownika";
+    Layout = "/Views/Employee/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-3">
+        <partial name="Orders/_OrdersNav" />
+    </div>
+    <div class="col-md-9">
+        @RenderBody()
+    </div>
+    <div class="col-md-3"></div>
+</div>

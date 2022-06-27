@@ -60,6 +60,9 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "Admin",
     pattern: "{controller=Admin}/{action=Index}");
+app.MapControllerRoute(
+    name: "Manager",
+    pattern: "{controller=Manager}/{action=Index}");
 app.MapRazorPages();
 
 app.Run();

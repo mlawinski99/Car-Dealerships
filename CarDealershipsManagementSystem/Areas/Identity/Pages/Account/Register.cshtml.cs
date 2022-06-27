@@ -123,12 +123,15 @@ namespace CarDealershipsManagementSystem.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    CreateRoles();
+                    await CreateRoles();
                     if(user.NormalizedEmail == "ADMIN@ADMIN.PL")
                         await _userManager.AddToRoleAsync(user, "Administrator");
+                    else if(user.NormalizedEmail == "MANAGER@MANAGER.PL")
+                        await _userManager.AddToRoleAsync(user, "Manager");
+                    else if(user.NormalizedEmail == "EMPLOYEE@EMPLOYEE.PL")
+                        await _userManager.AddToRoleAsync(user, "Employee");
                     else
                         await _userManager.AddToRoleAsync(user, "Customer");
-
 
                     _logger.LogInformation("User created a new account with password.");
 
@@ -164,20 +167,22 @@ namespace CarDealershipsManagementSystem.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private async void CreateRoles()
+        private async Task<IdentityResult> CreateRoles()
         {
             String[] roleStrings = { "Administrator", "Manager", "Employee", "Customer" };
+            IdentityResult result = new();
             foreach(var roleString in roleStrings)
             {
                 var role = _roleManager.FindByNameAsync(roleString).Result;
                 if (role == null)
                 {
-                    await _roleManager.CreateAsync(new IdentityRole()
+                    result = await _roleManager.CreateAsync(new IdentityRole()
                     {
                         Name = roleString
                     });
                 }
             }
+            return result;
         }
 
         private ApplicationUser CreateUser()
