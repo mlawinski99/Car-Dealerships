@@ -10,6 +10,6 @@ namespace Car_Showroom.DataAccess
     {
         Order Add(Order order);
         Order Delete(int id);
-        List<Order> GetOrderList();
+        List<Order> GetOrderList(Employee employee);
     }
 }

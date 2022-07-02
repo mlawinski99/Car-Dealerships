@@ -1,8 +1,10 @@
 ﻿using CarDealershipsManagementSystem.Data;
 using CarDealershipsManagementSystem.Models;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Car_Showroom.DataAccess
@@ -30,9 +32,9 @@ namespace Car_Showroom.DataAccess
             }
             return order;
         }
-        public List<Order> GetOrderList()
+        public List<Order> GetOrderList(Employee employee)
         {
-            List<Order> orderList = dbContext.Orders.ToList();
+            List<Order> orderList = dbContext.Orders.Where(o => o.DealershipEmployee.Dealership == employee.Dealership).ToList();
             return orderList;
         }
     }
