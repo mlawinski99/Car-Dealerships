@@ -27,6 +27,12 @@ namespace CarDealershipsManagementSystem.Data
             return equipment;
         }
 
+        public List<Equipment> GetEquipmentList()
+        {
+            List<Equipment> equipmentList = dbContext.Equipments.ToList();
+            return equipmentList;
+        }
+
         public Equipment Update(Equipment equipmentUpdate)
         {
             var equipment = dbContext.Equipments.Attach(equipmentUpdate);

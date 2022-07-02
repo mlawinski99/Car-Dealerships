@@ -37,5 +37,10 @@ namespace Car_Showroom.DataAccess
             List<Order> orderList = dbContext.Orders.Where(o => o.DealershipEmployee.Dealership == employee.Dealership).ToList();
             return orderList;
         }
+        public List<Order> GetOrderList()
+        {
+            List<Order> orderList = dbContext.Orders.ToList();
+            return orderList;
+        }
     }
 }

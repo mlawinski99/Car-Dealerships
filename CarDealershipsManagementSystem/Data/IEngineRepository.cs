@@ -11,5 +11,6 @@ namespace Car_Showroom.DataAccess
         Engine Add(Engine engine);
         Engine Update(Engine engineUpdate);
         Engine Delete(int id);
+        List<Engine> GetEngineList();
     }
 }

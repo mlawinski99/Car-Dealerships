@@ -47,9 +47,12 @@ namespace CarDealershipsManagementSystem.Controllers
             return View();
         }
 
-        public IActionResult EmployeeList()
+        public async Task<IActionResult> EmployeeList()
         {
-            var employeeList = employeeRepository.GetEmployeeList();
+            ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
+            var manager = employeeRepository.GetEmployeeById(applicationUser.Id);
+            var employeeList = employeeRepository.GetEmployeeList(manager);
+
             ViewData["employeeList"] = employeeList;
             return View("Employees/EmployeeList");
         }
@@ -149,7 +152,13 @@ namespace CarDealershipsManagementSystem.Controllers
             ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
             var manager = employeeRepository.GetEmployeeById(applicationUser.Id);
             var orderList = orderRepository.GetOrderList(manager);
-            ViewData["orderList"] = orderList;
+            var orderListInDealership = new List<Order>();
+                foreach (var order in orderList)
+                {
+                    if (order.DealershipEmployee.Dealership == manager.Dealership)
+                        orderListInDealership.Add(order);
+                }
+            ViewData["orderList"] = orderListInDealership;
             return View("Orders/OrderList");
         }
     }

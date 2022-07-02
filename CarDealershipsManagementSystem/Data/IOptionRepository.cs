@@ -11,5 +11,6 @@ namespace Car_Showroom.DataAccess
         Option Add(Option option);
         Option Update(Option optionUpdate);
         Option Delete(int id);
+        List<Option> GetOptionList();
     }
 }

@@ -14,5 +14,6 @@ namespace Car_Showroom.DataAccess
         List<Employee> GetEmployeeList();
         int GetEmployeeId(string appUserId);
         Employee GetEmployeeById(string appUserId);
+        List<Employee> GetEmployeeList(Employee employee);
     }
 }

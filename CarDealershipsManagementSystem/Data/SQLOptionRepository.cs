@@ -37,5 +37,10 @@ namespace Car_Showroom.DataAccess
             dbContext.SaveChanges();
             return optionUpdate;
         }
+        public List<Option> GetOptionList()
+        {
+            var optionList = dbContext.Options.ToList();
+            return optionList;
+        }
     }
 }
