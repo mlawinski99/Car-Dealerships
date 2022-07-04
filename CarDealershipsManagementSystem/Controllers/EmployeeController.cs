@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using Car_Showroom.DataAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
@@ -48,7 +47,7 @@ namespace CarDealershipsManagementSystem.Controllers
         public async Task<IActionResult> CustomerList()
         {
             ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
-            var employee = employeeRepository.GetEmployeeById(applicationUser.Id);
+            var employee = employeeRepository.GetEmployeeByApplicationUserId(applicationUser.Id);
             var orderList = orderRepository.GetOrderList(employee);
             var customerList = customerRepository.GetCustomerList();
 
@@ -72,7 +71,7 @@ namespace CarDealershipsManagementSystem.Controllers
         {
 
             ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
-            var employee = employeeRepository.GetEmployeeById(applicationUser.Id);
+            var employee = employeeRepository.GetEmployeeByApplicationUserId(applicationUser.Id);
             var orderList = orderRepository.GetOrderList(employee);
             var orderListInDealership = new List<Order>();
             if (User.IsInRole("DealershipEmployee"))

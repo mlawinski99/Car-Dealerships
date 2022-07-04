@@ -1,11 +1,12 @@
 ﻿using CarDealershipsManagementSystem.Data;
 using CarDealershipsManagementSystem.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Car_Showroom.DataAccess
+namespace CarDealershipsManagementSystem.Data
 {
     public class SQLEmployeeRepository : IEmployeeRepository
     {
@@ -34,9 +35,13 @@ namespace Car_Showroom.DataAccess
             return employee;
         }
 
-        public Employee GetEmployeeById(string appUserId)
+        public Employee GetEmployeeByApplicationUserId(string appUserId)
         {
-            var employee = dbContext.Employees.Where(c => c.ApplicationUser.Id == appUserId).FirstOrDefault();
+            var employee = dbContext
+                .Employees
+                .Where(c => c.ApplicationUser.Id == appUserId)
+                .Include(e => e.Dealership)
+                .FirstOrDefault();
             return employee;
         }
 
@@ -53,9 +58,14 @@ namespace Car_Showroom.DataAccess
             return employeeList;
         }
 
-        public List<Employee> GetEmployeeList(Employee employee)
+        public List<Employee> GetEmployeeListForManager(Employee employee)
         {
-            var employeeList = dbContext.Employees.Where(e => e.Dealership == employee.Dealership).ToList();
+            var employeeList = dbContext.
+                Employees
+                .Where(e => e.Dealership == employee.Dealership)
+                .Where(e => e.EmployeeId != employee.EmployeeId)
+                .Include(e => e.ApplicationUser)
+                .ToList();
             return employeeList;
         }
 

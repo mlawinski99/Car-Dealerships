@@ -4,11 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using Car_Showroom.DataAccess;
 using Microsoft.AspNetCore.Authorization;
-using Car_Showroom.ViewModels;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using CarDealershipsManagementSystem.ViewModels;
 
 namespace CarDealershipsManagementSystem.Controllers
 {
@@ -71,7 +69,7 @@ namespace CarDealershipsManagementSystem.Controllers
         public IActionResult ModelList()
         {
             var modelList = modelRepository.GetModelList();
-            ViewData["modelList"] = modelList;
+            ViewBag.modelList = modelList;
             return View("Models/ModelList");
         }
 
@@ -80,8 +78,8 @@ namespace CarDealershipsManagementSystem.Controllers
         {
             List<Engine> engineList =  engineRepository.GetEngineList();
             List<Equipment> equipmentList =  equipmentRepository.GetEquipmentList();
-            ViewData["engineList"] = engineList;
-            ViewData["equipmentList"] = equipmentList;
+            ViewBag.engineList = engineList;
+            ViewBag.equipmentList = equipmentList;
             return View("Models/AddNewModel");
         }
         [HttpPost]
@@ -149,8 +147,8 @@ namespace CarDealershipsManagementSystem.Controllers
         {
             var equipmentList = equipmentRepository.GetEquipmentList();
             var optionList = optionRepository.GetOptionList();
-            ViewData["equipmentList"] = equipmentList;
-            ViewData["optionList"] = optionList;
+            ViewBag.equipmentList = equipmentList;
+            ViewBag.optionList = optionList;
             return View("Models/AddNewOption");
         }
         [HttpGet]
@@ -179,14 +177,14 @@ namespace CarDealershipsManagementSystem.Controllers
         public IActionResult EmployeeList()
         {
             var employeeList = employeeRepository.GetEmployeeList();
-            ViewData["employeeList"] = employeeList;
+            ViewBag.employeeList = employeeList;
             return View("Employees/EmployeeList");
         }
         [HttpGet]
         public IActionResult AddNewEmployee()
         {
             var dealershipList = dealershipRepository.GetDealershipList();
-            ViewData["dealershipList"] = dealershipList;
+            ViewBag.dealershipList = dealershipList;
             return View("Employees/AddNewEmployee");
         }
 
@@ -197,20 +195,20 @@ namespace CarDealershipsManagementSystem.Controllers
             {
                 var address = new Address
                 {
-                    AddressCountry = model.Country,
-                    AddressCountryCode = model.CountryCode,
-                    AddressDistrict = model.District,
-                    AddressStreet = model.Street,
-                    AddressApartmentNumber = model.ApartmentNumber,
-                    AddressPostalCode = model.PostalCode,
-                    AddressCity = model.City
+                    AddressCountry = model.AddressCountry,
+                    AddressCountryCode = model.AddressCountryCode,
+                    AddressDistrict = model.AddressDistrict,
+                    AddressStreet = model.AddressStreet,
+                    AddressApartmentNumber = model.AddressApartmentNumber,
+                    AddressPostalCode = model.AddressPostalCode,
+                    AddressCity = model.AddressCity
                 };
 
                 addressRepository.Add(address);
                 var user = new ApplicationUser
                 {
                     Email = model.Email,
-                    UserName = model.Login,
+                    UserName = model.Email,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     Address = address,
@@ -218,15 +216,19 @@ namespace CarDealershipsManagementSystem.Controllers
                     Pesel = model.Pesel,
                     BirthDate = model.BirthDate
                 };
-                var result = await userManager.CreateAsync(user, model.Password);
+                string Pass = string.Concat(model.FirstName.AsSpan(0, 4), model.LastName.AsSpan(0, 3), "!");
+                var result = await userManager.CreateAsync(user, Pass);
                 if (result.Succeeded)
                 {
+                    ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
+
                     var employee = new Employee
                     {
-                        EmployeeContractType = model.ContractType.ToString(),
-                        EmployeeStartDate = model.EmploymentDate,
-                        EmployeeJobPosition = model.JobPosition.ToString(),
-                        EmployeeSalary = model.Salary,
+                        EmployeeContractType = model.EmployeeContractType,
+                        EmployeeStartDate = model.EmployeeStartDate,
+                        EmployeeFinishDate = model.EmployeeFinishDate,
+                        EmployeeJobPosition = "MANAGER",
+                        EmployeeSalary = model.EmployeeSalary,
                         ApplicationUser = user,
                         Dealership = model.Dealership
                     };
@@ -237,22 +239,22 @@ namespace CarDealershipsManagementSystem.Controllers
                     {
                         IdentityRole identityRole = new IdentityRole
                         {
-                            Name = model.JobPosition.ToString()
+                            Name = model.EmployeeJobPosition
                         };
                         await roleManager.CreateAsync(identityRole);
                     }
-                    await userManager.AddToRoleAsync(user, employee.EmployeeJobPosition.ToString());
-                    return View(model);
+                    await userManager.AddToRoleAsync(user, employee.EmployeeJobPosition);
+                    return View("Employees/AddNewEmployee");
                 }
-                return View(model);
+                return View("Employees/AddNewEmployee");
             }
-            return View();
+            return View("Employees/AddNewEmployee");
         }
 
         public IActionResult DealershipList()
         {
             var dealershipList = dealershipRepository.GetDealershipList();
-            ViewData["dealershipList"] = dealershipList;
+            ViewBag.dealershipList = dealershipList;
             return View("Dealerships/DealershipList");
         }
 
@@ -287,13 +289,13 @@ namespace CarDealershipsManagementSystem.Controllers
         public IActionResult CustomerList()
         {
             var customerList = customerRepository.GetCustomerList();
-            ViewData["customerList"] = customerList;
+            ViewBag.customerList = customerList;
             return View("Customers/CustomerList");
         }
         public IActionResult OrderList()
         {
             var orderList = orderRepository.GetOrderList();
-            ViewData["orderList"] = orderList;
+            ViewBag.orderList = orderList;
             return View("Orders/OrderList");
         }
     }

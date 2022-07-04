@@ -7,7 +7,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Car_Showroom.DataAccess
+namespace CarDealershipsManagementSystem.Data
 {
     public class SQLOrderRepository : IOrderRepository
     {

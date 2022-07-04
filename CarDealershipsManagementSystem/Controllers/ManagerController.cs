@@ -1,14 +1,14 @@
 ﻿using CarDealershipsManagementSystem.Models;
+using CarDealershipsManagementSystem.ViewModels;
 using CarDealershipsManagementSystem.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using Car_Showroom.DataAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Car_Showroom.ViewModels;
 using System.Security.Claims;
+using System;
 
 namespace CarDealershipsManagementSystem.Controllers
 {
@@ -49,17 +49,17 @@ namespace CarDealershipsManagementSystem.Controllers
 
         public async Task<IActionResult> EmployeeList()
         {
-            ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
-            var manager = employeeRepository.GetEmployeeById(applicationUser.Id);
-            var employeeList = employeeRepository.GetEmployeeList(manager);
+            ApplicationUser managerApplicationUser = await userManager.GetUserAsync(HttpContext.User);
+            var manager = employeeRepository.GetEmployeeByApplicationUserId(managerApplicationUser.Id);
+            var employeeList = employeeRepository.GetEmployeeListForManager(manager);
 
-            ViewData["employeeList"] = employeeList;
+            ViewBag.employeeList = employeeList;
             return View("Employees/EmployeeList");
         }
         [HttpGet]
         public IActionResult AddNewEmployee()
         {
-
+            
             return View("Employees/AddNewEmployee");
         }
         [HttpPost]
@@ -70,20 +70,20 @@ namespace CarDealershipsManagementSystem.Controllers
             {
                 var address = new Address
                 {
-                    AddressCountry = model.Country,
-                    AddressCountryCode = model.CountryCode,
-                    AddressDistrict = model.District,
-                    AddressStreet = model.Street,
-                    AddressApartmentNumber = model.ApartmentNumber,
-                    AddressPostalCode = model.PostalCode,
-                    AddressCity = model.City
+                    AddressCountry = model.AddressCountry,
+                    AddressCountryCode = model.AddressCountryCode,
+                    AddressDistrict = model.AddressDistrict,
+                    AddressStreet = model.AddressStreet,
+                    AddressApartmentNumber = model.AddressApartmentNumber,
+                    AddressPostalCode = model.AddressPostalCode,
+                    AddressCity = model.AddressCity
                 };
 
                 addressRepository.Add(address);
                 var user = new ApplicationUser
                 {
                     Email = model.Email,
-                    UserName = model.Login,
+                    UserName = model.Email,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     Address = address,
@@ -91,18 +91,20 @@ namespace CarDealershipsManagementSystem.Controllers
                     Pesel = model.Pesel,
                     BirthDate = model.BirthDate
                 };
-                var result = await userManager.CreateAsync(user, model.Password);
+                string Pass = string.Concat(model.FirstName.AsSpan(0, 3), model.LastName.AsSpan(0, 3),model.Pesel.AsSpan(0,3), "!");
+                var result = await userManager.CreateAsync(user, Pass);
                 if (result.Succeeded)
                 {
                     ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
-                    var manager = employeeRepository.GetEmployeeById(applicationUser.Id);
+                    var manager = employeeRepository.GetEmployeeByApplicationUserId(applicationUser.Id);
 
                     var employee = new Employee
                     {
-                        EmployeeContractType = model.ContractType.ToString(),
-                        EmployeeStartDate = model.EmploymentDate,
-                        EmployeeJobPosition = model.JobPosition.ToString(),
-                        EmployeeSalary = model.Salary,
+                        EmployeeContractType = model.EmployeeContractType,
+                        EmployeeStartDate = model.EmployeeStartDate,
+                        EmployeeFinishDate = model.EmployeeFinishDate,
+                        EmployeeJobPosition = model.EmployeeJobPosition,
+                        EmployeeSalary = model.EmployeeSalary,
                         ApplicationUser = user,
                         Dealership = manager.Dealership
                     };
@@ -113,22 +115,25 @@ namespace CarDealershipsManagementSystem.Controllers
                     {
                         IdentityRole identityRole = new IdentityRole
                         {
-                            Name = model.JobPosition.ToString()
+                            Name = model.EmployeeJobPosition
                         };
                         await roleManager.CreateAsync(identityRole);
                     }
-                    await userManager.AddToRoleAsync(user, employee.EmployeeJobPosition.ToString());
-                    return View(model);
+                    await userManager.AddToRoleAsync(user, employee.EmployeeJobPosition);
+                    ViewBag.message = "Employee " + model.Email + " added successfully with password " + Pass;
+                    return View("Employees/AddNewEmployee");
                 }
-                return View(model);
+                ViewBag.message = "Something went wrong, employee not added";
+                return View("Employees/AddNewEmployee");
             }
-            return View();
+            ViewBag.message = "Something went wrong, employee not added";
+            return View("Employees/AddNewEmployee");
         }
 
         public async Task<IActionResult> CustomerList()
         {
             ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
-            var manager = employeeRepository.GetEmployeeById(applicationUser.Id);
+            var manager = employeeRepository.GetEmployeeByApplicationUserId(applicationUser.Id);
             var orderList = orderRepository.GetOrderList(manager);
             var customerList = customerRepository.GetCustomerList();
 
@@ -143,14 +148,14 @@ namespace CarDealershipsManagementSystem.Controllers
                 }
             }
             customersInDealership = customersInDealership.Distinct().ToList();
-            ViewData["customerList"] = customersInDealership;
+            ViewBag.customerList = customersInDealership;
             return View("Customers/CustomerList");
         }
 
         public async Task<IActionResult> OrderList()
         {
             ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
-            var manager = employeeRepository.GetEmployeeById(applicationUser.Id);
+            var manager = employeeRepository.GetEmployeeByApplicationUserId(applicationUser.Id);
             var orderList = orderRepository.GetOrderList(manager);
             var orderListInDealership = new List<Order>();
                 foreach (var order in orderList)
@@ -158,7 +163,7 @@ namespace CarDealershipsManagementSystem.Controllers
                     if (order.DealershipEmployee.Dealership == manager.Dealership)
                         orderListInDealership.Add(order);
                 }
-            ViewData["orderList"] = orderListInDealership;
+            ViewBag.orderList = orderListInDealership;
             return View("Orders/OrderList");
         }
     }

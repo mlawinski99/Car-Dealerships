@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using Car_Showroom.DataAccess;
 
 namespace CarDealershipsManagementSystem.Controllers
 {

@@ -31,6 +31,8 @@ namespace CarDealershipsManagementSystem.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly Data.IEmployeeRepository _employeeRepository;
+        private readonly Data.ICustomerRepository _customerRepository;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
@@ -38,7 +40,9 @@ namespace CarDealershipsManagementSystem.Areas.Identity.Pages.Account
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            Data.IEmployeeRepository employeeRepository,
+            Data.ICustomerRepository customerRepository)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -47,6 +51,8 @@ namespace CarDealershipsManagementSystem.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _roleManager = roleManager;
+            _employeeRepository = employeeRepository;
+            _customerRepository = customerRepository;
         }
 
         /// <summary>
@@ -123,15 +129,37 @@ namespace CarDealershipsManagementSystem.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    Employee employee = new Employee();
                     await CreateRoles();
-                    if(user.NormalizedEmail == "ADMIN@ADMIN.PL")
+                    if (user.NormalizedEmail == "ADMIN@ADMIN.PL")
+                    {
                         await _userManager.AddToRoleAsync(user, "Administrator");
-                    else if(user.NormalizedEmail == "MANAGER@MANAGER.PL")
+                        employee.EmployeeContractType = EmployeeContractTypes.UOP.ToString();
+                        employee.EmployeeJobPosition = EmployeeJobPositions.Admin.ToString();
+                        employee.EmployeeSalary = 10000;
+                        employee.EmployeeStartDate = DateTime.Now;
+                        employee.EmployeeFinishDate = DateTime.Now.AddYears(2);
+                        employee.ApplicationUser = user;
+                    }
+                    else if (user.NormalizedEmail == "MANAGER@MANAGER.PL")
+                    {
                         await _userManager.AddToRoleAsync(user, "Manager");
-                    else if(user.NormalizedEmail == "EMPLOYEE@EMPLOYEE.PL")
-                        await _userManager.AddToRoleAsync(user, "Employee");
+                        employee.EmployeeContractType = EmployeeContractTypes.UOP.ToString();
+                        employee.EmployeeJobPosition = EmployeeJobPositions.Manager.ToString();
+                        employee.EmployeeSalary = 5000;
+                        employee.EmployeeStartDate = DateTime.Now;
+                        employee.EmployeeFinishDate = DateTime.Now.AddYears(2);
+                        employee.ApplicationUser = user;
+                        _employeeRepository.Add(employee);
+                    }
                     else
+                    {
                         await _userManager.AddToRoleAsync(user, "Customer");
+                        Customer customer = new();
+                        customer.CustomerType = CustomerTypes.Normal.ToString();
+                        customer.ApplicationUser = user;
+                        _customerRepository.Add(customer);
+                    }
 
                     _logger.LogInformation("User created a new account with password.");
 
@@ -171,7 +199,7 @@ namespace CarDealershipsManagementSystem.Areas.Identity.Pages.Account
         {
             String[] roleStrings = { "Administrator", "Manager", "Employee", "Customer" };
             IdentityResult result = new();
-            foreach(var roleString in roleStrings)
+            foreach (var roleString in roleStrings)
             {
                 var role = _roleManager.FindByNameAsync(roleString).Result;
                 if (role == null)

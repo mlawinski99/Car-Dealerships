@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Car_Showroom.DataAccess
+namespace CarDealershipsManagementSystem.Data
 {
     public interface IEmployeeRepository
     {
@@ -13,7 +13,7 @@ namespace Car_Showroom.DataAccess
         Employee Delete(int id);
         List<Employee> GetEmployeeList();
         int GetEmployeeId(string appUserId);
-        Employee GetEmployeeById(string appUserId);
-        List<Employee> GetEmployeeList(Employee employee);
+        Employee GetEmployeeByApplicationUserId(string appUserId);
+        List<Employee> GetEmployeeListForManager(Employee employee);
     }
 }

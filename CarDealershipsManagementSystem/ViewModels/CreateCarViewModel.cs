@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Car_Showroom.ViewModels
+namespace CarDealershipsManagementSystem.ViewModels
 {
     public class CreateCarViewModel
     {
