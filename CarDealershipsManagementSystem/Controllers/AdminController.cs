@@ -61,48 +61,103 @@ namespace CarDealershipsManagementSystem.Controllers
             this.optionRepository = optionRepository;
         }
 
+        [HttpGet]
+        public IActionResult AddOptionsToEquipment()
+        {
+            ViewBag.equipmentList = equipmentRepository.GetEquipmentList();
+            ViewBag.optionList = optionRepository.GetOptionList();
+            return View("Models/AddOptionsToEquipment");
+        }
+        [HttpPost]
+        public IActionResult AddOptionsToEquipment(AddOptionsToEquipmentViewModel viewModel)
+        {
+            Equipment equipment = equipmentRepository.GetEquipmentById(int.Parse(viewModel.EquipmentId));
+            var optionList = equipment.Options;
+            foreach (var item in viewModel.OptionIdList)
+            {
+                Option option = optionRepository.GetOptionById(int.Parse(item));
+                if (!optionList.Contains(option))
+                    optionList.Add(option);
+            }
+            equipment.Options = optionList;
+            equipmentRepository.Update(equipment);
+
+            ViewBag.equipmentList = equipmentRepository.GetEquipmentList();
+            return View("Models/EquipmentList");
+        }
+        [HttpGet]
+        public IActionResult AddEnginesToModel()
+        {
+            ViewBag.engineList = engineRepository.GetEngineList();
+            ViewBag.modelList = modelRepository.GetModelList();
+            return View("Models/AddEnginesToModel");
+        }
+        [HttpPost]
+        public IActionResult AddEnginesToModel(AddEnginesToModelViewModel viewModel)
+        {
+            Model model = modelRepository.GetModelById(int.Parse(viewModel.ModelId));
+            var engineList = model.Engines;
+            foreach (var item in viewModel.EngineIdList)
+            {
+                Engine engine = engineRepository.GetEngineById(int.Parse(item));
+                if (!engineList.Contains(engine))
+                    engineList.Add(engine);
+            }
+            model.Engines = engineList;
+            modelRepository.Update(model);
+
+            ViewBag.modelList = modelRepository.GetModelList();
+            return View("Models/ModelList");
+        }
+        [HttpGet]
+        public IActionResult AddEquipmentsToModel()
+        {
+            ViewBag.equipmentList = equipmentRepository.GetEquipmentList();
+            ViewBag.modelList = modelRepository.GetModelList();
+            return View("Models/AddEquipmentsToModel");
+        }
+        [HttpPost]
+        public IActionResult AddEquipmentsToModel(AddEquipmentsToModelViewModel viewModel)
+        {
+            Model model = modelRepository.GetModelById(int.Parse(viewModel.ModelId));
+            var equipmentList = model.Equipments;
+            foreach (var item in viewModel.EquipmentIdList)
+            {
+                Equipment equipment = equipmentRepository.GetEquipmentById(int.Parse(item));
+                if (!equipmentList.Contains(equipment))
+                    equipmentList.Add(equipment);
+            }
+            model.Equipments = equipmentList;
+            modelRepository.Update(model);
+
+            ViewBag.modelList = modelRepository.GetModelList();
+            return View("Models/ModelList");
+        }
+
+        public IActionResult CustomerList()
+        {
+            var customerList = customerRepository.GetCustomerList();
+            ViewBag.customerList = customerList;
+            return View("Customers/CustomerList");
+        }
+        public IActionResult OrderList()
+        {
+            var orderList = orderRepository.GetOrderList();
+            ViewBag.orderList = orderList;
+            return View("Orders/OrderList");
+        }
+
+        #region Zrobione
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
-
-        public IActionResult ModelList()
-        {
-            var modelList = modelRepository.GetModelList();
-            ViewBag.modelList = modelList;
-            return View("Models/ModelList");
-        }
-
         [HttpGet]
-        public IActionResult AddNewModel()
+        public IActionResult EngineList()
         {
-            List<Engine> engineList =  engineRepository.GetEngineList();
-            List<Equipment> equipmentList =  equipmentRepository.GetEquipmentList();
-            ViewBag.engineList = engineList;
-            ViewBag.equipmentList = equipmentList;
-            return View("Models/AddNewModel");
-        }
-        [HttpPost]
-        public IActionResult AddNewModel(CreateModelViewModel mod)
-        {
-            string fileName = null;
-            if (mod.Image != null)
-            {
-                string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
-                fileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(mod.Image.FileName);
-                string filePath = Path.Combine(uploadsFolder, fileName);
-                mod.Image.CopyTo(new FileStream(filePath, FileMode.Create));
-            }
-            var model = new Model
-            {
-                ModelImagePath = fileName,
-                ModelName = mod.Name,
-                ModelType = mod.Type.ToString(),
-            };
-            modelRepository.Add(model);
-
-
-            return View("Models/AddNewModel");
+            ViewBag.engineList = engineRepository.GetEngineList();
+            return View("Models/EngineList");
         }
         [HttpGet]
         public IActionResult AddNewEngine()
@@ -110,20 +165,18 @@ namespace CarDealershipsManagementSystem.Controllers
             return View("Models/AddNewEngine");
         }
         [HttpPost]
-        public IActionResult AddNewEngine(Engine model)
+        public IActionResult AddNewEngine(Engine engine)
         {
-            var engine = new Engine
-            {
-                EngineType = model.EngineType,
-                EngineName = model.EngineName,
-                EnginePower = model.EnginePower,
-                EnginePrice = model.EnginePrice,
-                EngineDisplacement = model.EngineDisplacement,
-                EnigneFuelConsumption = model.EnigneFuelConsumption,
-                EnginePowerConsumption = model.EnginePowerConsumption,
-            };
             engineRepository.Add(engine);
-            return View("Models/AddNewEngine");
+            ViewBag.message = $"Silnik {engine.EngineName} dodany poprawnie";
+            ViewBag.engineList = engineRepository.GetEngineList();
+            return View("Models/EngineList");
+        }
+        [HttpGet]
+        public IActionResult OptionList()
+        {
+            ViewBag.optionList = optionRepository.GetOptionList();
+            return View("Models/OptionList");
         }
         [HttpGet]
         public IActionResult AddNewOption()
@@ -131,49 +184,87 @@ namespace CarDealershipsManagementSystem.Controllers
             return View("Models/AddNewOption");
         }
         [HttpPost]
-        public IActionResult AddNewOption(Option model)
+        public IActionResult AddNewOption(Option option)
         {
-            var option = new Option
-            {
-                OptionName = model.OptionDescription,
-                OptionDescription = model.OptionDescription,
-                OptionPrice = model.OptionPrice
-            };
             optionRepository.Add(option);
-            return View("Models/AddNewOption");
+            ViewBag.message = $"Opcja {option.OptionName} dodana poprawnie";
+            ViewBag.optionList = optionRepository.GetOptionList();
+            return View("Models/OptionList");
         }
         [HttpGet]
-        public IActionResult AddOptionToEquipment()
+        public IActionResult EquipmentList()
         {
-            var equipmentList = equipmentRepository.GetEquipmentList();
-            var optionList = optionRepository.GetOptionList();
-            ViewBag.equipmentList = equipmentList;
-            ViewBag.optionList = optionList;
-            return View("Models/AddNewOption");
-        }
-        [HttpGet]
-        public IActionResult AddOptionToEquipment(Option option, Equipment equipment)
-        {
-            equipment.Options.Add(option);
-            return View("Models/AddNewOption");
+            ViewBag.equipmentList = equipmentRepository.GetEquipmentList();
+            return View("Models/EquipmentList");
         }
         [HttpGet]
         public IActionResult AddNewEquipment()
         {
+            ViewBag.optionList = optionRepository.GetOptionList();
             return View("Models/AddNewEquipment");
         }
         [HttpPost]
-        public IActionResult AddNewEquipment(Equipment model)
+        public IActionResult AddNewEquipment(CreateEquipmentViewModel equipmentViewModel)
         {
-            var equipment = new Equipment
+            var OptionList = new List<Option>();
+            foreach (var item in equipmentViewModel.OptionIdList)
             {
-                EquipmentName = model.EquipmentName,
-                EquipmentPrice = model.EquipmentPrice
+                OptionList.Add(optionRepository.GetOptionById(int.Parse(item)));
+            }
+            Equipment equipment = new Equipment
+            {
+                EquipmentName = equipmentViewModel.EquipmentName,
+                EquipmentPrice = equipmentViewModel.EquipmentPrice,
+                Options = OptionList
             };
             equipmentRepository.Add(equipment);
-            return View();
+            ViewBag.message = $"Wersja wyposazeniowa {equipment.EquipmentName} dodana poprawnie.";
+            ViewBag.equipmentList = equipmentRepository.GetEquipmentList();
+            return View("Models/EquipmentList");
         }
+        [HttpGet]
+        public IActionResult ModelList()
+        {
+            ViewBag.modelList = modelRepository.GetModelList();
+            return View("Models/ModelList");
+        }
+        [HttpGet]
+        public IActionResult AddNewModel()
+        {
+            ViewBag.engineList = engineRepository.GetEngineList();
+            ViewBag.equipmentList = equipmentRepository.GetEquipmentList();
+            return View("Models/AddNewModel");
+        }
+        [HttpPost]
+        public IActionResult AddNewModel(CreateModelViewModel mod)
+        {
+            var EngineList = new List<Engine>();
+            foreach (var item in mod.EngineIdList)
+            {
+                EngineList.Add(engineRepository.GetEngineById(int.Parse(item)));
+            }
+            var EquipmentList = new List<Equipment>();
+            foreach (var item in mod.EquipmentIdList)
+            {
+                EquipmentList.Add(equipmentRepository.GetEquipmentById(int.Parse(item)));
+            }
 
+            var model = new Model
+            {
+                ModelImagePath = $"/images/{mod.ModelName}.png",
+                ModelName = mod.ModelName,
+                ModelType = mod.ModelType,
+                ModelPrice = mod.ModelPrice,
+                Engines = EngineList,
+                Equipments = EquipmentList
+            };
+            modelRepository.Add(model);
+
+            ViewBag.message = $"Model {mod.ModelName} dodany pomyślnie";
+            ViewBag.modelList = modelRepository.GetModelList();
+            return View("Models/ModelList");
+        }
+        [HttpGet]
         public IActionResult EmployeeList()
         {
             var employeeList = employeeRepository.GetEmployeeList().Where(e => e.Dealership != null);
@@ -243,7 +334,7 @@ namespace CarDealershipsManagementSystem.Controllers
                         await roleManager.CreateAsync(identityRole);
                     }
                     await userManager.AddToRoleAsync(user, employee.EmployeeJobPosition);
-                    ViewBag.message = "Manager " + model.Email + " added successfully with password " + Pass;
+                    ViewBag.message = "Manager " + model.Email + " dodany pomyślnie";
 
                     var employeeList = employeeRepository.GetEmployeeList();
                     ViewBag.employeeList = employeeList;
@@ -255,7 +346,7 @@ namespace CarDealershipsManagementSystem.Controllers
             ViewBag.message = "Something went wrong, Manager not added";
             return View("Employees/AddNewEmployee");
         }
-
+        [HttpGet]
         public IActionResult DealershipList()
         {
             var dealershipList = dealershipRepository.GetDealershipList();
@@ -295,17 +386,6 @@ namespace CarDealershipsManagementSystem.Controllers
             ViewBag.dealershipList = dealershipList;
             return View("Dealerships/DealershipList");
         }
-        public IActionResult CustomerList()
-        {
-            var customerList = customerRepository.GetCustomerList();
-            ViewBag.customerList = customerList;
-            return View("Customers/CustomerList");
-        }
-        public IActionResult OrderList()
-        {
-            var orderList = orderRepository.GetOrderList();
-            ViewBag.orderList = orderList;
-            return View("Orders/OrderList");
-        }
+        #endregion
     }
 }

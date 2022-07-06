@@ -11,7 +11,7 @@ namespace CarDealershipsManagementSystem.Data
         Model Add(Model model);
         Model Update(Model modelUpdate);
         Model Delete(int id);
-        Model GetModel(int modelId);
+        Model GetModelById(int modelId);
         List<Model> GetModelList();
     }
 }

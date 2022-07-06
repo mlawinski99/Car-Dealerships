@@ -3,6 +3,15 @@
     Layout = "~/Views/Admin/Models/_Layout.cshtml";
     ViewData["ActivePage"] = "Models/ModelList";
 }
-<form>
-    Model list
-</form>
+<ul class="list-group list-group-flush">
+    @foreach (Model m in @ViewBag.modelList)
+    {
+        <li class="list-group-item">
+            <div class="d-flex w-100">
+                <h5 class="mb-1">@m.ModelName</h5>
+            </div>
+            <p class="mb-1">@m.ModelType</p>
+            <img class="img-thumbnail" style="max-height:33%;max-width:33%;" src="@Url.Content(@m.ModelImagePath)">
+        </li>
+    }
+</ul>

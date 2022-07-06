@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Panel Administratora";
+    Layout = "~/Views/Admin/Models/_Layout.cshtml";
+    ViewData["ActivePage"] = "Models/EngineList";
+}
+<ul class="list-group list-group-flush">
+    @foreach (Engine m in @ViewBag.engineList)
+    {
+        <li class="list-group-item">
+            <div class="d-flex w-100">
+                <h5 class="mb-1">@m.EngineName</h5>
+            </div>
+            <p class="mb-1">@m.EngineType</p>
+            <p class="mb-1">Moc: @m.EnginePower</p>
+            <p class="mb-1">Zuzycie energii: @m.EnginePowerConsumption</p>
+            <p class="mb-1">Zuzycie paliwa: @m.EnigneFuelConsumption</p>
+            <p class="mb-1">Cena: @m.EnginePrice</p>
+        </li>
+    }
+</ul>

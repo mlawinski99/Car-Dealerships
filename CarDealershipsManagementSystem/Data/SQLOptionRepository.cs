@@ -42,5 +42,10 @@ namespace CarDealershipsManagementSystem.Data
             var optionList = dbContext.Options.ToList();
             return optionList;
         }
+
+        public Option GetOptionById(int optionId)
+        {
+            return dbContext.Options.Find(optionId);
+        }
     }
 }

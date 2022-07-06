@@ -45,5 +45,9 @@ namespace CarDealershipsManagementSystem.Data
             var engineList = dbContext.Engines.ToList();
             return engineList;
         }
+        public Engine GetEngineById(int engineId)
+        {
+            return dbContext.Engines.Find(engineId);
+        }
     }
 }

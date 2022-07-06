@@ -1,4 +1,5 @@
 ﻿using CarDealershipsManagementSystem.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarDealershipsManagementSystem.Data
 {
@@ -29,16 +30,26 @@ namespace CarDealershipsManagementSystem.Data
 
         public List<Equipment> GetEquipmentList()
         {
-            List<Equipment> equipmentList = dbContext.Equipments.ToList();
+            List<Equipment> equipmentList = dbContext
+                .Equipments
+                .Include(e => e.Options)
+                .ToList();
             return equipmentList;
         }
 
         public Equipment Update(Equipment equipmentUpdate)
         {
             var equipment = dbContext.Equipments.Attach(equipmentUpdate);
-            equipment.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            equipment.State = EntityState.Modified;
             dbContext.SaveChanges();
             return equipmentUpdate;
+        }
+        public Equipment GetEquipmentById(int equipmentId)
+        {
+            return dbContext.Equipments
+                .Where(m => m.EquipmentId == equipmentId)
+                .Include(e => e.Options)
+                .FirstOrDefault();
         }
     }
 }

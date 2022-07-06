@@ -42,7 +42,7 @@ namespace CarDealershipsManagementSystem.Data
             return modelUpdate;
         }
 
-        public Model GetModel(int modelId)
+        public Model GetModelById(int modelId)
         {
             var model = dbContext.Models
                 .Where(m => m.ModelId == modelId)

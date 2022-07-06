@@ -3,6 +3,50 @@
     Layout = "~/Views/Admin/Models/_Layout.cshtml";
     ViewData["ActivePage"] = "Models/AddNewModel";
 }
-<form>
-    Add New Model Form
+@model CarDealershipsManagementSystem.ViewModels.CreateModelViewModel
+<form asp-controller="Admin" asp-action="AddNewModel">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="ModelName" class="control-label"></label>
+        <input asp-for="ModelName" class="form-control" />
+        <span asp-validation-for="ModelName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ModelType" class="control-label"></label>
+        <select asp-for="ModelType" class="form-control">
+            @foreach (ModelTypes modelType in Enum.GetValues<ModelTypes>())
+            {
+                <option value="@modelType.ToString()">@modelType.ToString()</option>
+            }
+        </select>
+        <span asp-validation-for="ModelType" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ModelPrice" class="control-label"></label>
+        <input asp-for="ModelPrice" class="form-control" />
+        <span asp-validation-for="ModelPrice" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EngineIdList" class="control-label"></label>
+        <select asp-for="EngineIdList" class="form-control multi-select" multiple="multiple" >
+            @foreach (Engine engine in ViewBag.engineList)
+            {
+                <option value="@engine.EngineId.ToString()">@engine.EngineName</option>
+            }
+        </select>
+        <span asp-validation-for="EngineIdList" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EquipmentIdList" class="control-label"></label>
+        <select asp-for="EquipmentIdList" class="form-control multi-select" multiple="multiple" >
+            @foreach (Equipment equipment in ViewBag.equipmentList)
+            {
+                <option value="@equipment.EquipmentId.ToString()">@equipment.EquipmentName</option>
+            }
+        </select>
+        <span asp-validation-for="EquipmentIdList" class="text-danger"></span>
+    </div>
+    <div class="form-group mt-2">
+        <input type="submit" value="Dodaj Model" class="btn btn-primary" />
+    </div>
 </form>

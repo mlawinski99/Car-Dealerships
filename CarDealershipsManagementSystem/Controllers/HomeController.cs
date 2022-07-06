@@ -30,7 +30,7 @@ namespace CarDealershipsManagementSystem.Controllers
         public IActionResult Details(int id)
         {
 
-            Model? model = modelRepository.GetModel(id);
+            Model? model = modelRepository.GetModelById(id);
                 /*_context.Models
                 .Where(m => m.ModelId == id)
                 .Include(m => m.Engines)

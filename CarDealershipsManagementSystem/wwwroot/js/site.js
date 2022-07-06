@@ -25,7 +25,7 @@ function engineTypeOptionChanged(option) {
     var fuelConsumptionInput = document.getElementById("fuelConsumptionInput");
     var energyConsumptionInput = document.getElementById("energyConsumptionInput");
     switch (option.value) {
-        case "Benzyna":
+        case "Benzynowy":
         case "Diesel":
             energyConsumptionInput.classList.add("invisible");
             energyConsumptionInput.classList.add("d-none");

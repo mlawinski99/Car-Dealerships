@@ -8,5 +8,6 @@ namespace CarDealershipsManagementSystem.Data
         Equipment Update(Equipment equipmentUpdate);
         Equipment Delete(int id);
         List<Equipment> GetEquipmentList();
+        Equipment GetEquipmentById(int equipmentId);
     }
 }

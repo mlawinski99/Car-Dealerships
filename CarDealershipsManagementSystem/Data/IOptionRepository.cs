@@ -12,5 +12,6 @@ namespace CarDealershipsManagementSystem.Data
         Option Update(Option optionUpdate);
         Option Delete(int id);
         List<Option> GetOptionList();
+        Option GetOptionById(int optionId);
     }
 }

@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Panel Administratora";
+    Layout = "~/Views/Admin/Models/_Layout.cshtml";
+    ViewData["ActivePage"] = "Models/AddEquipmentsToModel";
+}
+@model CarDealershipsManagementSystem.ViewModels.AddEquipmentsToModelViewModel
+<form asp-controller="Admin" asp-action="AddEquipmentsToModel">
+    <div class="form-group">
+        <label asp-for="ModelId" class="control-label"></label>
+        <select asp-for="ModelId" class="form-control">
+            @foreach (Model m in ViewBag.modelList)
+            {
+                <option value="@m.ModelId.ToString()">@m.ModelName</option>
+            }
+        </select>
+        <span asp-validation-for="ModelId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EquipmentIdList" class="control-label"></label>
+        <select asp-for="EquipmentIdList" class="form-control multi-select" multiple="multiple" >
+            @foreach (Equipment equipment in ViewBag.equipmentList)
+            {
+                <option value="@equipment.EquipmentId.ToString()">@equipment.EquipmentName</option>
+            }
+        </select>
+        <span asp-validation-for="EquipmentIdList" class="text-danger"></span>
+    </div>
+    <div class="form-group mt-2">
+        <input type="submit" value="Dodaj Wersje Wyposazeniowe do Modelu" class="btn btn-primary" />
+    </div>
+</form>

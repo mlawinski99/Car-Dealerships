@@ -1,8 +1,52 @@
-﻿@{
+﻿@model CarDealershipsManagementSystem.Models.Engine
+@{
     ViewData["Title"] = "Panel Administratora";
     Layout = "~/Views/Admin/Models/_Layout.cshtml";
     ViewData["ActivePage"] = "Models/AddNewEngine";
 }
-<form>
-    Add New Engine Form
+<form asp-controller="Admin" asp-action="AddNewEngine">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="EngineName" class="control-label">Nazwa</label>
+        <input asp-for="EngineName" class="form-control" />
+        <span asp-validation-for="EngineName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EngineType" class="control-label">Typ</label>
+        <select asp-for="EngineType" class="form-control" onchange="engineTypeOptionChanged(this)">
+            @foreach (EngineTypes engineType in Enum.GetValues<EngineTypes>())
+            {
+                <option value="@engineType.ToString()">@engineType.ToString()</option>
+            }
+        </select>
+        <span asp-validation-for="EngineType" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EngineDisplacement" class="control-label">Pojemnosc (cm3)</label>
+        <input asp-for="EngineDisplacement" class="form-control" />
+        <span asp-validation-for="EngineDisplacement" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EnginePower" class="control-label">Moc (kW)</label>
+        <input asp-for="EnginePower" class="form-control" />
+        <span asp-validation-for="EnginePower" class="text-danger"></span>
+    </div>
+    <div class="form-group" id="fuelConsumptionInput">
+        <label asp-for="EnigneFuelConsumption" class="control-label">Zuzycie paliwa (l/100km)</label>
+        <input asp-for="EnigneFuelConsumption" class="form-control" />
+        <span asp-validation-for="EnigneFuelConsumption" class="text-danger"></span>
+    </div>
+    <div class="form-group" id="energyConsumptionInput">
+        <label asp-for="EnginePowerConsumption" class="control-label">Zuzycie energii (kWh/100km)</label>
+        <input asp-for="EnginePowerConsumption" class="form-control" />
+        <span asp-validation-for="EnginePowerConsumption" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EnginePrice" class="control-label">Cena</label>
+        <input asp-for="EnginePrice" class="form-control" />
+        <span asp-validation-for="EnginePrice" class="text-danger"></span>
+    </div>
+    <div class="form-group mt-2">
+        <input type="submit" value="Dodaj Silnik" class="btn btn-primary" />
+    </div>
 </form>

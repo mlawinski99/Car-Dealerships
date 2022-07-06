@@ -12,5 +12,6 @@ namespace CarDealershipsManagementSystem.Data
         Engine Update(Engine engineUpdate);
         Engine Delete(int id);
         List<Engine> GetEngineList();
+        Engine GetEngineById(int engineId);
     }
 }

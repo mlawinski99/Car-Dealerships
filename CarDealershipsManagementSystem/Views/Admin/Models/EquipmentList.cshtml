@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Panel Administratora";
+    Layout = "~/Views/Admin/Models/_Layout.cshtml";
+    ViewData["ActivePage"] = "Models/EquipmentList";
+}
+<ul class="list-group list-group-flush">
+    @foreach (Equipment m in @ViewBag.equipmentList)
+    {
+        <li class="list-group-item row flex-row">
+            <div class="col-6 flex-column">
+                <div class="d-flex w-100">
+                    <h5 class="mb-1">@m.EquipmentName</h5>
+                </div>
+                <p class="mb-1">@m.EquipmentPrice zl</p>
+            </div>
+            <div class="col-6 flex-column">
+                <ul>
+                    @foreach(Option o in m.Options)
+                    {
+                        <li>@o.OptionName</li>
+                    }
+                </ul>
+            </div>
+        </li>
+    }
+</ul>

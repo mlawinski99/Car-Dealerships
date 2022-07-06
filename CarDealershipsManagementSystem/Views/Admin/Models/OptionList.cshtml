@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Panel Administratora";
+    Layout = "~/Views/Admin/Models/_Layout.cshtml";
+    ViewData["ActivePage"] = "Models/OptionList";
+}
+<ul class="list-group list-group-flush">
+    @foreach (Option m in @ViewBag.optionList)
+    {
+        <li class="list-group-item">
+            <div class="d-flex w-100">
+                <h5 class="mb-1">@m.OptionName</h5>
+            </div>
+            <p class="mb-1">@m.OptionPrice zl</p>
+        </li>
+    }
+</ul>
