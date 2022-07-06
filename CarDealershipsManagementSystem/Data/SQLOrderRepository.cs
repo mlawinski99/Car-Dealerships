@@ -32,6 +32,16 @@ namespace CarDealershipsManagementSystem.Data
             }
             return order;
         }
+
+        public Order GetOrderById(int id)
+        {
+
+            var order = dbContext.Orders
+                .Where(o => o.OrderId == id).FirstOrDefault();
+
+            return order;
+        }
+
         public List<Order> GetOrderList(Employee employee)
         {
             List<Order> orderList = dbContext.Orders.Where(o => o.DealershipEmployee.Dealership == employee.Dealership).ToList();

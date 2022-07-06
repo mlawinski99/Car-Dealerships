@@ -44,14 +44,28 @@ namespace CarDealershipsManagementSystem.Controllers
         {
             return View();
         }
-        public IActionResult OrderList()
+        public async Task<IActionResult> OrderList()
         {
-            return View();
+            ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
+            var employee = employeeRepository.GetEmployeeByApplicationUserId(applicationUser.Id);
+            var orderList = orderRepository.GetOrderList(employee);
+            var orderListInDealership = new List<Order>();
+            if (User.IsInRole("DealershipEmployee"))
+            {
+                foreach (var order in orderList)
+                {
+                    if (order.DealershipEmployee.Dealership == employee.Dealership)
+                        orderListInDealership.Add(order);
+                }
+            }
+            ViewData["orderList"] = orderList;
+            return View("Orders/OrderList");
         }
         [HttpGet]
-        public IActionResult ManageOrder()
+        public IActionResult ManageOrder(int id)
         {
-            return View();
+            var order = orderRepository.GetOrderById(id);
+            return View(order);
         }
         [HttpPost]
         public IActionResult ManageOrder(DealershipEmployeeManageOrderViewModel viewModel)
