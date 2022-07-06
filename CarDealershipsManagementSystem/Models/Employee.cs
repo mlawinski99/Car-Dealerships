@@ -35,7 +35,7 @@ namespace CarDealershipsManagementSystem.Models
 
         #region OneToOneRelationships
         public virtual ApplicationUser ApplicationUser { get; set; }
-        public virtual Dealership Dealership { get; set; }
+        public virtual Dealership? Dealership { get; set; }
         #endregion
 
         #region OneToManyRelationships

@@ -54,7 +54,7 @@ namespace CarDealershipsManagementSystem.Data
 
         public List<Employee> GetEmployeeList()
         {
-            var employeeList = dbContext.Employees.ToList();
+            var employeeList = dbContext.Employees.Include(e => e.ApplicationUser).ToList();
             return employeeList;
         }
 

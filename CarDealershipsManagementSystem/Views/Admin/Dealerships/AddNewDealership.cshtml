@@ -3,6 +3,56 @@
     ViewData["ActivePage"] = "Dealerships/AddNewDealership";
     Layout = "~/Views/Admin/Dealerships/_Layout.cshtml";
 }
-<form>
-    Add New Dealership Form
+@model CarDealershipsManagementSystem.ViewModels.CreateDealershipViewModel
+<form asp-controller="Admin" asp-action="AddNewDealership">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AddressStreet" class="control-label"></label>
+        <input asp-for="AddressStreet" class="form-control" />
+        <span asp-validation-for="AddressStreet" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AddressApartmentNumber" class="control-label"></label>
+        <input asp-for="AddressApartmentNumber" class="form-control" />
+        <span asp-validation-for="AddressApartmentNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AddressPostalCode" class="control-label"></label>
+        <input asp-for="AddressPostalCode" class="form-control" />
+        <span asp-validation-for="AddressPostalCode" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AddressCity" class="control-label"></label>
+        <input asp-for="AddressCity" class="form-control" />
+        <span asp-validation-for="AddressCity" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AddressDistrict" class="control-label"></label>
+        <input asp-for="AddressDistrict" class="form-control" />
+        <span asp-validation-for="AddressDistrict" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AddressCountry" class="control-label"></label>
+        <input asp-for="AddressCountry" class="form-control" />
+        <span asp-validation-for="AddressCountry" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AddressCountryCode" class="control-label"></label>
+        <input asp-for="AddressCountryCode" class="form-control" />
+        <span asp-validation-for="AddressCountryCode" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="MaxCarsNumber" class="control-label"></label>
+        <input asp-for="MaxCarsNumber" class="form-control" />
+        <span asp-validation-for="MaxCarsNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group mt-2">
+        <input type="submit" value="Dodaj" class="btn btn-primary" />
+    </div>
 </form>

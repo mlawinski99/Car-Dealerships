@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarDealershipsManagementSystem.Data
 {
@@ -43,8 +44,13 @@ namespace CarDealershipsManagementSystem.Data
 
         public List<Dealership> GetDealershipList()
         {
-            var dealerList = dbContext.Dealerships.ToList();
+            var dealerList = dbContext.Dealerships.Include(d => d.Address).ToList();
             return dealerList;
+        }
+
+        public Dealership GetDealershipById(int dealershipId)
+        {
+            return dbContext.Dealerships.Find(dealershipId);
         }
     }
 }

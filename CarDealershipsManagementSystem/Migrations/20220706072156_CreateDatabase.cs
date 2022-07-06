@@ -372,7 +372,7 @@ namespace CarDealershipsManagementSystem.Migrations
                     EmployeeStartDate = table.Column<DateTime>(type: "datetime2", unicode: false, maxLength: 50, nullable: true),
                     EmployeeFinishDate = table.Column<DateTime>(type: "datetime2", unicode: false, maxLength: 50, nullable: true),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    DealershipId = table.Column<int>(type: "int", nullable: false)
+                    DealershipId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {

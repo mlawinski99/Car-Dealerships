@@ -129,27 +129,18 @@ namespace CarDealershipsManagementSystem.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    Employee employee = new Employee();
                     await CreateRoles();
                     if (user.NormalizedEmail == "ADMIN@ADMIN.PL")
                     {
                         await _userManager.AddToRoleAsync(user, "Administrator");
+                        Employee employee = new Employee();
                         employee.EmployeeContractType = EmployeeContractTypes.UOP.ToString();
                         employee.EmployeeJobPosition = EmployeeJobPositions.Admin.ToString();
                         employee.EmployeeSalary = 10000;
                         employee.EmployeeStartDate = DateTime.Now;
                         employee.EmployeeFinishDate = DateTime.Now.AddYears(2);
                         employee.ApplicationUser = user;
-                    }
-                    else if (user.NormalizedEmail == "MANAGER@MANAGER.PL")
-                    {
-                        await _userManager.AddToRoleAsync(user, "Manager");
-                        employee.EmployeeContractType = EmployeeContractTypes.UOP.ToString();
-                        employee.EmployeeJobPosition = EmployeeJobPositions.Manager.ToString();
-                        employee.EmployeeSalary = 5000;
-                        employee.EmployeeStartDate = DateTime.Now;
-                        employee.EmployeeFinishDate = DateTime.Now.AddYears(2);
-                        employee.ApplicationUser = user;
+                        employee.Dealership = null;
                         _employeeRepository.Add(employee);
                     }
                     else
@@ -197,7 +188,7 @@ namespace CarDealershipsManagementSystem.Areas.Identity.Pages.Account
 
         private async Task<IdentityResult> CreateRoles()
         {
-            String[] roleStrings = { "Administrator", "Manager", "Employee", "Customer" };
+            String[] roleStrings = { "Administrator", "Manager", "DealershipEmployee", "ServiceEmployee", "Customer" };
             IdentityResult result = new();
             foreach (var roleString in roleStrings)
             {

@@ -12,5 +12,6 @@ namespace CarDealershipsManagementSystem.Data
         Dealership Update(Dealership dealer);
         Dealership Delete(int id);
         List<Dealership> GetDealershipList();
+        Dealership GetDealershipById(int dealershipId);
     }
 }

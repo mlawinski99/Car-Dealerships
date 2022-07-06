@@ -271,7 +271,7 @@ namespace CarDealershipsManagementSystem.Migrations
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("DealershipId")
+                    b.Property<int?>("DealershipId")
                         .HasColumnType("int");
 
                     b.Property<string>("EmployeeContractType")
@@ -767,8 +767,7 @@ namespace CarDealershipsManagementSystem.Migrations
                     b.HasOne("CarDealershipsManagementSystem.Models.Dealership", "Dealership")
                         .WithMany("Employees")
                         .HasForeignKey("DealershipId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("ApplicationUser");
 

@@ -176,7 +176,7 @@ namespace CarDealershipsManagementSystem.Controllers
 
         public IActionResult EmployeeList()
         {
-            var employeeList = employeeRepository.GetEmployeeList();
+            var employeeList = employeeRepository.GetEmployeeList().Where(e => e.Dealership != null);
             ViewBag.employeeList = employeeList;
             return View("Employees/EmployeeList");
         }
@@ -187,7 +187,6 @@ namespace CarDealershipsManagementSystem.Controllers
             ViewBag.dealershipList = dealershipList;
             return View("Employees/AddNewEmployee");
         }
-
         [HttpPost]
         public async Task<IActionResult> AddNewEmployee(CreateEmployeeViewModel model)
         {
@@ -216,21 +215,21 @@ namespace CarDealershipsManagementSystem.Controllers
                     Pesel = model.Pesel,
                     BirthDate = model.BirthDate
                 };
-                string Pass = string.Concat(model.FirstName.AsSpan(0, 4), model.LastName.AsSpan(0, 3), "!");
+                string Pass = string.Concat(model.FirstName.AsSpan(0, 3), model.LastName.AsSpan(0, 3), model.Pesel.AsSpan(0, 3), "!");
                 var result = await userManager.CreateAsync(user, Pass);
                 if (result.Succeeded)
                 {
-                    ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
-
+                    int dealershipId = int.Parse(model.DealershipId);
+                    Dealership dealership = dealershipRepository.GetDealershipById(dealershipId);
                     var employee = new Employee
                     {
                         EmployeeContractType = model.EmployeeContractType,
                         EmployeeStartDate = model.EmployeeStartDate,
                         EmployeeFinishDate = model.EmployeeFinishDate,
-                        EmployeeJobPosition = "MANAGER",
+                        EmployeeJobPosition = model.EmployeeJobPosition,
                         EmployeeSalary = model.EmployeeSalary,
                         ApplicationUser = user,
-                        Dealership = model.Dealership
+                        Dealership = dealership
                     };
                     employeeRepository.Add(employee);
                     var roleExists = await roleManager.RoleExistsAsync(employee.EmployeeJobPosition);
@@ -244,10 +243,16 @@ namespace CarDealershipsManagementSystem.Controllers
                         await roleManager.CreateAsync(identityRole);
                     }
                     await userManager.AddToRoleAsync(user, employee.EmployeeJobPosition);
-                    return View("Employees/AddNewEmployee");
+                    ViewBag.message = "Manager " + model.Email + " added successfully with password " + Pass;
+
+                    var employeeList = employeeRepository.GetEmployeeList();
+                    ViewBag.employeeList = employeeList;
+                    return View("Employees/EmployeeList");
                 }
+                ViewBag.message = "Something went wrong, Manager not added";
                 return View("Employees/AddNewEmployee");
             }
+            ViewBag.message = "Something went wrong, Manager not added";
             return View("Employees/AddNewEmployee");
         }
 
@@ -257,24 +262,24 @@ namespace CarDealershipsManagementSystem.Controllers
             ViewBag.dealershipList = dealershipList;
             return View("Dealerships/DealershipList");
         }
-
         [HttpGet]
         public IActionResult AddNewDealership()
         {
+
             return View("Dealerships/AddNewDealership");
         }
         [HttpPost]
-        public IActionResult AddNewDealership(CreateDealerViewModel model)
+        public IActionResult AddNewDealership(CreateDealershipViewModel model)
         {
             var address = new Address
             {
-                AddressCountry = model.Country,
-                AddressCountryCode = model.CountryCode,
-                AddressDistrict = model.District,
-                AddressStreet = model.Street,
-                AddressApartmentNumber = model.ApartmentNumber,
-                AddressPostalCode = model.PostalCode,
-                AddressCity = model.City
+                AddressCountry = model.AddressCountry,
+                AddressCountryCode = model.AddressCountryCode,
+                AddressDistrict = model.AddressDistrict,
+                AddressStreet = model.AddressStreet,
+                AddressApartmentNumber = model.AddressApartmentNumber,
+                AddressPostalCode = model.AddressPostalCode,
+                AddressCity = model.AddressCity
             };
             addressRepository.Add(address);
             var dealer = new Dealership
@@ -283,8 +288,12 @@ namespace CarDealershipsManagementSystem.Controllers
                 DealershipName = model.Name,
                 DealershipMaxCarsNumber = model.MaxCarsNumber
             };
-            dealershipRepository.Add(dealer);
-            return View();
+            dealershipRepository.Add(dealer); 
+            ViewBag.message = "Salon " + model.Name + " dodany poprawnie.";
+
+            var dealershipList = dealershipRepository.GetDealershipList();
+            ViewBag.dealershipList = dealershipList;
+            return View("Dealerships/DealershipList");
         }
         public IActionResult CustomerList()
         {

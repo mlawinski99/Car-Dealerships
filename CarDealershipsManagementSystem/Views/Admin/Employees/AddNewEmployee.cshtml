@@ -3,6 +3,117 @@
     Layout = "~/Views/Admin/Employees/_Layout.cshtml";
     ViewData["ActivePage"] = "Employees/AddNewEmployee";
 }
-<form>
-    Add New Employee Form
+@model CarDealershipsManagementSystem.ViewModels.CreateEmployeeViewModel
+<form asp-controller="Admin" asp-action="AddNewEmployee">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="FirstName" class="control-label"></label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName" class="control-label"></label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Pesel" class="control-label"></label>
+        <input asp-for="Pesel" class="form-control" />
+        <span asp-validation-for="Pesel" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PhoneNumber" class="control-label"></label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="BirthDate" class="control-label"></label>
+        <input asp-for="BirthDate" class="form-control" />
+        <span asp-validation-for="BirthDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AddressStreet" class="control-label"></label>
+        <input asp-for="AddressStreet" class="form-control" />
+        <span asp-validation-for="AddressStreet" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AddressApartmentNumber" class="control-label"></label>
+        <input asp-for="AddressApartmentNumber" class="form-control" />
+        <span asp-validation-for="AddressApartmentNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AddressPostalCode" class="control-label"></label>
+        <input asp-for="AddressPostalCode" class="form-control" />
+        <span asp-validation-for="AddressPostalCode" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AddressCity" class="control-label"></label>
+        <input asp-for="AddressCity" class="form-control" />
+        <span asp-validation-for="AddressCity" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AddressDistrict" class="control-label"></label>
+        <input asp-for="AddressDistrict" class="form-control" />
+        <span asp-validation-for="AddressDistrict" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AddressCountry" class="control-label"></label>
+        <input asp-for="AddressCountry" class="form-control" />
+        <span asp-validation-for="AddressCountry" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AddressCountryCode" class="control-label"></label>
+        <input asp-for="AddressCountryCode" class="form-control" />
+        <span asp-validation-for="AddressCountryCode" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EmployeeContractType" class="control-label"></label>
+        <select asp-for="EmployeeContractType" class="form-control">
+            @foreach (EmployeeContractTypes contractType in Enum.GetValues<EmployeeContractTypes>())
+            {
+                <option value="@contractType.ToString()">@contractType.ToString()</option>
+            }
+        </select>
+        <span asp-validation-for="EmployeeContractType" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EmployeeJobPosition" class="control-label"></label>
+        <select asp-for="EmployeeJobPosition" class="form-control">
+                <option value="@EmployeeJobPositions.Manager.ToString()">Manager</option>
+        </select>
+        <span asp-validation-for="EmployeeJobPosition" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EmployeeSalary" class="control-label"></label>
+        <input asp-for="EmployeeSalary" class="form-control" />
+        <span asp-validation-for="EmployeeSalary" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EmployeeStartDate" class="control-label"></label>
+        <input asp-for="EmployeeStartDate" class="form-control" />
+        <span asp-validation-for="EmployeeStartDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EmployeeFinishDate" class="control-label"></label>
+        <input asp-for="EmployeeFinishDate" class="form-control" />
+        <span asp-validation-for="EmployeeFinishDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="DealershipId" class="control-label"></label>
+        <select asp-for="DealershipId" class="form-control">
+            @foreach (Dealership dealership in ViewBag.dealershipList)
+            {
+                <option value="@dealership.DealershipId.ToString()">@dealership.DealershipName</option>
+            }
+        </select>
+        <span asp-validation-for="DealershipId" class="text-danger"></span>
+    </div>
+    <div class="form-group mt-2">
+        <input type="submit" value="Zatrudnij" class="btn btn-primary" />
+    </div>
 </form>

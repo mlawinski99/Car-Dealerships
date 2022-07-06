@@ -57,6 +57,9 @@ namespace CarDealershipsManagementSystem.ViewModels
         public DateTime? EmployeeFinishDate { get; set; }
         #endregion
 
-        public Dealership? Dealership;
+        #region IfManager
+        [Display(Name = "Salon")]
+        public string? DealershipId { get; set; }
+        #endregion
     }
 }
