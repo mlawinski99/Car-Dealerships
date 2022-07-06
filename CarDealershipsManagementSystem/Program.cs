@@ -63,11 +63,8 @@ app.MapControllerRoute(
     name: "Manager",
     pattern: "{controller=Manager}/{action=Index}");
 app.MapControllerRoute(
-    name: "DealershipEmployee",
-    pattern: "{controller=DealershipEmployee}/{action=Index}");
-app.MapControllerRoute(
-    name: "ServiceEmployee",
-    pattern: "{controller=ServiceEmployee}/{action=Index}");
+    name: "Employee",
+    pattern: "{controller=Employee}/{action=Index}");
 app.MapRazorPages();
 
 app.Run();

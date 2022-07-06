@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Panel Pracownika";
+    Layout = "~/Views/Employee/_Layout.cshtml";
+    ViewData["ActivePage"] = "OrderList";
+}
+@model Order
+<div>
+    <h4>Twoje Zamówienia</h4>
+    <hr />
+    <ul class="list-group">
+        @foreach (Order order in @ViewBag.orderList)
+        {
+            <li class="list-group-item my-1">
+                <dl class="row">
+                    <dt class="col-sm-3">
+                        Id
+                    </dt>
+                    <dd class="col-sm-3">
+                        @order.OrderId
+                    </dd>
+                    <dt class="col-sm-3">
+                        Status
+                    </dt>
+                    <dd class="col-sm-3">
+                        @order.OrderStatus
+                    </dd>
+                    <dt class="col-sm-3">
+                        Platnosc
+                    </dt>
+                    <dd class="col-sm-3">
+                        @order.OrderPaymentType
+                    </dd>
+                    <dt class="col-sm-3">
+                        Dostawa
+                    </dt>
+                    <dd class="col-sm-3">
+                        @order.OrderShipmentType
+                    </dd>
+                    <dt class="col-sm-3">
+                        Data zlozenia
+                    </dt>
+                    <dd class="col-sm-3">
+                        @order.OrderSubmissionDate
+                    </dd>
+                    <dt class="col-sm-3">
+                        Data finalizacji
+                    </dt>
+                    <dd class="col-sm-3">
+                        @order.OrderFinalizationDate
+                    </dd>
+                    <dt class="col-sm-3">
+                        Cena
+                    </dt>
+                    <dd class="col-sm-3">
+                        @order.OrderPrice
+                    </dd>
+                    <dt class="col-sm-3">
+                        Znizka
+                    </dt>
+                    <dd class="col-sm-3">
+                        @order.OrderDiscount
+                    </dd>
+                </dl>
+                <div>
+                    <a asp-action="Edit" asp-route-id="@Model?.OrderId">Edytuj</a>
+                </div>
+            </li>
+        }
+    </ul>
+</div>

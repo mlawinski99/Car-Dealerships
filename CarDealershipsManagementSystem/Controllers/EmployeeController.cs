@@ -10,8 +10,8 @@ using CarDealershipsManagementSystem.ViewModels;
 
 namespace CarDealershipsManagementSystem.Controllers
 {
-    [Authorize(Roles = "Administrator, Manager, ServiceEmployee")]
-    public class ServiceEmployeeController : Controller
+    [Authorize(Roles = "Administrator, Manager, DealershipEmployee, ServiceEmployee")]
+    public class EmployeeController : Controller
     {
         UserManager<ApplicationUser> userManager;
         RoleManager<IdentityRole> roleManager;
@@ -21,7 +21,7 @@ namespace CarDealershipsManagementSystem.Controllers
         private readonly IOrderRepository orderRepository;
         private readonly IAddressRepository addressRepository;
 
-        public ServiceEmployeeController(
+        public EmployeeController(
              ILogger<HomeController> logger,
             UserManager<ApplicationUser> userManager,
              IEmployeeRepository employeeRepository,
@@ -44,33 +44,30 @@ namespace CarDealershipsManagementSystem.Controllers
         {
             return View();
         }
+        [HttpGet]
         public async Task<IActionResult> OrderList()
         {
             ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
             var employee = employeeRepository.GetEmployeeByApplicationUserId(applicationUser.Id);
-            var orderList = orderRepository.GetOrderList(employee);
-            var orderListInDealership = new List<Order>();
-            if (User.IsInRole("ServiceEmployee"))
-            {
-                foreach (var order in orderList)
-                {
-                    if (order.ServiceEmployee.Dealership == employee.Dealership)
-                        orderListInDealership.Add(order);
-                }
-            }
-            ViewData["orderList"] = orderList;
-            return View("Orders/OrderList");
+
+            if (User.IsInRole("DealershipEmployee"))
+                ViewBag.orderList = orderRepository.GetOrdersForDealershipEmployee(employee);
+            else if (User.IsInRole("ServiceEmployee"))
+                ViewBag.orderList = orderRepository.GetOrdersForServiceEmployee(employee);
+            return View();
         }
+
         [HttpGet]
-        public IActionResult ManageOrder(int id)
+        public IActionResult NewOrder()
         {
-            var order = orderRepository.GetOrderById(id);
-            return View(order);
+
+            return View();
         }
         [HttpPost]
-        public IActionResult ManageOrder(ServiceEmployeeManageOrderViewModel viewModel)
+        public IActionResult NewOrder(CreateOrderViewModel viewModel)
         {
             return View();
         }
+
     }
 }

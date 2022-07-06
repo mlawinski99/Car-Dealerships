@@ -1,6 +1,7 @@
 ﻿using CarDealershipsManagementSystem.Data;
 using CarDealershipsManagementSystem.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,6 +52,32 @@ namespace CarDealershipsManagementSystem.Data
         {
             List<Order> orderList = dbContext.Orders.ToList();
             return orderList;
+        }
+
+        public List<Order> GetOrdersForDealershipEmployee(Employee employee)
+        {
+            return dbContext
+                .Orders
+                .Include(o => o.Customer)
+                .Include(o => o.DealershipEmployee)
+                .Include(o => o.ServiceEmployee)
+                .Include(o => o.Cars)
+                .Include(o => o.Options)
+                .Where(o => o.DealershipEmployee == employee)
+                .ToList();
+        }
+
+        public List<Order> GetOrdersForServiceEmployee(Employee employee)
+        {
+            return dbContext
+                .Orders
+                .Include(o => o.Customer)
+                .Include(o => o.DealershipEmployee)
+                .Include(o => o.ServiceEmployee)
+                .Include(o => o.Cars)
+                .Include(o => o.Options)
+                .Where(o => o.ServiceEmployee == employee)
+                .ToList();
         }
     }
 }

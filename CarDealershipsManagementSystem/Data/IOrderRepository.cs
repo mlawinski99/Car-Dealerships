@@ -13,5 +13,7 @@ namespace CarDealershipsManagementSystem.Data
         Order GetOrderById(int id);
         List<Order> GetOrderList(Employee employee);
         List<Order> GetOrderList();
+        List<Order> GetOrdersForDealershipEmployee(Employee employee);
+        List<Order> GetOrdersForServiceEmployee(Employee employee);
     }
 }

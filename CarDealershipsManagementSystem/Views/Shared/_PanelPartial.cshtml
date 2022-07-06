@@ -15,16 +15,10 @@ else if (User.IsInRole("Manager"))
         <a class="nav-link text-dark" asp-action="Index" asp-controller="Manager">Panel Managera</a>
     </li>
 }
-else if (User.IsInRole("ServiceEmployee"))
+else if (User.IsInRole("ServiceEmployee")||User.IsInRole("DealershipEmployee"))
 {
      <li class="nav-item">
-        <a class="nav-link text-dark" asp-action="Index" asp-controller="ServiceEmployee">Panel Pracownika</a>
-    </li>   
-}
-else if (User.IsInRole("DealershipEmployee"))
-{
-     <li class="nav-item">
-        <a class="nav-link text-dark" asp-action="Index" asp-controller="DealershipEmployee">Panel Pracownika</a>
+        <a class="nav-link text-dark" asp-action="Index" asp-controller="Employee">Panel Pracownika</a>
     </li>   
 }
 </ul>

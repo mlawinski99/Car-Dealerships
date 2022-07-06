@@ -41,6 +41,8 @@ namespace CarDealershipsManagementSystem.Data
                 .Employees
                 .Where(c => c.ApplicationUser.Id == appUserId)
                 .Include(e => e.Dealership)
+                .Include(e => e.DealershipOrders)
+                .Include(e => e.ServiceOrders)
                 .FirstOrDefault();
             return employee;
         }

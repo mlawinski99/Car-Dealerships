@@ -7,7 +7,7 @@ namespace CarDealershipsManagementSystem.Models
 {
     public enum OrderShipmentTypes
     {
-        a,
-        b
+        OdbiorWSalonie,
+        DostawaZewnetrzna
     }
 }

@@ -7,7 +7,7 @@ namespace CarDealershipsManagementSystem.Models
 {
     public enum OrderPaymentTypes
     {
-        Cash,
-        Card
+        Karta,
+        Przelew
     }
 }

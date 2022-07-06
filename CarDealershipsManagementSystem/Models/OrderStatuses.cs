@@ -7,12 +7,12 @@ namespace CarDealershipsManagementSystem.Models
 {
     public enum OrderStatuses
     {
-        New,
-        Accepted,
-        InService,
-        AfterService,
-        Ready,
-        Sent,
-        Received
+        Nowe,
+        Zaakceptowane,
+        WSerwisie,
+        PoSerwisie,
+        Gotowe,
+        Wyslane,
+        Dotarlo
     }
 }
