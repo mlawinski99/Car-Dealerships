@@ -121,6 +121,7 @@ namespace CarDealershipsManagementSystem.Controllers
                     }
                     await userManager.AddToRoleAsync(user, employee.EmployeeJobPosition);
                     ViewBag.message = "Employee " + model.Email + " added successfully with password " + Pass;
+                    ViewBag.employeeList = employeeRepository.GetEmployeeListForManager(manager);
                     return View("Employees/EmployeeList");
                 }
                 ViewBag.message = "Something went wrong, employee not added";

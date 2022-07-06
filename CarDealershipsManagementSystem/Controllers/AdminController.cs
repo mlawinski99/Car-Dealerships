@@ -61,6 +61,21 @@ namespace CarDealershipsManagementSystem.Controllers
             this.optionRepository = optionRepository;
         }
 
+
+        //TODO
+        public IActionResult CustomerList()
+        {
+            var customerList = customerRepository.GetCustomerList();
+            ViewBag.customerList = customerList;
+            return View("Customers/CustomerList");
+        }
+        public IActionResult OrderList()
+        {
+            var orderList = orderRepository.GetOrderList();
+            ViewBag.orderList = orderList;
+            return View("Orders/OrderList");
+        }
+
         [HttpGet]
         public IActionResult AddOptionsToEquipment()
         {
@@ -133,21 +148,6 @@ namespace CarDealershipsManagementSystem.Controllers
             ViewBag.modelList = modelRepository.GetModelList();
             return View("Models/ModelList");
         }
-
-        public IActionResult CustomerList()
-        {
-            var customerList = customerRepository.GetCustomerList();
-            ViewBag.customerList = customerList;
-            return View("Customers/CustomerList");
-        }
-        public IActionResult OrderList()
-        {
-            var orderList = orderRepository.GetOrderList();
-            ViewBag.orderList = orderList;
-            return View("Orders/OrderList");
-        }
-
-        #region Zrobione
         [HttpGet]
         public IActionResult Index()
         {
@@ -386,6 +386,5 @@ namespace CarDealershipsManagementSystem.Controllers
             ViewBag.dealershipList = dealershipList;
             return View("Dealerships/DealershipList");
         }
-        #endregion
     }
 }
