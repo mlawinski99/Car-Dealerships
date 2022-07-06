@@ -33,6 +33,15 @@ namespace CarDealershipsManagementSystem.Data
             return customer;
         }
 
+        public Customer GetCustomerByAppUserId(string appUserId)
+        {
+            var customer = dbContext
+                .Customers
+                .Where(c => c.ApplicationUser.Id == appUserId)
+                .FirstOrDefault();
+            return customer;
+        }
+
         public int GetCustomerId(string appUserId)
         {
             var result = dbContext.Customers.Where(c => c.ApplicationUser.Id == appUserId).FirstOrDefault();
