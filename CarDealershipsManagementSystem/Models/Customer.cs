@@ -24,5 +24,9 @@ namespace CarDealershipsManagementSystem.Models
         #region OneToOneRelationships
         public virtual ApplicationUser ApplicationUser { get; set; }
         #endregion
+
+        #region OneToManyRelationships
+        public virtual ICollection<Order> Orders { get; set; }
+        #endregion
     }
 }

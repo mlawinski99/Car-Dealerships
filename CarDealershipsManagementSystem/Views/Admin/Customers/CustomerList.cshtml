@@ -3,6 +3,17 @@
     Layout = "~/Views/Admin/Customers/_Layout.cshtml";
     ViewData["ActivePage"] = "Customers/CustomerList";
 }
-<form>
-    Customer List
-</form>
+
+<ul class="list-group list-group-flush">
+    @foreach (Customer customer in @ViewBag.customerList)
+    {
+        <li class="list-group-item">
+            <div class="d-flex w-100">
+                <h5 class="mb-1">@customer.ApplicationUser.FirstName @customer.ApplicationUser.LastName</h5>
+            </div>
+            <p class="mb-1">@customer.ApplicationUser.Email</p>
+            <p class="mb-1">@customer.ApplicationUser.PhoneNumber</p>
+            <small>reszta info...</small>
+        </li>
+    }
+</ul>

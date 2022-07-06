@@ -135,21 +135,22 @@ namespace CarDealershipsManagementSystem.Controllers
         {
             ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
             var manager = employeeRepository.GetEmployeeByApplicationUserId(applicationUser.Id);
-            var orderList = orderRepository.GetOrderList(manager);
             var customerList = customerRepository.GetCustomerList();
+            var customersOfDealership = new List<Customer>();
 
-            List<Customer> customersInDealership = new List<Customer>();
-
-            foreach(var customer in customerList)
+            foreach (var customer in customerList)
             {
-                foreach(var order in orderList)
+                foreach (var order in customer.Orders)
                 {
-                    if (order.Customer == customer)
-                        customersInDealership.Add(customer);
+                    if (order.DealershipEmployee.Dealership.DealershipId == manager.Dealership.DealershipId)
+                    {
+                        customersOfDealership.Add(customer);
+                        break;
+                    }
                 }
             }
-            customersInDealership = customersInDealership.Distinct().ToList();
-            ViewBag.customerList = customersInDealership;
+
+            ViewBag.customerList = customersOfDealership;
             return View("Customers/CustomerList");
         }
 
@@ -157,14 +158,21 @@ namespace CarDealershipsManagementSystem.Controllers
         {
             ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
             var manager = employeeRepository.GetEmployeeByApplicationUserId(applicationUser.Id);
-            var orderList = orderRepository.GetOrderList(manager);
-            var orderListInDealership = new List<Order>();
-                foreach (var order in orderList)
+            var customerList = customerRepository.GetCustomerList();
+            var ordersOfDealership = new List<Order>();
+
+            foreach (var customer in customerList)
+            {
+                foreach (var order in customer.Orders)
                 {
-                    if (order.DealershipEmployee.Dealership == manager.Dealership)
-                        orderListInDealership.Add(order);
+                    if (order.DealershipEmployee.Dealership.DealershipId == manager.Dealership.DealershipId)
+                    {
+                        ordersOfDealership.Add(order);
+                    }
                 }
-            ViewBag.orderList = orderListInDealership;
+            }
+
+            ViewBag.orderList = ordersOfDealership;
             return View("Orders/OrderList");
         }
     }

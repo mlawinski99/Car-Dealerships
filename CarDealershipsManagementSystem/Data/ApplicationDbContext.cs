@@ -104,6 +104,9 @@ namespace CarDealershipsManagementSystem.Data
                 entity.Property(e => e.CustomerType)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+                entity.HasMany(d => d.Orders)
+                    .WithOne(p => p.Customer)
+                    .OnDelete(DeleteBehavior.NoAction);
             });
 
             modelBuilder.Entity<Dealership>(entity =>
@@ -338,6 +341,9 @@ namespace CarDealershipsManagementSystem.Data
                     .OnDelete(DeleteBehavior.NoAction);
                 entity.HasOne(p => p.ServiceEmployee)
                     .WithMany(d => d.ServiceOrders)
+                    .OnDelete(DeleteBehavior.NoAction);
+                entity.HasOne(p => p.Customer)
+                    .WithMany(d => d.Orders)
                     .OnDelete(DeleteBehavior.NoAction);
 
             });

@@ -43,14 +43,16 @@ namespace CarDealershipsManagementSystem.Data
             return order;
         }
 
-        public List<Order> GetOrderList(Employee employee)
-        {
-            List<Order> orderList = dbContext.Orders.Where(o => o.DealershipEmployee.Dealership == employee.Dealership).ToList();
-            return orderList;
-        }
         public List<Order> GetOrderList()
         {
-            List<Order> orderList = dbContext.Orders.ToList();
+            List<Order> orderList = dbContext
+                .Orders
+                .Include(o => o.Customer)
+                .Include(o => o.DealershipEmployee)
+                .Include(o => o.ServiceEmployee)
+                .Include(o => o.Cars)
+                .Include(o => o.Options)
+                .ToList();
             return orderList;
         }
 

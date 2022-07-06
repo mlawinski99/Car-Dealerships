@@ -1,6 +1,7 @@
 ﻿using CarDealershipsManagementSystem.Data;
 using CarDealershipsManagementSystem.Models;
 using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -51,7 +52,14 @@ namespace CarDealershipsManagementSystem.Data
 
         public List<Customer> GetCustomerList()
         {
-            var customerList = dbContext.Customers.ToList();
+            var customerList = dbContext
+                .Customers
+                .Include(c => c.Orders)
+                .ThenInclude(o => o.DealershipEmployee)
+                .ThenInclude(e => e.Dealership)
+                .Include(c => c.ApplicationUser)
+                .ThenInclude(c => c.Address)
+                .ToList();
             return customerList;
         }
 

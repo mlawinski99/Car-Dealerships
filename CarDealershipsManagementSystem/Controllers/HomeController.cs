@@ -106,10 +106,10 @@ namespace CarDealershipsManagementSystem.Controllers
             };
             var car = new Car
             {
-                Dealership = model.Dealership,
-                Engine = model.Engine,
-                Equipment = model.Equipment,
-                Model = model.Model,
+                //Dealership = model.Dealership,
+                //Engine = model.Engine,
+                //Equipment = model.Equipment,
+                //Model = model.Model,
                 CarProductionYear = model.CarProductionYear,
                 CarWeight = model.CarWeight,
                 CarUsed = model.CarUsed,
