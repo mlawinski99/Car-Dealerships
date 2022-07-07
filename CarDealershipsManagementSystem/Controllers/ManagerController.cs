@@ -188,10 +188,10 @@ namespace CarDealershipsManagementSystem.Controllers
             
             foreach(var order in orderList)
             {
-                dataToSave += "Car: " + order.Cars.FirstOrDefault().ToString() + "Customer: " + order.Customer.ApplicationUser.FirstName + " " + order.Customer.ApplicationUser.LastName + "Price: " + order.OrderPrice + "\n";
+                dataToSave += "Numer Zamowienia: " + order.OrderId.ToString() + "Customer: " + order.Customer.ApplicationUser.FirstName + " " + order.Customer.ApplicationUser.LastName + "Price: " + order.OrderPrice + "\n";
             }
-
-            graphics.DrawString("Raport sprzedaży!\n\n"+dataToSave, font, PdfBrushes.Black, new PointF(0, 0));
+            dataToSave += "\n\nDochod: "+ orderList.Sum(o => o.OrderPrice);
+            graphics.DrawString("Raport sprzedazy!\n\n"+dataToSave, font, PdfBrushes.Black, new PointF(0, 0));
             MemoryStream stream = new MemoryStream();
             document.Save(stream);
             //Set the position as '0'.
