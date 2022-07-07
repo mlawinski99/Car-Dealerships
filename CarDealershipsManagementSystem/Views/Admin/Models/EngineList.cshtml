@@ -1,20 +1,64 @@
 ﻿@{
-    ViewData["Title"] = "Panel Administratora";
-    Layout = "~/Views/Admin/Models/_Layout.cshtml";
-    ViewData["ActivePage"] = "Models/EngineList";
+	ViewData["Title"] = "Panel Administratora";
+	Layout = "~/Views/Admin/Models/_Layout.cshtml";
+	ViewData["ActivePage"] = "Models/EngineList";
 }
 <ul class="list-group list-group-flush">
-    @foreach (Engine m in @ViewBag.engineList)
-    {
-        <li class="list-group-item">
-            <div class="d-flex w-100">
-                <h5 class="mb-1">@m.EngineName</h5>
-            </div>
-            <p class="mb-1">@m.EngineType</p>
-            <p class="mb-1">Moc: @m.EnginePower</p>
-            <p class="mb-1">Zuzycie energii: @m.EnginePowerConsumption</p>
-            <p class="mb-1">Zuzycie paliwa: @m.EnigneFuelConsumption</p>
-            <p class="mb-1">Cena: @m.EnginePrice</p>
-        </li>
-    }
+	@foreach (Engine m in @ViewBag.engineList)
+	{
+		<div class="d-style btn btn-brc-tp border-3 bgc-white btn-outline-blue btn-h-outline-blue btn-a-outline-blue w-100 my-2 py-3 shadow-sm">
+			<div class="row align-items-center">
+				<div class="col-12 col-md-3">
+					<h4 class=" text-170 text-600 text-primary-d1 letter-spacing"> @m.EngineName</h4>
+					<div class="text-secondary-d1 text-120">
+						<span class="ml-n15 ">PLN</span>
+						<span class="text-180">@m.EnginePrice</span>
+					</div>
+				</div>
+				<ul class="list-unstyled mb-0 col-12 col-md-9 text-dark-l1 text-90 text-left my-4 my-md-0">
+					<li class="list-group-item my-1">
+						<dl class="row mb-0 align-middle" style="font-size:10px">
+							<dt class="col-sm-3 text-center">
+								Moc:
+							</dt>
+							<dd class="col-sm-3">
+								@m.EnginePower (kW)
+							</dd>
+							@if (@m.EnginePowerConsumption != null)
+							{
+								<dt class="col-sm-3">
+									Zuzycie energii:
+								</dt>
+								<dd class="col-sm-3">
+									@m.EnginePowerConsumption (kWh/100km)
+								</dd>
+							}
+
+							@if (@m.EnigneFuelConsumption != null)
+							{
+								<dt class="col-sm-3">
+									Zuzycie paliwa:
+								</dt>
+								<dd class="col-sm-3">
+									@m.EnigneFuelConsumption (l/100km)
+								</dd>
+							}
+							<dt class="col-sm-3">
+								Typ silnika:
+							</dt>
+							<dd class="col-sm-3">
+								@m.EngineType
+							</dd>
+
+						</dl>
+					</li>
+				</ul>
+
+			</div>
+		</div>
+
+
+	}
+
 </ul>
+

@@ -174,17 +174,24 @@ namespace CarDealershipsManagementSystem.Controllers
             return View("Orders/OrderList");
         }
 
-        public IActionResult CreatePDF()
+        public async Task<IActionResult> CreatePDF()
         {
-           
+            ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
+            var manager = employeeRepository.GetEmployeeByApplicationUserId(applicationUser.Id);
             PdfDocument document = new PdfDocument();
             PdfPage page = document.Pages.Add();
             PdfGraphics graphics = page.Graphics;
-            PdfFont font = new PdfStandardFont(PdfFontFamily.Helvetica, 20);
+            PdfFont font = new PdfStandardFont(PdfFontFamily.Helvetica, 15);
 
             string dataToSave = null;
-            //Dadd text
-            graphics.DrawString(dataToSave, font, PdfBrushes.Black, new PointF(0, 0));
+            var orderList = orderRepository.GetOrdersForDealershipEmployee(manager);
+            
+            foreach(var order in orderList)
+            {
+                dataToSave += "Car: " + order.Cars.FirstOrDefault().ToString() + "Customer: " + order.Customer.ApplicationUser.FirstName + " " + order.Customer.ApplicationUser.LastName + "Price: " + order.OrderPrice + "\n";
+            }
+
+            graphics.DrawString("Raport sprzedaży!\n\n"+dataToSave, font, PdfBrushes.Black, new PointF(0, 0));
             MemoryStream stream = new MemoryStream();
             document.Save(stream);
             //Set the position as '0'.
