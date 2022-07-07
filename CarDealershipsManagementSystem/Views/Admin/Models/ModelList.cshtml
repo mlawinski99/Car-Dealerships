@@ -1,17 +1,27 @@
 ﻿@{
-    ViewData["Title"] = "Panel Administratora";
-    Layout = "~/Views/Admin/Models/_Layout.cshtml";
-    ViewData["ActivePage"] = "Models/ModelList";
+	ViewData["Title"] = "Panel Administratora";
+	Layout = "~/Views/Admin/Models/_Layout.cshtml";
+	ViewData["ActivePage"] = "Models/ModelList";
 }
 <ul class="list-group list-group-flush">
-    @foreach (Model m in @ViewBag.modelList)
-    {
-        <li class="list-group-item">
-            <div class="d-flex w-100">
-                <h5 class="mb-1">@m.ModelName</h5>
-            </div>
-            <p class="mb-1">@m.ModelType</p>
-            <img class="img-thumbnail" style="max-height:33%;max-width:33%;" src="@Url.Content(@m.ModelImagePath)">
-        </li>
-    }
+	@foreach (Model m in @ViewBag.modelList)
+	{
+
+
+		<li class="list-group-item">
+			<div class="row m-0 p-0">
+				<div class="col-xs-6 w-50">
+
+					<div class="d-flex w-100">
+						<h5 class="mb-1">@m.ModelName</h5>
+					</div>
+					<p class="mb-1">Typ: @m.ModelType</p>
+					<p class="mb-1">Cena: @m.ModelPrice zł</p>
+
+						</div>
+				<div class="col-xs-6 w-50"><img class="img-thumbnail w-100 border-0" src="@Url.Content(@m.ModelImagePath)"></div>
+			</div>
+		</li>
+
+	}
 </ul>
