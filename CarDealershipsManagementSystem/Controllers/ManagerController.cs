@@ -181,7 +181,7 @@ namespace CarDealershipsManagementSystem.Controllers
             PdfDocument document = new PdfDocument();
             PdfPage page = document.Pages.Add();
             PdfGraphics graphics = page.Graphics;
-            PdfFont font = new PdfStandardFont(PdfFontFamily.Helvetica, 20);
+            PdfFont font = new PdfStandardFont(PdfFontFamily.Helvetica, 15);
 
             string dataToSave = null;
             var orderList = orderRepository.GetOrdersForDealershipEmployee(manager);
@@ -191,8 +191,7 @@ namespace CarDealershipsManagementSystem.Controllers
                 dataToSave += "Car: " + order.Cars.FirstOrDefault().ToString() + "Customer: " + order.Customer.ApplicationUser.FirstName + " " + order.Customer.ApplicationUser.LastName + "Price: " + order.OrderPrice + "\n";
             }
 
-            //Dadd text
-            graphics.DrawString(dataToSave, font, PdfBrushes.Black, new PointF(0, 0));
+            graphics.DrawString("Raport sprzedaży!\n\n"+dataToSave, font, PdfBrushes.Black, new PointF(0, 0));
             MemoryStream stream = new MemoryStream();
             document.Save(stream);
             //Set the position as '0'.
