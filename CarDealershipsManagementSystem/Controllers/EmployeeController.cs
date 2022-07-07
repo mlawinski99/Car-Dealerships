@@ -69,5 +69,15 @@ namespace CarDealershipsManagementSystem.Controllers
             return View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ChangeOrder()
+        {
+            ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
+            var employee = employeeRepository.GetEmployeeByApplicationUserId(applicationUser.Id);
+            orderRepository.GetOrderList();
+
+            return View();
+        }
+
     }
 }

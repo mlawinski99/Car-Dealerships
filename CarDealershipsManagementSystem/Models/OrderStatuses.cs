@@ -10,9 +10,7 @@ namespace CarDealershipsManagementSystem.Models
         Nowe,
         Zaakceptowane,
         WSerwisie,
-        PoSerwisie,
         Gotowe,
-        Wyslane,
-        Dotarlo
+        Wyslane
     }
 }
