@@ -9,10 +9,10 @@ namespace CarDealershipsManagementSystem.ViewModels
 {
     public class CreateCarViewModel
     {
-        public  string? DealershipId { get; set; }
-        public string? EngineId { get; set; }
-        public string? ModelId { get; set; }
-        public string? EquipmentId { get; set; }
+        public  int DealershipId { get; set; }
+        public int EngineId { get; set; }
+        public int ModelId { get; set; }
+        public int EquipmentId { get; set; }
         public DateTime? CarProductionYear { get; set; }
         public int? CarWeight { get; set; }
         public bool? CarUsed { get; set; }

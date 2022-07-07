@@ -51,7 +51,7 @@ namespace CarDealershipsManagementSystem.Controllers
         {
             ApplicationUser managerApplicationUser = await userManager.GetUserAsync(HttpContext.User);
             var manager = employeeRepository.GetEmployeeByApplicationUserId(managerApplicationUser.Id);
-            var employeeList = employeeRepository.GetEmployeeListForManager(manager);
+            var employeeList = employeeRepository.GetEmployeeListForEmployeeDealership(manager);
 
             ViewBag.employeeList = employeeList;
             return View("Employees/EmployeeList");
@@ -121,7 +121,7 @@ namespace CarDealershipsManagementSystem.Controllers
                     }
                     await userManager.AddToRoleAsync(user, employee.EmployeeJobPosition);
                     ViewBag.message = "Employee " + model.Email + " added successfully with password " + Pass;
-                    ViewBag.employeeList = employeeRepository.GetEmployeeListForManager(manager);
+                    ViewBag.employeeList = employeeRepository.GetEmployeeListForEmployeeDealership(manager);
                     return View("Employees/EmployeeList");
                 }
                 ViewBag.message = "Something went wrong, employee not added";

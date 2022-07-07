@@ -17,13 +17,18 @@ namespace CarDealershipsManagementSystem.Controllers
         private readonly ICustomerRepository customerRepository;
         private readonly IOrderRepository orderRepository;
         private readonly ICarRepository carRepository;
-
+        private readonly IDealershipRepository dealershipRepository;
+        private readonly IEngineRepository engineRepository;
+        private readonly IEquipmentRepository equipmentRepository;
         public HomeController(
             ILogger<HomeController> logger,
             IModelRepository modelRepository,
             UserManager<ApplicationUser> userManager,
             IOrderRepository orderRepository,
-            ICarRepository carRepository
+            ICarRepository carRepository,
+            IDealershipRepository dealershipRepository,
+            IEngineRepository engineRepository,
+            IEquipmentRepository equipmentRepository
             )
         {
             _logger = logger;
@@ -31,6 +36,9 @@ namespace CarDealershipsManagementSystem.Controllers
             this.userManager = userManager;
             this.orderRepository = orderRepository;
             this.carRepository = carRepository;
+            this.dealershipRepository = dealershipRepository;
+            this.engineRepository = engineRepository;
+            this.equipmentRepository = equipmentRepository;
         }
 
         public IActionResult Index()
@@ -93,6 +101,7 @@ namespace CarDealershipsManagementSystem.Controllers
         {
             ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
             Customer customer = customerRepository.GetCustomerByAppUserId(applicationUser.Id);
+            
             var order = new Order
             {
                 Customer = customer,
@@ -103,13 +112,15 @@ namespace CarDealershipsManagementSystem.Controllers
                 OrderSubmissionDate = DateTime.Now,
                 OrderFinalizationDate = DateTime.Now.AddDays(100),
                 OrderShipmentType = model.OrderShipmentType,
+                Dealership = dealershipRepository.GetDealershipById(model.DealershipId)
             };
+            
             var car = new Car
             {
-                //Dealership = model.Dealership,
-                //Engine = model.Engine,
-                //Equipment = model.Equipment,
-                //Model = model.Model,
+                Dealership = dealershipRepository.GetDealershipById(model.DealershipId),
+                Engine = engineRepository.GetEngineById(model.EngineId),
+                Equipment = equipmentRepository.GetEquipmentById(model.EquipmentId),
+                Model = modelRepository.GetModelById(model.ModelId),
                 CarProductionYear = model.CarProductionYear,
                 CarWeight = model.CarWeight,
                 CarUsed = model.CarUsed,

@@ -60,7 +60,7 @@ namespace CarDealershipsManagementSystem.Data
             return employeeList;
         }
 
-        public List<Employee> GetEmployeeListForManager(Employee employee)
+        public List<Employee> GetEmployeeListForEmployeeDealership(Employee employee)
         {
             var employeeList = dbContext.
                 Employees

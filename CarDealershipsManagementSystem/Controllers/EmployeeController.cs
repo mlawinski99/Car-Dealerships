@@ -57,24 +57,13 @@ namespace CarDealershipsManagementSystem.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult NewOrder()
-        {
-
-            return View();
-        }
         [HttpPost]
-        public IActionResult NewOrder(CreateOrderViewModel viewModel)
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> ChangeOrder()
+        public async Task<IActionResult> ChangeOrder(Order order)
         {
             ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
             var employee = employeeRepository.GetEmployeeByApplicationUserId(applicationUser.Id);
-            orderRepository.GetOrderList();
+            var employeeList = employeeRepository.GetEmployeeListForEmployeeDealership(employee);
+            orderRepository.ChangeStatus(order, employee, employeeList);
 
             return View();
         }

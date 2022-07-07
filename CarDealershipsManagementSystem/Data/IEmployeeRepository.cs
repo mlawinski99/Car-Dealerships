@@ -14,6 +14,6 @@ namespace CarDealershipsManagementSystem.Data
         List<Employee> GetEmployeeList();
         int GetEmployeeId(string appUserId);
         Employee GetEmployeeByApplicationUserId(string appUserId);
-        List<Employee> GetEmployeeListForManager(Employee employee);
+        List<Employee> GetEmployeeListForEmployeeDealership(Employee employee);
     }
 }

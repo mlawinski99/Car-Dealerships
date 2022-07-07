@@ -11,6 +11,7 @@ namespace CarDealershipsManagementSystem.Data
         Order Add(Order order);
         Order Delete(int id);
         Order GetOrderById(int id);
+        Order ChangeStatus(Order order, Employee employee, List<Employee>? employeeList);
         List<Order> GetOrderList();
         List<Order> GetOrdersForDealershipEmployee(Employee employee);
         List<Order> GetOrdersForServiceEmployee(Employee employee);

@@ -34,7 +34,7 @@ namespace CarDealershipsManagementSystem.Data
             return order;
         }
 
-        public Order ChangeStatus(Order order, Employee employee, List<Employee> employeeList)
+        public Order ChangeStatus(Order order, Employee employee, List<Employee>? employeeList)
         {
             if (order.OrderStatus == OrderStatuses.Nowe.ToString())
             {
@@ -88,6 +88,7 @@ namespace CarDealershipsManagementSystem.Data
                 .Include(o => o.ServiceEmployee)
                 .Include(o => o.Cars)
                 .Include(o => o.Options)
+                .Where(o => o.Dealership == employee.Dealership)
                 .ToList();
         }
 
