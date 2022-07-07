@@ -60,7 +60,29 @@
 							<div class="col-sm-3">
 								<h6 class="mb-0">Stanowisko</h6>
 							</div>
-							<div class="col-sm-9 text-secondary"> @employee.EmployeeJobPosition</div>
+								@if(@employee.EmployeeJobPosition=="DealershipEmployee"){
+									<div class="col-sm-9 text-secondary"> 
+										Pracownik Salonu
+									</div>
+								}
+								else if(@employee.EmployeeJobPosition=="ServiceEmployee"){
+									
+									<div class="col-sm-9 text-secondary"> 
+										Pracownik Serwisu
+									</div>
+								}
+								else if(@employee.EmployeeJobPosition=="Manager"){
+									
+									<div class="col-sm-9 text-secondary"> 
+										Manager
+									</div>
+								}
+								else if(@employee.EmployeeJobPosition=="Admin"){
+									
+									<div class="col-sm-9 text-secondary"> 
+										Admin
+									</div>
+								}
 						</div>
 
 						<hr>
@@ -93,6 +115,14 @@
 								<h6 class="mb-0">Data zakończenia współpracy</h6>
 							</div>
 							<div class="col-sm-9 text-secondary"> @employee.EmployeeFinishDate</div>
+						</div>
+
+						<hr>
+						<div class="row">
+							<div class="col-sm-3">
+								<h6 class="mb-0">Salon</h6>
+							</div>
+							<div class="col-sm-9 text-secondary"> @employee.Dealership.DealershipName</div>
 						</div>
 					</div>
 				</div>
