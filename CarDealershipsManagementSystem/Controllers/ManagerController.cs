@@ -2,13 +2,11 @@
 using CarDealershipsManagementSystem.ViewModels;
 using CarDealershipsManagementSystem.Data;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
-using System;
+using Syncfusion.Pdf.Graphics;
+using Syncfusion.Pdf;
+using Syncfusion.Drawing;
 
 namespace CarDealershipsManagementSystem.Controllers
 {
@@ -59,7 +57,7 @@ namespace CarDealershipsManagementSystem.Controllers
         [HttpGet]
         public IActionResult AddNewEmployee()
         {
-            
+
             return View("Employees/AddNewEmployee");
         }
         [HttpPost]
@@ -91,7 +89,7 @@ namespace CarDealershipsManagementSystem.Controllers
                     Pesel = model.Pesel,
                     BirthDate = model.BirthDate
                 };
-                string Pass = string.Concat(model.FirstName.AsSpan(0, 3), model.LastName.AsSpan(0, 3),model.Pesel.AsSpan(0,3), "!");
+                string Pass = string.Concat(model.FirstName.AsSpan(0, 3), model.LastName.AsSpan(0, 3), model.Pesel.AsSpan(0, 3), "!");
                 var result = await userManager.CreateAsync(user, Pass);
                 if (result.Succeeded)
                 {
@@ -174,6 +172,28 @@ namespace CarDealershipsManagementSystem.Controllers
 
             ViewBag.orderList = ordersOfDealership;
             return View("Orders/OrderList");
+        }
+
+        public IActionResult CreatePDF()
+        {
+           
+            PdfDocument document = new PdfDocument();
+            PdfPage page = document.Pages.Add();
+            PdfGraphics graphics = page.Graphics;
+            PdfFont font = new PdfStandardFont(PdfFontFamily.Helvetica, 20);
+
+            string dataToSave = null;
+            //Dadd text
+            graphics.DrawString(dataToSave, font, PdfBrushes.Black, new PointF(0, 0));
+            MemoryStream stream = new MemoryStream();
+            document.Save(stream);
+            //Set the position as '0'.
+            stream.Position = 0;
+            //Download the PDF document in the browser
+            FileStreamResult fileStreamResult = new FileStreamResult(stream, "application/pdf");
+
+            fileStreamResult.FileDownloadName = "Raport.pdf";
+            return fileStreamResult;
         }
     }
 }
