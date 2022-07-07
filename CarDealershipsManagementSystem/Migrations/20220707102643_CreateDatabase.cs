@@ -404,7 +404,8 @@ namespace CarDealershipsManagementSystem.Migrations
                     OrderDiscount = table.Column<double>(type: "float", unicode: false, maxLength: 50, nullable: true),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
                     DealershipEmployeeEmployeeId = table.Column<int>(type: "int", nullable: false),
-                    ServiceEmployeeEmployeeId = table.Column<int>(type: "int", nullable: false)
+                    ServiceEmployeeEmployeeId = table.Column<int>(type: "int", nullable: false),
+                    DealershipId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -413,8 +414,12 @@ namespace CarDealershipsManagementSystem.Migrations
                         name: "FK_Order_Customer_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customer",
-                        principalColumn: "CustomerId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "CustomerId");
+                    table.ForeignKey(
+                        name: "FK_Order_Dealership_DealershipId",
+                        column: x => x.DealershipId,
+                        principalTable: "Dealership",
+                        principalColumn: "DealershipId");
                     table.ForeignKey(
                         name: "FK_Order_Employee_DealershipEmployeeEmployeeId",
                         column: x => x.DealershipEmployeeEmployeeId,
@@ -612,6 +617,11 @@ namespace CarDealershipsManagementSystem.Migrations
                 column: "DealershipEmployeeEmployeeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Order_DealershipId",
+                table: "Order",
+                column: "DealershipId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Order_ServiceEmployeeEmployeeId",
                 table: "Order",
                 column: "ServiceEmployeeEmployeeId");
@@ -620,6 +630,7 @@ namespace CarDealershipsManagementSystem.Migrations
                 name: "IX_OrderOption_OptionId",
                 table: "OrderOption",
                 column: "OptionId");
+
 
             migrationBuilder.Sql(File.ReadAllText("FillDatabase.sql"));
         }

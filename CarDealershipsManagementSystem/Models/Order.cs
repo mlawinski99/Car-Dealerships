@@ -38,6 +38,7 @@ namespace CarDealershipsManagementSystem.Models
         public virtual Customer Customer { get; set; }
         public virtual Employee DealershipEmployee { get; set; }
         public virtual Employee ServiceEmployee { get; set; }
+        public virtual Dealership Dealership { get; set; }
         #endregion
 
         #region OneToManyRelationships

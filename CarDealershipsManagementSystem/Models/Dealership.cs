@@ -15,6 +15,7 @@ namespace CarDealershipsManagementSystem.Models
             Address = new();
             Cars = new HashSet<Car>();
             Employees = new HashSet<Employee>();
+            Orders = new HashSet<Order>();
         }
         #endregion
 
@@ -31,6 +32,7 @@ namespace CarDealershipsManagementSystem.Models
         #region OneToManyRelationships
         public virtual ICollection<Employee> Employees { get; set; }
         public virtual ICollection<Car> Cars { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
 
         #endregion
     }

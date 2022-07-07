@@ -438,6 +438,9 @@ namespace CarDealershipsManagementSystem.Migrations
                     b.Property<int>("DealershipEmployeeEmployeeId")
                         .HasColumnType("int");
 
+                    b.Property<int>("DealershipId")
+                        .HasColumnType("int");
+
                     b.Property<double?>("OrderDiscount")
                         .HasMaxLength(50)
                         .IsUnicode(false)
@@ -481,6 +484,8 @@ namespace CarDealershipsManagementSystem.Migrations
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("DealershipEmployeeEmployeeId");
+
+                    b.HasIndex("DealershipId");
 
                     b.HasIndex("ServiceEmployeeEmployeeId");
 
@@ -777,14 +782,20 @@ namespace CarDealershipsManagementSystem.Migrations
             modelBuilder.Entity("CarDealershipsManagementSystem.Models.Order", b =>
                 {
                     b.HasOne("CarDealershipsManagementSystem.Models.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("CarDealershipsManagementSystem.Models.Employee", "DealershipEmployee")
                         .WithMany("DealershipOrders")
                         .HasForeignKey("DealershipEmployeeEmployeeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("CarDealershipsManagementSystem.Models.Dealership", "Dealership")
+                        .WithMany("Orders")
+                        .HasForeignKey("DealershipId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -795,6 +806,8 @@ namespace CarDealershipsManagementSystem.Migrations
                         .IsRequired();
 
                     b.Navigation("Customer");
+
+                    b.Navigation("Dealership");
 
                     b.Navigation("DealershipEmployee");
 
@@ -920,11 +933,18 @@ namespace CarDealershipsManagementSystem.Migrations
                         .HasConstraintName("OrderOption_Order_FK");
                 });
 
+            modelBuilder.Entity("CarDealershipsManagementSystem.Models.Customer", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
             modelBuilder.Entity("CarDealershipsManagementSystem.Models.Dealership", b =>
                 {
                     b.Navigation("Cars");
 
                     b.Navigation("Employees");
+
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("CarDealershipsManagementSystem.Models.Employee", b =>

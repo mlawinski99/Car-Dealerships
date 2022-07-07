@@ -123,6 +123,9 @@ namespace CarDealershipsManagementSystem.Data
                 entity.HasMany(d => d.Employees)
                     .WithOne(p => p.Dealership)
                     .OnDelete(DeleteBehavior.NoAction);
+                entity.HasMany(d => d.Orders)
+                    .WithOne(p => p.Dealership)
+                    .OnDelete(DeleteBehavior.NoAction);
             });
 
             modelBuilder.Entity<Employee>(entity =>
@@ -343,6 +346,9 @@ namespace CarDealershipsManagementSystem.Data
                     .WithMany(d => d.ServiceOrders)
                     .OnDelete(DeleteBehavior.NoAction);
                 entity.HasOne(p => p.Customer)
+                    .WithMany(d => d.Orders)
+                    .OnDelete(DeleteBehavior.NoAction);
+                entity.HasOne(p => p.Dealership)
                     .WithMany(d => d.Orders)
                     .OnDelete(DeleteBehavior.NoAction);
 
