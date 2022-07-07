@@ -174,15 +174,23 @@ namespace CarDealershipsManagementSystem.Controllers
             return View("Orders/OrderList");
         }
 
-        public IActionResult CreatePDF()
+        public async Task<IActionResult> CreatePDF()
         {
-           
+            ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
+            var manager = employeeRepository.GetEmployeeByApplicationUserId(applicationUser.Id);
             PdfDocument document = new PdfDocument();
             PdfPage page = document.Pages.Add();
             PdfGraphics graphics = page.Graphics;
             PdfFont font = new PdfStandardFont(PdfFontFamily.Helvetica, 20);
 
             string dataToSave = null;
+            var orderList = orderRepository.GetOrdersForDealershipEmployee(manager);
+            
+            foreach(var order in orderList)
+            {
+                dataToSave += "Car: " + order.Cars.FirstOrDefault().ToString() + "Customer: " + order.Customer.ApplicationUser.FirstName + " " + order.Customer.ApplicationUser.LastName + "Price: " + order.OrderPrice + "\n";
+            }
+
             //Dadd text
             graphics.DrawString(dataToSave, font, PdfBrushes.Black, new PointF(0, 0));
             MemoryStream stream = new MemoryStream();
