@@ -14,12 +14,13 @@ namespace CarDealershipsManagementSystem.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ILogger<HomeController> _logger;
         private readonly IModelRepository modelRepository;
-        private readonly ICustomerRepository customerRepository;
         private readonly IOrderRepository orderRepository;
         private readonly ICarRepository carRepository;
         private readonly IDealershipRepository dealershipRepository;
         private readonly IEngineRepository engineRepository;
         private readonly IEquipmentRepository equipmentRepository;
+        private readonly IAddressRepository addressRepository;
+        private readonly ICustomerRepository customerRepository;
         public HomeController(
             ILogger<HomeController> logger,
             IModelRepository modelRepository,
@@ -28,7 +29,9 @@ namespace CarDealershipsManagementSystem.Controllers
             ICarRepository carRepository,
             IDealershipRepository dealershipRepository,
             IEngineRepository engineRepository,
-            IEquipmentRepository equipmentRepository
+            IEquipmentRepository equipmentRepository,
+            IAddressRepository addressRepository,
+            ICustomerRepository customerRepository
             )
         {
             _logger = logger;
@@ -39,6 +42,8 @@ namespace CarDealershipsManagementSystem.Controllers
             this.dealershipRepository = dealershipRepository;
             this.engineRepository = engineRepository;
             this.equipmentRepository = equipmentRepository;
+            this.addressRepository = addressRepository;
+            this.customerRepository = customerRepository;
         }
 
         public IActionResult Index()
@@ -47,41 +52,15 @@ namespace CarDealershipsManagementSystem.Controllers
             return View();
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
 
             Model? model = modelRepository.GetModelById(id);
-            /*_context.Models
-            .Where(m => m.ModelId == id)
-            .Include(m => m.Engines)
-            .Include(m => m.Equipments)
-            .ThenInclude(e => e.Options)
-            .FirstOrDefault();*/
-
-            List<Engine> engines = model.Engines.ToList();
-
-            List<Equipment> equipments = model.Equipments.ToList();
-
-            /*    
-                List<Tuple<Equipment, List<Option>>> equipmentOptionTupleList = new List<Tuple<Equipment, List<Option>>>();
-
-                foreach (var eq in equipments)
-                {
-                    Equipment? equipment = _context.Equipments
-                        .Where(e => e.EquipmentId == eq.EquipmentId)
-                        .Include(e => e.Options)
-                        .FirstOrDefault();
-
-                    var optionList = equipment.Options.ToList();
-                    equipmentOptionTupleList.Add(new Tuple<Equipment, List<Option>>(eq, optionList));
-                }
-            */
             ViewBag.chosenModel = model;
-            ViewBag.engineList = engines;
-            ViewBag.equipmentList = equipments;
+            ViewBag.engineList = model.Engines.ToList();
+            ViewBag.equipmentList = model.Equipments.ToList();
 
-            //  ViewBag.equipmentOptionTupleList = equipmentOptionTupleList;
-
+            ViewBag.applicationUser = await userManager.GetUserAsync(HttpContext.User);
             return View();
         }
 
@@ -97,39 +76,49 @@ namespace CarDealershipsManagementSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrder(CreateCarViewModel model)
+        public async Task<IActionResult> CreateOrder(CreateOrderViewModel model)
         {
+            int modelId = int.Parse(model.ModelId);
+            int engineId = int.Parse(model.EngineId);
+            int equipmentId = int.Parse(model.EquipmentId);
+            int price = int.Parse(model.OrderPrice);
+
             ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
-            Customer customer = customerRepository.GetCustomerByAppUserId(applicationUser.Id);
+            Customer customer = customerRepository.GetCustomerByApplicationUserId(applicationUser.Id);
             
             var order = new Order
             {
                 Customer = customer,
-                OrderStatus = model.OrderStatus.ToString(),
-                OrderPrice = model.OrderPrice,
-                OrderDiscount = model.OrderDiscount,
+                ServiceEmployee = null,
+                DealershipEmployee = null,
+                Dealership = null,
+                OrderStatus = OrderStatuses.Nowe.ToString(),
+                OrderPrice = price,
+                OrderDiscount = 0,
                 OrderPaymentType = model.OrderPaymentType,
                 OrderSubmissionDate = DateTime.Now,
-                OrderFinalizationDate = DateTime.Now.AddDays(100),
-                OrderShipmentType = model.OrderShipmentType,
-                Dealership = dealershipRepository.GetDealershipById(model.DealershipId)
+                OrderFinalizationDate = null,
+                OrderShipmentType = model.OrderShipmentType
             };
-            
+            orderRepository.Add(order);
+
             var car = new Car
             {
-                Dealership = dealershipRepository.GetDealershipById(model.DealershipId),
-                Engine = engineRepository.GetEngineById(model.EngineId),
-                Equipment = equipmentRepository.GetEquipmentById(model.EquipmentId),
-                Model = modelRepository.GetModelById(model.ModelId),
-                CarProductionYear = model.CarProductionYear,
-                CarWeight = model.CarWeight,
-                CarUsed = model.CarUsed,
-                CarCrashed = model.CarCrashed
+                Dealership = null,
+                Engine = engineRepository.GetEngineById(engineId),
+                Equipment = equipmentRepository.GetEquipmentById(equipmentId),
+                Model = modelRepository.GetModelById(modelId),
+                Order = order
             };
-            car.Order = order;
             carRepository.Add(car);
-            orderRepository.Add(order);
-            return View();
+
+            order.Cars.Add(car);
+
+            orderRepository.Update(order);
+
+            ViewBag.message = "Zamowienie zlozone pomyslnie";
+            ViewBag.modelList = modelRepository.GetModelList();
+            return View("Index");
         }
     }
 }

@@ -403,9 +403,9 @@ namespace CarDealershipsManagementSystem.Migrations
                     OrderPrice = table.Column<double>(type: "float", unicode: false, maxLength: 50, nullable: true),
                     OrderDiscount = table.Column<double>(type: "float", unicode: false, maxLength: 50, nullable: true),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
-                    DealershipEmployeeEmployeeId = table.Column<int>(type: "int", nullable: false),
-                    ServiceEmployeeEmployeeId = table.Column<int>(type: "int", nullable: false),
-                    DealershipId = table.Column<int>(type: "int", nullable: false)
+                    DealershipEmployeeEmployeeId = table.Column<int>(type: "int", nullable: true),
+                    ServiceEmployeeEmployeeId = table.Column<int>(type: "int", nullable: true),
+                    DealershipId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -442,7 +442,7 @@ namespace CarDealershipsManagementSystem.Migrations
                     CarWeight = table.Column<int>(type: "int", unicode: false, maxLength: 50, nullable: true),
                     CarUsed = table.Column<bool>(type: "bit", unicode: false, maxLength: 50, nullable: true),
                     CarCrashed = table.Column<bool>(type: "bit", unicode: false, nullable: true),
-                    DealershipId = table.Column<int>(type: "int", nullable: false),
+                    DealershipId = table.Column<int>(type: "int", nullable: true),
                     EngineId = table.Column<int>(type: "int", nullable: false),
                     ModelId = table.Column<int>(type: "int", nullable: false),
                     OrderId = table.Column<int>(type: "int", nullable: false),

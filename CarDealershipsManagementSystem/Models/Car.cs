@@ -32,7 +32,7 @@ namespace CarDealershipsManagementSystem.Models
         #endregion
 
         #region OneToOneRelationships
-        public virtual Dealership Dealership { get; set; }
+        public virtual Dealership? Dealership { get; set; }
         public virtual Engine Engine { get; set; }
         public virtual Model Model { get; set; }
         public virtual Order Order { get; set; }

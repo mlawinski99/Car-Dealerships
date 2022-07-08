@@ -59,6 +59,7 @@ function generateLogin() {
             login.value = firstName.value.substring(0, 3).toLowerCase() + lastName.value.substring(0, 3).toLowerCase() + randomNumber;
         }
 }
+
 function generatePass() {
     var pesel = document.getElementById("pesel").value;
     var password = document.getElementById("password");
@@ -78,7 +79,6 @@ function docReady(fn) {
     }
 }
 
-
 function selectEngine(elementId) {
     var backColour = document.getElementsByClassName("back-background-colour-engine")
     for (let i = 0; i < backColour.length; i++) {
@@ -88,6 +88,7 @@ function selectEngine(elementId) {
     var s = document.getElementById(elementId).style.backgroundColor = "green";
 
 }
+
 function selectEquipment(elementId) {
     var backColour = document.getElementsByClassName("back-background-colour-equipment")
     for (let i = 0; i < backColour.length; i++) {
@@ -96,4 +97,64 @@ function selectEquipment(elementId) {
 
     var s = document.getElementById(elementId).style.backgroundColor = "green";
 
+}
+
+function chooseEngine(button) {
+    var engineButtons = Array.from(document.getElementsByClassName('engine-btn'));
+    engineButtons.forEach(b => {
+        if (b.id == button.id) {
+            b.classList.add('btn-dark');
+            b.classList.remove('btn-outline-dark');
+            b.innerHTML = "Wybrano";
+
+            var name = document.getElementById(b.id + '-name').innerHTML;
+            var price = document.getElementById(b.id + '-price').innerHTML;
+
+            document.getElementById('chosenEngineName').innerHTML = 'Wybrany silnik: ' + name;
+            document.getElementById('chosenEnginePrice').innerHTML = price;
+            document.getElementById('chosenEngineId').value = button.id.split('-')[1];
+
+            var priceTotal = 0;
+            priceTotal += Number(document.getElementById('chosenModelPrice').innerHTML);
+            priceTotal += Number(document.getElementById('chosenEnginePrice').innerHTML);
+            priceTotal += Number(document.getElementById('chosenEquipmentPrice').innerHTML);
+            document.getElementById('priceTotal').innerHTML = 'PLN '+priceTotal;
+            document.getElementById('priceTotalInput').value = priceTotal;
+        }
+        else {
+            b.classList.remove('btn-dark');
+            b.classList.add('btn-outline-dark');
+            b.innerHTML = "Wybierz";
+        }
+    })
+}
+
+function chooseEquipment(button) {
+    var equipmentButtons = Array.from(document.getElementsByClassName('equipment-btn'));
+    equipmentButtons.forEach(b => {
+        if (b.id == button.id) {
+            b.classList.add('btn-dark');
+            b.classList.remove('btn-outline-dark');
+            b.innerHTML = "Wybrano"
+
+            var name = document.getElementById(b.id + '-name').innerHTML;
+            var price = document.getElementById(b.id + '-price').innerHTML;
+
+            document.getElementById('chosenEquipmentName').innerHTML = 'Wybrana wersja wyposażeniowa: ' + name;
+            document.getElementById('chosenEquipmentPrice').innerHTML = price;
+            document.getElementById('chosenEquipmentId').value = button.id.split('-')[1];
+
+            var priceTotal = 0;
+            priceTotal += Number(document.getElementById('chosenModelPrice').innerHTML);
+            priceTotal += Number(document.getElementById('chosenEnginePrice').innerHTML);
+            priceTotal += Number(document.getElementById('chosenEquipmentPrice').innerHTML);
+            document.getElementById('priceTotal').innerHTML = 'PLN ' + priceTotal;
+            document.getElementById('priceTotalInput').value = priceTotal;
+        }
+        else {
+            b.classList.remove('btn-dark');
+            b.classList.add('btn-outline-dark');
+            b.innerHTML = "Wybierz"
+        }
+    })
 }

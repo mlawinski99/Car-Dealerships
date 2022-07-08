@@ -34,7 +34,7 @@ namespace CarDealershipsManagementSystem.Data
             return customer;
         }
 
-        public Customer GetCustomerByAppUserId(string appUserId)
+        public Customer GetCustomerByApplicationUserId(string appUserId)
         {
             var customer = dbContext
                 .Customers

@@ -1,13 +1,18 @@
 ﻿@using System.Collections
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = ViewBag.chosenModel + " - Szczegóły";
 }
+@model CarDealershipsManagementSystem.ViewModels.CreateOrderViewModel
 <h2 class="text-center mb-3 p-10">@ViewBag.chosenModel.ModelName</h2>
 <div class="row">
     <div class="col-1"></div>
     <div class="col-10 d-flex flex-column justify-content-center">
         <hr />
-        <h5 class="text-center">@ViewBag.chosenModel.ModelType</h5>
+        <h3 class="text-center">@ViewBag.chosenModel.ModelType</h3>
+        <h5 class="text-center" id="modelPrice">@ViewBag.chosenModel.ModelPrice</h5>
         <img class="w-50 mx-auto" src="@Url.Content(@ViewBag.chosenModel.ModelImagePath)">
     </div>
     <div class="col-1"></div>
@@ -23,15 +28,21 @@
             @foreach (var engine in ViewBag.engineList as List<Engine>)
             {
                 <div class="card my-2 mx-2" style="width: 30% !important;">
-                    <div class="card-header">@engine.EngineName</div>
+                    <div class="card-header d-flex flex-row justify-content-between"><span id="engine-@engine.EngineId-name">@engine.EngineName</span><span>PLN <span id="engine-@engine.EngineId-price">@engine.EnginePrice</span></span></div>
                     <div class="card-body">
                         <div class="card-text">Moc: @engine.EnginePower km</div>
-                        <div class="card-text">Cena: @engine.EnginePrice zl</div>
                         <div class="card-text">Pojemność: @engine.EngineDisplacement</div>
                         <div class="card-text">Typ: @engine.EngineType</div>
                     </div>
                     <div class="card-footer">
-                        <div class="btn btn-outline-dark w-100 engine-btn" id="engine-@engine.EngineId" onclick="chooseEngine(this)">Wybierz</div>
+                        @if (@engine.EngineId == (@ViewBag.engineList as List<Engine>).First().EngineId)
+                        {
+                            <div class="btn w-100 btn-dark engine-btn" id="engine-@engine.EngineId" onclick="chooseEngine(this)">Wybrano</div>
+                        }
+                        else
+                        {
+                            <div class="btn w-100 btn-outline-dark engine-btn" id="engine-@engine.EngineId" onclick="chooseEngine(this)">Wybierz</div>
+                        }
                     </div>
                 </div>
             }
@@ -44,7 +55,7 @@
             @foreach (var equipment in ViewBag.equipmentList as List<Equipment>)
             {
                 <div class="card my-2 mx-2" style="width: 30% !important;">
-                    <div class="card-header">@equipment.EquipmentName</div>
+                    <div class="card-header d-flex flex-row justify-content-between"><span id="equipment-@equipment.EquipmentId-name">@equipment.EquipmentName</span><span>PLN <span id="equipment-@equipment.EquipmentId-price">@equipment.EquipmentPrice</span></span></div>
                     <div class="card-body">
                         <div class="card-text">W skład wchodzą:</div>
                         @foreach (Option option in equipment.Options)
@@ -53,15 +64,96 @@
                         }
                     </div>
                     <div class="card-footer">
-                        <div class="btn btn-outline-dark w-100 equipment-btn" id="equipment-@equipment.EquipmentId" onclick="chooseEquipment(this)">Wybierz</div>
+                        @if (@equipment.EquipmentId == (@ViewBag.equipmentList as List<Equipment>).First().EquipmentId)
+                        {
+                            <div class="btn btn-dark w-100 equipment-btn" id="equipment-@equipment.EquipmentId" onclick="chooseEquipment(this)">Wybrano</div>
+                        }
+                        else
+                        {
+                            <div class="btn btn-outline-dark w-100 equipment-btn" id="equipment-@equipment.EquipmentId" onclick="chooseEquipment(this)">Wybierz</div>
+                        }
                     </div>
                 </div>
             }
         </div>
-        <div class="row mt-4">
-            <h4 class="text-center">Złóż Zamówienie </h4>
-            <hr />
-        </div>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <div class="row mt-4">
+                <h4 class="text-center">Złóż Zamówienie </h4>
+                <hr />
+            </div>
+            <form asp-controller="Home" asp-action="CreateOrder">
+                <div class="row">
+                    <div class="col-5">
+                        <div class="row d-flex flex-row justify-content-between form-group">
+                            <div class="col-9 flex-column" id="chosenModelName">Wybrany model:  @ViewBag.chosenModel.ModelName</div>
+                            <div class="col-3 flex-column text-end">PLN <span id="chosenModelPrice">@ViewBag.chosenModel.ModelPrice</span></div>
+                            <input asp-for="ModelId" class="d-none" value="@ViewBag.chosenModel.ModelId" id="chosenModelId" />
+                        </div>
+                        <div class="row d-flex flex-row justify-content-between form-group">
+                            @{
+                                var a = (@ViewBag.engineList as List<Engine>).First();
+                                <span class="col-9 flex-column" id="chosenEngineName">Wybrany silnik: @a.EngineName</span>
+                                <span class="col-3 flex-column text-end">PLN <span id="chosenEnginePrice">@a.EnginePrice</span></span>
+                                <input asp-for="EngineId" class="d-none" value="@a.EngineId" id="chosenEngineId" />
+                            }
+                        </div>
+                        <div class="row d-flex flex-row justify-content-between form-group">
+                            @{
+                                var b = (@ViewBag.equipmentList as List<Equipment>).First();
+                                <span class="col-9 flex-column" id="chosenEquipmentName">Wybrana wersja wyposażeniowa: @b.EquipmentName</span>
+                                <span class="col-3 flex-column text-end">PLN <span id="chosenEquipmentPrice">@b.EquipmentPrice</span></span>
+                                <input asp-for="EquipmentId" class="d-none" value="@b.EquipmentId" id="chosenEquipmentId" />
+                            }
+                        </div>
+                        <div class="row d-flex flex-row justify-content-between form-group">
+                            <span class="col-9 flex-column">Cena:</span>
+                            @{
+                                var c = @b.EquipmentPrice + @a.EnginePrice + @ViewBag.chosenModel.ModelPrice;
+                                <span class="col-3 flex-column text-end" id="priceTotal">
+                                    PLN @c
+                                </span>
+                                <input asp-for="OrderPrice" class="d-none" value="@c" id="priceTotalInput" />
+                            }
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="OrderPaymentType" class="control-label">Płatność</label>
+                            <select asp-for="OrderPaymentType" class="form-control">
+                                @foreach (OrderPaymentTypes orderPaymentType in Enum.GetValues<OrderPaymentTypes>())
+                                {
+                                    <option value="@orderPaymentType.ToString()">@orderPaymentType.ToString()</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="OrderShipmentType" class="control-label">Odbiór</label>
+                            <select asp-for="OrderShipmentType" class="form-control">
+                                <option value="OdbiorWSalonie">Odbiór w salonie</option>
+                                <option value="DostawaZewnetrzna">Dostawa zewnętrzna</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-2"></div>
+                    <div class="col-5">Twoje Dane:</div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-5"></div>
+                    <div class="col-2">
+                        <div class="form-group">
+                            <input type="submit" value="Złóż zamówienie" class="btn btn-primary" />
+                        </div>
+                    </div>
+                    <div class="col-5"></div>
+                </div>
+            </form>
+        }
+        else
+        {
+            <div class="row mt-4">
+                <h4 class="text-center"><a href="/Identity/Account/Login">Zaloguj się aby móc złożyć zamówienie</a></h4>
+            </div>
+        }
+
     </div>
     <div class="col-1"></div>
 </div>

@@ -1,4 +1,7 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{
     ViewData["Title"] = "Panel Pracownika";
     Layout = "~/Views/Employee/_Layout.cshtml";
     ViewData["ActivePage"] = "OrderList";
@@ -22,7 +25,23 @@
                         Status
                     </dt>
                     <dd class="col-sm-3">
-                        @order.OrderStatus
+                        @order.OrderStatus <br>
+                        @if (@order.OrderStatus == OrderStatuses.Nowe.ToString() && User.IsInRole("DealershipEmployee"))
+                        {
+                            <a asp-controller="Employee" asp-action="AcceptOrder" asp-route-id="@order.OrderId">Zaakceptuj</a>
+                        }
+                        else if(@order.OrderStatus == OrderStatuses.Zaakceptowane.ToString() && User.IsInRole("DealershipEmployee"))
+                        {
+                            <a asp-controller="Employee" asp-action="SendOrderToService" asp-route-id="@order.OrderId">Wyślij do serwisu</a>
+                        }
+                        else if(@order.OrderStatus == OrderStatuses.Gotowe.ToString() && User.IsInRole("DealershipEmployee"))
+                        {
+                            <a asp-controller="Employee" asp-action="SendOrderToClient" asp-route-id="@order.OrderId">Wyślij do klienta</a>
+                        }
+                        else if(@order.OrderStatus == OrderStatuses.WSerwisie.ToString() && User.IsInRole("ServiceEmployee"))
+                        {
+                            <a asp-controller="Employee" asp-action="SetOrderReady" asp-route-id="@order.OrderId">Zakończone</a>
+                        }
                     </dd>
                     <dt class="col-sm-3">
                         Platnosc
@@ -61,9 +80,6 @@
                         @order.OrderDiscount
                     </dd>
                 </dl>
-                <div>
-                    <a asp-action="Edit" asp-route-id="@Model?.OrderId">Edytuj</a>
-                </div>
             </li>
         }
     </ul>

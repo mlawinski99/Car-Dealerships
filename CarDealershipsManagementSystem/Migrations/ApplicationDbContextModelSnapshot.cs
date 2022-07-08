@@ -179,7 +179,7 @@ namespace CarDealershipsManagementSystem.Migrations
                         .IsUnicode(false)
                         .HasColumnType("int");
 
-                    b.Property<int>("DealershipId")
+                    b.Property<int?>("DealershipId")
                         .HasColumnType("int");
 
                     b.Property<int>("EngineId")
@@ -435,10 +435,10 @@ namespace CarDealershipsManagementSystem.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DealershipEmployeeEmployeeId")
+                    b.Property<int?>("DealershipEmployeeEmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DealershipId")
+                    b.Property<int?>("DealershipId")
                         .HasColumnType("int");
 
                     b.Property<double?>("OrderDiscount")
@@ -476,7 +476,7 @@ namespace CarDealershipsManagementSystem.Migrations
                         .IsUnicode(false)
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ServiceEmployeeEmployeeId")
+                    b.Property<int?>("ServiceEmployeeEmployeeId")
                         .HasColumnType("int");
 
                     b.HasKey("OrderId");
@@ -705,8 +705,7 @@ namespace CarDealershipsManagementSystem.Migrations
                     b.HasOne("CarDealershipsManagementSystem.Models.Dealership", "Dealership")
                         .WithMany("Cars")
                         .HasForeignKey("DealershipId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("CarDealershipsManagementSystem.Models.Engine", "Engine")
                         .WithMany("Cars")
@@ -790,20 +789,17 @@ namespace CarDealershipsManagementSystem.Migrations
                     b.HasOne("CarDealershipsManagementSystem.Models.Employee", "DealershipEmployee")
                         .WithMany("DealershipOrders")
                         .HasForeignKey("DealershipEmployeeEmployeeId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("CarDealershipsManagementSystem.Models.Dealership", "Dealership")
                         .WithMany("Orders")
                         .HasForeignKey("DealershipId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("CarDealershipsManagementSystem.Models.Employee", "ServiceEmployee")
                         .WithMany("ServiceOrders")
                         .HasForeignKey("ServiceEmployeeEmployeeId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Customer");
 

@@ -50,7 +50,21 @@ namespace CarDealershipsManagementSystem.Data
 
         public Dealership GetDealershipById(int dealershipId)
         {
-            return dbContext.Dealerships.Find(dealershipId);
+            return dbContext
+                .Dealerships
+                .Where(c => c.DealershipId == dealershipId)
+                .Include(d => d.Employees)
+                .FirstOrDefault();
+        }
+
+        public Employee GetRandomServiceEmployeeOfDealership(int dealershipId)
+        {
+            List<Employee> employees = GetDealershipById(dealershipId).Employees.ToList();
+            foreach(var employee in employees)
+            {
+                if(employee.EmployeeJobPosition=="ServiceEmployee") return employee;
+            }
+            return null;
         }
     }
 }

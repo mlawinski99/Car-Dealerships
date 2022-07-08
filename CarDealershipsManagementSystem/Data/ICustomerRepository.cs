@@ -12,7 +12,7 @@ namespace CarDealershipsManagementSystem.Data
         Customer Update(Customer customer);
         Customer Delete(int id);
         int GetCustomerId(string appUserId);
-        Customer GetCustomerByAppUserId(string appUserId);
         List<Customer> GetCustomerList();
+        Customer GetCustomerByApplicationUserId(string id);
     }
 }

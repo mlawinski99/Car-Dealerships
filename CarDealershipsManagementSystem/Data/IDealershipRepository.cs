@@ -13,5 +13,6 @@ namespace CarDealershipsManagementSystem.Data
         Dealership Delete(int id);
         List<Dealership> GetDealershipList();
         Dealership GetDealershipById(int dealershipId);
+        Employee GetRandomServiceEmployeeOfDealership(int dealershipId);
     }
 }

@@ -33,6 +33,13 @@ namespace CarDealershipsManagementSystem.Data
             }
             return order;
         }
+        public Order Update(Order orderUpdate)
+        {
+            var order = dbContext.Orders.Attach(orderUpdate);
+            order.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            dbContext.SaveChanges();
+            return orderUpdate;
+        }
 
         public Order ChangeStatus(Order order, Employee employee, List<Employee>? employeeList)
         {
@@ -88,7 +95,7 @@ namespace CarDealershipsManagementSystem.Data
                 .Include(o => o.ServiceEmployee)
                 .Include(o => o.Cars)
                 .Include(o => o.Options)
-                .Where(o => o.Dealership == employee.Dealership)
+                .Where(o => o.Dealership == employee.Dealership || o.Dealership == null)
                 .ToList();
         }
 
