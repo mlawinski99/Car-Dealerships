@@ -12,7 +12,7 @@
     <div class="col-10 d-flex flex-column justify-content-center">
         <hr />
         <h3 class="text-center">@ViewBag.chosenModel.ModelType</h3>
-        <h5 class="text-center" id="modelPrice">@ViewBag.chosenModel.ModelPrice</h5>
+        <h5 class="text-center" id="modelPrice">PLN @ViewBag.chosenModel.ModelPrice</h5>
         <img class="w-50 mx-auto" src="@Url.Content(@ViewBag.chosenModel.ModelImagePath)">
     </div>
     <div class="col-1"></div>
@@ -76,9 +76,14 @@
                 </div>
             }
         </div>
-        @if (SignInManager.IsSignedIn(User))
-        {
-            <form asp-controller="Home" asp-action="CreateOrder">
+        @{
+            var v = "d-none";
+            if (SignInManager.IsSignedIn(User))
+            {
+                v = "d-block";
+
+            }
+            <form asp-controller="Home" asp-action="CreateOrder" class="@v ">
                 <div class="row">
                     <div class="col-1"></div>
                     <div class="col-10">
@@ -194,14 +199,8 @@
                     <div class="col-5"></div>
                 </div>
             </form>
-        }
-        else
-        {
-            <div class="row mt-4">
-                <h4 class="text-center"><a href="/Identity/Account/Login">Zaloguj się aby móc złożyć zamówienie</a></h4>
-            </div>
-        }
 
+        }
     </div>
     <div class="col-1"></div>
 </div>
