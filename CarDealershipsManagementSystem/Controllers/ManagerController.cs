@@ -186,19 +186,22 @@ namespace CarDealershipsManagementSystem.Controllers
             PdfDocument document = new PdfDocument();
             PdfPage page = document.Pages.Add();
             PdfGraphics graphics = page.Graphics;
-            PdfFont font = new PdfStandardFont(PdfFontFamily.Helvetica, 15);
+            PdfFont font = new PdfStandardFont(PdfFontFamily.Helvetica, 18);
+            PdfFont fontSmaller = new PdfStandardFont(PdfFontFamily.Helvetica, 12);
 
             string dataToSave = null;
             var orderList = orderRepository.GetOrdersForDealershipEmployee(manager)
-                .Where(o => o.OrderSubmissionDate >= model.StartDate)
-                .Where(o => (o.OrderFinalizationDate != null &&  o.OrderFinalizationDate <= model.EndDate));
+                .Where(o => (o.OrderFinalizationDate != null))
+                .Where(o => (o.OrderSubmissionDate >= model.StartDate))
+                .Where(o => (o.OrderFinalizationDate <= model.EndDate));
             
             foreach(var order in orderList)
             {
-                dataToSave += "Numer Zamowienia: " + order.OrderId.ToString() + " Customer: " + order.Customer.ApplicationUser.FirstName + " " + order.Customer.ApplicationUser.LastName + "Price: " + order.OrderPrice + " PLN\n";
+                dataToSave += "Numer Zamowienia: " + order.OrderId.ToString() + " Price: " + order.OrderPrice + " PLN\n";
             }
-            dataToSave += "\n\nDochod: "+ orderList.Sum(o => o.OrderPrice);
-            graphics.DrawString("Raport sprzedazy!\n\n"+dataToSave, font, PdfBrushes.Black, new PointF(0, 0));
+            dataToSave += "\n\nDochod: "+ orderList.Sum(o => o.OrderPrice)+" PLN";
+            graphics.DrawString("Raport sprzedazy!\n\n", font, PdfBrushes.Black, new PointF(0, 0));
+            graphics.DrawString(dataToSave, fontSmaller, PdfBrushes.Black, new PointF(0, 100));
             MemoryStream stream = new MemoryStream();
             document.Save(stream);
             //Set the position as '0'.

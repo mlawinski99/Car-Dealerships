@@ -95,6 +95,7 @@ namespace CarDealershipsManagementSystem.Data
                 .Include(o => o.ServiceEmployee)
                 .Include(o => o.Cars)
                 .Include(o => o.Customer)
+                .ThenInclude(c => c.ApplicationUser)
                 .Include(o => o.Options)
                 .Where(o => o.Dealership == employee.Dealership || o.Dealership == null)
                 .ToList();
