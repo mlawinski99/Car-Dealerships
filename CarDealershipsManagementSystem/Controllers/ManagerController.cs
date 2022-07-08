@@ -174,7 +174,12 @@ namespace CarDealershipsManagementSystem.Controllers
             return View("Orders/OrderList");
         }
 
-        public async Task<IActionResult> CreatePDF(DateTime startDate, DateTime endDate)
+        [HttpGet]
+        public IActionResult CreateRaport()
+        {
+            return View("Orders/CreateRaport");
+        }
+        public async Task<IActionResult> CreatePDF(CreatePDFViewModel model)
         {
             ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
             var manager = employeeRepository.GetEmployeeByApplicationUserId(applicationUser.Id);
@@ -185,8 +190,8 @@ namespace CarDealershipsManagementSystem.Controllers
 
             string dataToSave = null;
             var orderList = orderRepository.GetOrdersForDealershipEmployee(manager)
-                .Where(o => o.OrderSubmissionDate >= startDate)
-                .Where(o => (o.OrderFinalizationDate != null &&  o.OrderFinalizationDate <= endDate));
+                .Where(o => o.OrderSubmissionDate >= model.StartDate)
+                .Where(o => (o.OrderFinalizationDate != null &&  o.OrderFinalizationDate <= model.EndDate));
             
             foreach(var order in orderList)
             {

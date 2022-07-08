@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Panel Managera";
+    Layout = "~/Views/Manager/Orders/_Layout.cshtml";
+    ViewData["ActivePage"] = "Orders/CreateRaport";
+}
+@model CarDealershipsManagementSystem.ViewModels.CreatePDFViewModel
+<form asp-controller="Manager" asp-action="CreatePdf">
+    <div class="form-group">
+        <label asp-for="StartDate" class="control-label"></label>
+        <input asp-for="StartDate" class="form-control" />
+        <span asp-validation-for="StartDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EndDate" class="control-label"></label>
+        <input asp-for="EndDate" class="form-control" />
+        <span asp-validation-for="EndDate" class="text-danger"></span>
+    </div>
+    <div class="form-group mt-2">
+        <input type="submit" value="Pobierz" class="btn btn-primary" />
+    </div>
+</form>
