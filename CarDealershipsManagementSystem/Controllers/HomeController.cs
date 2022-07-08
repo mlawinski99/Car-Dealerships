@@ -21,6 +21,7 @@ namespace CarDealershipsManagementSystem.Controllers
         private readonly IEquipmentRepository equipmentRepository;
         private readonly IAddressRepository addressRepository;
         private readonly ICustomerRepository customerRepository;
+        private readonly IOptionRepository optionRepository;
         public HomeController(
             ILogger<HomeController> logger,
             IModelRepository modelRepository,
@@ -31,7 +32,8 @@ namespace CarDealershipsManagementSystem.Controllers
             IEngineRepository engineRepository,
             IEquipmentRepository equipmentRepository,
             IAddressRepository addressRepository,
-            ICustomerRepository customerRepository
+            ICustomerRepository customerRepository,
+            IOptionRepository optionRepository
             )
         {
             _logger = logger;
@@ -44,6 +46,7 @@ namespace CarDealershipsManagementSystem.Controllers
             this.equipmentRepository = equipmentRepository;
             this.addressRepository = addressRepository;
             this.customerRepository = customerRepository;
+            this.optionRepository = optionRepository;
         }
 
         public IActionResult Index()
@@ -59,6 +62,26 @@ namespace CarDealershipsManagementSystem.Controllers
             ViewBag.chosenModel = model;
             ViewBag.engineList = model.Engines.ToList();
             ViewBag.equipmentList = model.Equipments.ToList();
+            List<Option> optionList = optionRepository.GetOptionList();
+            List<Option> optionListOne = new List<Option>();
+            List<Option> optionListTwo = new List<Option>();
+            List<Option> optionListThree = new List<Option>();
+            for(int i = 0; i < optionList.Count / 3; i++)
+            {
+                optionListOne.Add(optionList[i]);
+            }
+            for(int i = optionList.Count / 3; i < optionList.Count / 3 * 2; i++)
+            {
+                optionListTwo.Add(optionList[i]);
+            }
+            for(int i = optionList.Count / 3 * 2; i < optionList.Count - (optionList.Count / 3 * 2); i++)
+            {
+                optionListThree.Add(optionList[i]);
+            }
+
+            ViewBag.optionListOne = optionListOne;
+            ViewBag.optionListTwo = optionListTwo;
+            ViewBag.optionListThree = optionListThree;
 
             ViewBag.applicationUser = await userManager.GetUserAsync(HttpContext.User);
             return View();

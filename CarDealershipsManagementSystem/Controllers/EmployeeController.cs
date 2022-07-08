@@ -110,7 +110,7 @@ namespace CarDealershipsManagementSystem.Controllers
             //znajdź wysłane zamówienie
             Order order = orderRepository.GetOrderById(id);
             order.OrderStatus = "Wyslane";
-
+            order.OrderFinalizationDate = DateTime.Now;
             orderRepository.Update(order);
             ViewBag.orderList = orderRepository.GetOrdersForDealershipEmployee(employee);
             return View("OrderList");

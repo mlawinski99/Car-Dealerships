@@ -76,6 +76,30 @@
                 </div>
             }
         </div>
+        <div class="row mt-4">
+            <h4 class="text-center">Opcje dodatkowe </h4>
+            <hr />
+        </div>
+        <div class="d-flex flex-row flex-wrap">
+            <div class="col-4">
+            @foreach (Option option in ViewBag.optionListOne as List<Option>)
+            {
+                <p>option.OptionName</p>
+            }
+            </div>
+            <div class="col-4">
+            @foreach (var option in ViewBag.optionListTwo as List<Option>)
+            {
+                <p>option.OptionName</p>
+            }
+            </div>
+            <div class="col-4">
+            @foreach (var option in ViewBag.optionListThree as List<Option>)
+            {
+                <p>option.OptionName</p>
+            }
+            </div>
+        </div>
         @if (SignInManager.IsSignedIn(User))
         {
             <div class="row mt-4">
