@@ -174,7 +174,7 @@ namespace CarDealershipsManagementSystem.Controllers
             return View("Orders/OrderList");
         }
 
-        public async Task<IActionResult> CreatePDF()
+        public async Task<IActionResult> CreatePDF(DateTime startDate, DateTime endDate)
         {
             ApplicationUser applicationUser = await userManager.GetUserAsync(HttpContext.User);
             var manager = employeeRepository.GetEmployeeByApplicationUserId(applicationUser.Id);
@@ -184,11 +184,13 @@ namespace CarDealershipsManagementSystem.Controllers
             PdfFont font = new PdfStandardFont(PdfFontFamily.Helvetica, 15);
 
             string dataToSave = null;
-            var orderList = orderRepository.GetOrdersForDealershipEmployee(manager);
+            var orderList = orderRepository.GetOrdersForDealershipEmployee(manager)
+                .Where(o => o.OrderSubmissionDate >= startDate)
+                .Where(o => (o.OrderFinalizationDate != null &&  o.OrderFinalizationDate <= endDate));
             
             foreach(var order in orderList)
             {
-                dataToSave += "Numer Zamowienia: " + order.OrderId.ToString() + "Customer: " + order.Customer.ApplicationUser.FirstName + " " + order.Customer.ApplicationUser.LastName + "Price: " + order.OrderPrice + "\n";
+                dataToSave += "Numer Zamowienia: " + order.OrderId.ToString() + " Customer: " + order.Customer.ApplicationUser.FirstName + " " + order.Customer.ApplicationUser.LastName + "Price: " + order.OrderPrice + " PLN\n";
             }
             dataToSave += "\n\nDochod: "+ orderList.Sum(o => o.OrderPrice);
             graphics.DrawString("Raport sprzedazy!\n\n"+dataToSave, font, PdfBrushes.Black, new PointF(0, 0));
