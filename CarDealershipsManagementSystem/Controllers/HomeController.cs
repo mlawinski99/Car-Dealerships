@@ -62,19 +62,27 @@ namespace CarDealershipsManagementSystem.Controllers
             ViewBag.chosenModel = model;
             ViewBag.engineList = model.Engines.ToList();
             ViewBag.equipmentList = model.Equipments.ToList();
+
             List<Option> optionList = optionRepository.GetOptionList();
+            foreach (Equipment equipment in ViewBag.equipmentList)
+            {
+                foreach(Option option in equipment.Options)
+                {
+                    if (optionList.Contains(option)) optionList.Remove(option);
+                }
+            }
             List<Option> optionListOne = new List<Option>();
             List<Option> optionListTwo = new List<Option>();
             List<Option> optionListThree = new List<Option>();
-            for(int i = 0; i < optionList.Count / 3; i++)
+            for(int i = 0; i < (optionList.Count/3)+1; i++)
             {
                 optionListOne.Add(optionList[i]);
             }
-            for(int i = optionList.Count / 3; i < optionList.Count / 3 * 2; i++)
+            for(int i = (optionList.Count / 3) + 1; i < ((((optionList.Count / 3) + 1) * 2) -1); i++)
             {
                 optionListTwo.Add(optionList[i]);
             }
-            for(int i = optionList.Count / 3 * 2; i < optionList.Count - (optionList.Count / 3 * 2); i++)
+            for(int i = ((((optionList.Count / 3) + 1) * 2) - 1); i < optionList.Count; i++)
             {
                 optionListThree.Add(optionList[i]);
             }
