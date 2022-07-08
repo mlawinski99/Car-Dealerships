@@ -17,13 +17,16 @@ namespace CarDealershipsManagementSystem.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly Data.ApplicationDbContext _dbContext;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            Data.ApplicationDbContext dbContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _dbContext = dbContext;
         }
 
         /// <summary>
@@ -60,18 +63,29 @@ namespace CarDealershipsManagementSystem.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Numer Telefonu")]
             public string PhoneNumber { get; set; }
+            [Display(Name = "Imie")]
+            public string FirstName { get; set; }
+            [Display(Name = "Nazwisko")]
+            public string LastName { get; set; }
+            [Display(Name = "PESEL")]
+            public string Pesel { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
+            var firstName = user.FirstName;
+            var lastName = user.LastName;
+            var pesel = user.Pesel;
             Username = userName;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                FirstName = firstName,
+                LastName = lastName,
+                Pesel = pesel
             };
         }
 
@@ -111,6 +125,13 @@ namespace CarDealershipsManagementSystem.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
+            user.FirstName = Input.FirstName;
+            user.LastName = Input.LastName;
+            user.Pesel = Input.Pesel;
+
+            _userManager.UpdateAsync(user);
+
+            _dbContext.SaveChanges();
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
