@@ -28,19 +28,24 @@
                         @order.OrderStatus <br>
                         @if (@order.OrderStatus == OrderStatuses.Nowe.ToString() && User.IsInRole("DealershipEmployee"))
                         {
-                            <a asp-controller="Employee" asp-action="AcceptOrder" asp-route-id="@order.OrderId">Zaakceptuj</a>
+                                <a class="col-11" asp-controller="Employee" asp-action="AcceptOrder" asp-route-id="@order.OrderId">Zaakceptuj</a>
+                                <img height="14" src="@Url.Content("/images/information.png")" data-toggle="tooltip" data-placement="right" title="Zamówienia ze statusem 'Nowe' muszą zostać zaakceptowane po potwierdzeniu, że salon może spełnić dane zamówienie">
+                                
                         }
-                        else if(@order.OrderStatus == OrderStatuses.Zaakceptowane.ToString() && User.IsInRole("DealershipEmployee"))
+                        else if (@order.OrderStatus == OrderStatuses.Zaakceptowane.ToString() && User.IsInRole("DealershipEmployee"))
                         {
                             <a asp-controller="Employee" asp-action="SendOrderToService" asp-route-id="@order.OrderId">Wyślij do serwisu</a>
+                                <img height="14" src="@Url.Content("/images/information.png")" data-toggle="tooltip" data-placement="right" title="Zamówienia ze statusem 'Zaakceptowane' muszą zostać przesłane do serwisu, aby zamontować dodatkowe opcje">
                         }
-                        else if(@order.OrderStatus == OrderStatuses.Gotowe.ToString() && User.IsInRole("DealershipEmployee"))
+                        else if (@order.OrderStatus == OrderStatuses.Gotowe.ToString() && User.IsInRole("DealershipEmployee"))
                         {
                             <a asp-controller="Employee" asp-action="SendOrderToClient" asp-route-id="@order.OrderId">Wyślij do klienta</a>
+                                <img height="14" src="@Url.Content("/images/information.png")" data-toggle="tooltip" data-placement="right" title="Gotowe zamówienia muszą zostać zaakceptowane przed wysyłką">
                         }
-                        else if(@order.OrderStatus == OrderStatuses.WSerwisie.ToString() && User.IsInRole("ServiceEmployee"))
+                        else if (@order.OrderStatus == OrderStatuses.WSerwisie.ToString() && User.IsInRole("ServiceEmployee"))
                         {
                             <a asp-controller="Employee" asp-action="SetOrderReady" asp-route-id="@order.OrderId">Zakończone</a>
+                                <img height="14" src="@Url.Content("/images/information.png")" data-toggle="tooltip" data-placement="right" title="Kliknij, gdy skończysz pracę nad zamówieniem, aby wysłać do salonu">
                         }
                     </dd>
                     <dt class="col-sm-3">

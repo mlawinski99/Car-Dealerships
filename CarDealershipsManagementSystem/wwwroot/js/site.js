@@ -1,4 +1,8 @@
-﻿function showThisHideOthers(id) {
+﻿$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+
+function showThisHideOthers(id) {
     const buttons = document.getElementsByClassName("car-type-button")
     const sections = document.getElementsByClassName("car-type-section")
 
