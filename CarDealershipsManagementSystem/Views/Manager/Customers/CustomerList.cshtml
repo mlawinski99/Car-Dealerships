@@ -4,16 +4,85 @@
     ViewData["ActivePage"] = "Customers/CustomerList";
 }
 
-<ul class="list-group list-group-flush">
-    @foreach (Customer customer in @ViewBag.customerList)
-    {
-        <li class="list-group-item">
-            <div class="d-flex w-100">
-                <h5 class="mb-1">@customer.ApplicationUser.FirstName @customer.ApplicationUser.LastName</h5>
-            </div>
-            <p class="mb-1">@customer.ApplicationUser.Email</p>
-            <p class="mb-1">@customer.ApplicationUser.PhoneNumber</p>
-            <small>reszta info...</small>
-        </li>
-    }
-</ul>
+
+@foreach (Customer customer in @ViewBag.customerList)
+{
+	<div class="accordion" id="accordionExample">
+		<div id="accordion">
+			<div class="card">
+				<div class="card-header" id="col-@customer.CustomerId-2">
+					<h5 class="mb-0">
+						
+							<button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#col-@customer.CustomerId" aria-expanded="true" aria-controls="col-@customer.CustomerId">
+								@customer.ApplicationUser.FirstName @customer.ApplicationUser.LastName
+								
+							</button>
+						
+					</h5>
+				</div>
+				<div id="col-@customer.CustomerId" class="collapse collapsed" aria-labelledby="col-@customer.CustomerId" data-bs-parent="#accordion">
+					<div class="card-body border-3 bgc-white shadow-sm  border-bottom-4">
+						<div class="row">
+							<div class="col-sm-3">
+								<h6 class="mb-0">Imię Nazwisko</h6>
+							</div>
+							<div class="col-sm-9 text-secondary"> @customer.ApplicationUser.FirstName @customer.ApplicationUser.LastName</div>
+						</div>
+					<hr>
+						<div class="row">
+							<div class="col-sm-3">
+								<h6 class="mb-0">ID</h6>
+							</div>
+							<div class="col-sm-9 text-secondary"> @customer.CustomerId</div>
+						</div>
+					<hr>
+						<div class="row">
+							<div class="col-sm-3">
+								<h6 class="mb-0">Address</h6>
+							</div>
+							<div class="col-sm-9 text-secondary"> @customer.ApplicationUser.Address</div>
+						</div>
+						
+						<hr>
+						<div class="row">
+							<div class="col-sm-3">
+								<h6 class="mb-0">Email</h6>
+							</div>
+							<div class="col-sm-9 text-secondary"> @customer.ApplicationUser.Email</div>
+						</div>
+						
+
+						<hr>
+						<div class="row">
+							<div class="col-sm-3">
+								<h6 class="mb-0">Pesel</h6>
+							</div>
+							<div class="col-sm-9 text-secondary"> @customer.ApplicationUser.Pesel</div>
+						</div>
+						
+
+						<hr>
+						<div class="row">
+							<div class="col-sm-3">
+								<h6 class="mb-0">Numer Telefonu</h6>
+							</div>
+							<div class="col-sm-9 text-secondary"> @customer.ApplicationUser.PhoneNumber</div>
+						</div>
+
+						
+						<hr>
+						<div class="row">
+							<div class="col-sm-3">
+								<h6 class="mb-0">Data Urodzenia</h6>
+							</div>
+							<div class="col-sm-9 text-secondary"> @customer.ApplicationUser.BirthDate</div>
+						</div>
+
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}
