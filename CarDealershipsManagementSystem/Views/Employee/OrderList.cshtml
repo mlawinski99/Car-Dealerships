@@ -2,90 +2,158 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @{
-    ViewData["Title"] = "Panel Pracownika";
-    Layout = "~/Views/Employee/_Layout.cshtml";
-    ViewData["ActivePage"] = "OrderList";
+	ViewData["Title"] = "Panel Pracownika";
+	Layout = "~/Views/Employee/_Layout.cshtml";
+	ViewData["ActivePage"] = "OrderList";
 }
 @model Order
 <div>
-    <h4>Twoje Zamówienia</h4>
-    <hr />
-    <ul class="list-group">
-        @foreach (Order order in @ViewBag.orderList)
-        {
-            <li class="list-group-item my-1">
-                <dl class="row">
-                    <dt class="col-sm-3">
-                        Id
-                    </dt>
-                    <dd class="col-sm-3">
-                        @order.OrderId
-                    </dd>
-                    <dt class="col-sm-3">
-                        Status
-                    </dt>
-                    <dd class="col-sm-3">
-                        @order.OrderStatus <br>
-                        @if (@order.OrderStatus == OrderStatuses.Nowe.ToString() && User.IsInRole("DealershipEmployee"))
-                        {
-                                <a class="col-11" asp-controller="Employee" asp-action="AcceptOrder" asp-route-id="@order.OrderId">Zaakceptuj</a>
-                                <img height="14" src="@Url.Content("/images/information.png")" data-toggle="tooltip" data-placement="right" title="Zamówienia ze statusem 'Nowe' muszą zostać zaakceptowane po potwierdzeniu, że salon może spełnić dane zamówienie">
-                                
-                        }
-                        else if (@order.OrderStatus == OrderStatuses.Zaakceptowane.ToString() && User.IsInRole("DealershipEmployee"))
-                        {
-                            <a asp-controller="Employee" asp-action="SendOrderToService" asp-route-id="@order.OrderId">Wyślij do serwisu</a>
-                                <img height="14" src="@Url.Content("/images/information.png")" data-toggle="tooltip" data-placement="right" title="Zamówienia ze statusem 'Zaakceptowane' muszą zostać przesłane do serwisu, aby zamontować dodatkowe opcje">
-                        }
-                        else if (@order.OrderStatus == OrderStatuses.Gotowe.ToString() && User.IsInRole("DealershipEmployee"))
-                        {
-                            <a asp-controller="Employee" asp-action="SendOrderToClient" asp-route-id="@order.OrderId">Wyślij do klienta</a>
-                                <img height="14" src="@Url.Content("/images/information.png")" data-toggle="tooltip" data-placement="right" title="Gotowe zamówienia muszą zostać zaakceptowane przed wysyłką">
-                        }
-                        else if (@order.OrderStatus == OrderStatuses.WSerwisie.ToString() && User.IsInRole("ServiceEmployee"))
-                        {
-                            <a asp-controller="Employee" asp-action="SetOrderReady" asp-route-id="@order.OrderId">Zakończone</a>
-                                <img height="14" src="@Url.Content("/images/information.png")" data-toggle="tooltip" data-placement="right" title="Kliknij, gdy skończysz pracę nad zamówieniem, aby wysłać do salonu">
-                        }
-                    </dd>
-                    <dt class="col-sm-3">
-                        Platnosc
-                    </dt>
-                    <dd class="col-sm-3">
-                        @order.OrderPaymentType
-                    </dd>
-                    <dt class="col-sm-3">
-                        Dostawa
-                    </dt>
-                    <dd class="col-sm-3">
-                        @order.OrderShipmentType
-                    </dd>
-                    <dt class="col-sm-3">
-                        Data zlozenia
-                    </dt>
-                    <dd class="col-sm-3">
-                        @order.OrderSubmissionDate
-                    </dd>
-                    <dt class="col-sm-3">
-                        Data finalizacji
-                    </dt>
-                    <dd class="col-sm-3">
-                        @order.OrderFinalizationDate
-                    </dd>
-                    <dt class="col-sm-3">
-                        Cena
-                    </dt>
-                    <dd class="col-sm-3">
-                        @order.OrderPrice
-                    </dd>
-                    <dt class="col-sm-3">
-                        Znizka
-                    </dt>
-                    <dd class="col-sm-3">
-                        @order.OrderDiscount
-                    </dd>
-                </dl>
-            </li>
-        }
-    </ul>
+	<h4>Twoje Zamówienia</h4>
+	<hr />
+	<ul class="list-group">
+		@foreach (Order order in @ViewBag.orderList)
+		{
+			<div class="accordion" id="accordionExample">
+				<div id="accordion">
+					<div class="card">
+						<div class="card-header" id="col-@order.OrderId-2">
+							<h5 class="mb-0">
+
+								<button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#col-@order.OrderId" aria-expanded="true" aria-controls="col-@order.OrderId">
+									Numer zamowienia: @order.OrderId
+								</button>
+
+							</h5>
+						</div>
+						<div id="col-@order.OrderId" class="collapse collapsed" aria-labelledby="col-@order.OrderId" data-bs-parent="#accordion">
+							<div class="card-body border-3 bgc-white shadow-sm  border-bottom-4">
+
+
+
+
+
+								<div class="row">
+									<div class="col-sm-3">
+										<h6 class="mb-0">Id</h6>
+									</div>
+									<div class="col-sm-9 text-secondary">
+										@order.OrderId <br>
+
+									</div>
+								</div>
+
+								<hr>
+								<div class="row">
+									<div class="col-sm-3">
+										<h6 class="mb-0">Status</h6>
+									</div>
+									<div class="col-sm-9 text-secondary">
+										@order.OrderStatus <br>
+										@if (@order.OrderStatus == OrderStatuses.Nowe.ToString() && User.IsInRole("DealershipEmployee"))
+										{
+											<a class="col-11" asp-controller="Employee" asp-action="AcceptOrder" asp-route-id="@order.OrderId">Zaakceptuj</a>
+											<img height="14" src="@Url.Content("/images/information.png")" data-toggle="tooltip" data-placement="right" title="Zamówienia ze statusem 'Nowe' muszą zostać zaakceptowane po potwierdzeniu, że salon może spełnić dane zamówienie">
+
+										}
+										else if (@order.OrderStatus == OrderStatuses.Zaakceptowane.ToString() && User.IsInRole("DealershipEmployee"))
+										{
+											<a asp-controller="Employee" asp-action="SendOrderToService" asp-route-id="@order.OrderId">Wyślij do serwisu</a>
+											<img height="14" src="@Url.Content("/images/information.png")" data-toggle="tooltip" data-placement="right" title="Zamówienia ze statusem 'Zaakceptowane' muszą zostać przesłane do serwisu, aby zamontować dodatkowe opcje">
+										}
+										else if (@order.OrderStatus == OrderStatuses.Gotowe.ToString() && User.IsInRole("DealershipEmployee"))
+										{
+											<a asp-controller="Employee" asp-action="SendOrderToClient" asp-route-id="@order.OrderId">Wyślij do klienta</a>
+											<img height="14" src="@Url.Content("/images/information.png")" data-toggle="tooltip" data-placement="right" title="Gotowe zamówienia muszą zostać zaakceptowane przed wysyłką">
+										}
+										else if (@order.OrderStatus == OrderStatuses.WSerwisie.ToString() && User.IsInRole("ServiceEmployee"))
+										{
+											<a asp-controller="Employee" asp-action="SetOrderReady" asp-route-id="@order.OrderId">Zakończone</a>
+											<img height="14" src="@Url.Content("/images/information.png")" data-toggle="tooltip" data-placement="right" title="Kliknij, gdy skończysz pracę nad zamówieniem, aby wysłać do salonu">
+										}
+									</div>
+								</div>
+
+
+
+
+								<hr>
+								<div class="row">
+									<div class="col-sm-3">
+										<h6 class="mb-0">Platnosc</h6>
+									</div>
+									<div class="col-sm-9 text-secondary">
+										@order.OrderPaymentType <br>
+
+									</div>
+								</div>
+								<hr>
+								<div class="row">
+									<div class="col-sm-3">
+										<h6 class="mb-0">Dostawa</h6>
+									</div>
+									<div class="col-sm-9 text-secondary">
+										@order.OrderShipmentType<br>
+
+									</div>
+								</div>
+								<hr>
+								<div class="row">
+									<div class="col-sm-3">
+										<h6 class="mb-0">Data zlozenia</h6>
+									</div>
+									<div class="col-sm-9 text-secondary">
+										@order.OrderSubmissionDate<br>
+
+									</div>
+								</div>
+
+
+								<hr>
+								<div class="row">
+									<div class="col-sm-3">
+										<h6 class="mb-0">Data finalizacji</h6>
+									</div>
+									<div class="col-sm-9 text-secondary">
+										@order.OrderFinalizationDate<br>
+
+									</div>
+								</div>
+
+								<hr>
+								<div class="row">
+									<div class="col-sm-3">
+										<h6 class="mb-0">Cena</h6>
+									</div>
+									<div class="col-sm-9 text-secondary">
+										@order.OrderPrice<br>
+
+									</div>
+								</div>
+
+								<hr>
+								<div class="row">
+									<div class="col-sm-3">
+										<h6 class="mb-0">Znizka</h6>
+									</div>
+									<div class="col-sm-9 text-secondary">
+										@order.OrderDiscount<br>
+
+									</div>
+								</div>
+
+
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+		}
+	</ul>
 </div>
