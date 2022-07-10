@@ -1,4 +1,4 @@
-USE [test]
+USE [CDMS]
 GO
 
 INSERT INTO [dbo].[Model]([ModelName],[ModelType] ,[ModelImagePath],[ModelPrice])
