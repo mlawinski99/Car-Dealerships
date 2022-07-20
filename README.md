@@ -2,7 +2,7 @@
 
 Website application where logged users can order car. Order can be processed by employees. Administrator can create models, parts to cars (engines, equipment etc.), new dealerships, add managers.
 Manager can employ employees in his/her own dealership and print sell raport.
-Dealer employee and service employee can process specific statutes of order.
+Dealership's employee and service's employee can process specific statutes of order.
 
  ![image](https://user-images.githubusercontent.com/56017422/179963440-51780c03-2108-4e76-b461-c6b32ecc6db6.png)
 ![image](https://user-images.githubusercontent.com/56017422/179963474-2a8d8f48-786c-41ba-a9ca-9fbe9c5b18e7.png)
