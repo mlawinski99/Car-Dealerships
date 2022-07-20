@@ -1,4 +1,9 @@
 # Car-Dealerships
+
+Website application where logged users can order car. Order can be processed by employees. Administrator can create models, parts to cars (engines, equipment etc.), new dealerships, add managers.
+Manager can employ employees in his/her own dealership and print sell raport.
+Dealer employee and service employee can process specific statutes of order.
+
  ![image](https://user-images.githubusercontent.com/56017422/179963440-51780c03-2108-4e76-b461-c6b32ecc6db6.png)
 ![image](https://user-images.githubusercontent.com/56017422/179963474-2a8d8f48-786c-41ba-a9ca-9fbe9c5b18e7.png)
 ![image](https://user-images.githubusercontent.com/56017422/179963503-6d25a4d6-90cd-437d-ad7e-a298a6ebaf0e.png)
@@ -14,3 +19,4 @@
 ![image](https://user-images.githubusercontent.com/56017422/179962908-27485c17-f48a-447e-a9af-10198c5b70da.png)
 ![image](https://user-images.githubusercontent.com/56017422/179958353-c286b7df-5873-471c-bfbc-da0a20562ca6.png)
 ![image](https://user-images.githubusercontent.com/56017422/179958515-9de59708-d3f7-41ab-95c2-fb367206a5f4.png)
+![image](https://user-images.githubusercontent.com/56017422/179964765-1de966aa-ad68-448e-b9e9-f2ce5eb8f511.png)
